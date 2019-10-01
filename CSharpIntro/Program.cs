@@ -6,9 +6,9 @@ namespace KC_Code
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello World!\n");
 
-            Console.WriteLine("~Make bool, String, and int variables~\n");
+            Console.WriteLine("~Make bool, String, and int variables~");
 
             bool newBool;
             string newString;
@@ -22,7 +22,7 @@ namespace KC_Code
             Console.WriteLine("Boolean: " + newString);
             Console.WriteLine("Boolean: " + newInt.ToString());
 
-            Console.WriteLine("~Change the values~");
+            Console.WriteLine("\n~Change the values~");
 
             newBool = false;
             newString = "New string message";
@@ -70,7 +70,8 @@ namespace KC_Code
                 conditionNumber += 1;
             }
 
-            
+            Console.WriteLine("~Method~");
+            Console.WriteLine("2 + 3 = " + newMethod(2,3).ToString());
 
 
             // make bool, string, and int variables (with values)
@@ -90,6 +91,11 @@ namespace KC_Code
 
             // extra: make a new static method to do something and call it
             // extra: learn what "var" means in C# and try it out.
+        }
+        public static int newMethod(int x, int y)
+        {
+            int z = x+y;
+            return z;
         }
     }
 }
