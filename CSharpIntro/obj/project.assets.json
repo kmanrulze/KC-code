@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\revature\\KC-Code\\KC-Code.csproj",
+      "projectUniqueName": "C:\\revature\\KC-code\\CSharpIntro\\KC-Code.csproj",
       "projectName": "KC-Code",
-      "projectPath": "C:\\revature\\KC-Code\\KC-Code.csproj",
+      "projectPath": "C:\\revature\\KC-code\\CSharpIntro\\KC-Code.csproj",
       "packagesPath": "C:\\Users\\kmanr\\.nuget\\packages\\",
-      "outputPath": "C:\\revature\\KC-Code\\obj\\",
+      "outputPath": "C:\\revature\\KC-code\\CSharpIntro\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

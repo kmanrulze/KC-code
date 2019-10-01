@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\revature\\KC-code\\KC-Code.csproj": {}
+    "C:\\revature\\KC-code\\CSharpIntro\\KC-Code.csproj": {}
   },
   "projects": {
-    "C:\\revature\\KC-code\\KC-Code.csproj": {
+    "C:\\revature\\KC-code\\CSharpIntro\\KC-Code.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\revature\\KC-code\\KC-Code.csproj",
+        "projectUniqueName": "C:\\revature\\KC-code\\CSharpIntro\\KC-Code.csproj",
         "projectName": "KC-Code",
-        "projectPath": "C:\\revature\\KC-code\\KC-Code.csproj",
+        "projectPath": "C:\\revature\\KC-code\\CSharpIntro\\KC-Code.csproj",
         "packagesPath": "C:\\Users\\kmanr\\.nuget\\packages\\",
-        "outputPath": "C:\\revature\\KC-code\\obj\\",
+        "outputPath": "C:\\revature\\KC-code\\CSharpIntro\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
