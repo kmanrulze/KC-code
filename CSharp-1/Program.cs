@@ -6,7 +6,13 @@ namespace CSharp_1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Arrays();
+        }
+        static void Arrays()
+        {
+            int[] intArray = new int[4];
+            intArray[0] = 3;
+            intArray[1] = 5;
         }
     }
 }
