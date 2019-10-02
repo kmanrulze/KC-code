@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Sequences.Library
 {
-    public class StringSequences
+    public class StringSequence
     {
         private readonly List<string> _list = new List<string>();
 
-        //delegation -  this class implements Add by delegating the work to another class
+        // "delegation" - this class implements Add by delegating the work to another class
         public void Add(string item)
         {
             _list.Add(item);
@@ -19,15 +19,20 @@ namespace Sequences.Library
             _list.Remove(item);
         }
 
-        public string Get (int index)
-        {
-            return _list[index];
-        }
-
+        // overload index operator with delegation to the list
         public string this[int index]
         {
             get => _list[index];
             set => _list[index] = value;
+        }
+
+        public string LongestString()
+        {
+            return null;
+        }
+        public string ShortestString()
+        {
+            return null;
         }
     }
 }
