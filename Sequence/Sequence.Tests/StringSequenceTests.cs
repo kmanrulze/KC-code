@@ -18,7 +18,7 @@ namespace Sequences.Tests
         public void AddShouldAdd(string item)
         {
             // arrange (any setup necessary to prepare for the behavior to test)
-            var seq = new StringSequence();
+            var seq = new StringSequences();
 
             // act (do the thing you want to test)
             seq.Add(item);
@@ -31,7 +31,7 @@ namespace Sequences.Tests
         public void AddShouldAddInConsistentOrder()
         {
             // arrange
-            var seq = new StringSequence();
+            var seq = new StringSequences();
 
             // act
             seq.Add("abc");
@@ -46,7 +46,7 @@ namespace Sequences.Tests
         public void AccessOutOfBoundsShouldThrow()
         {
             // arrange
-            var seq = new StringSequence();
+            var seq = new StringSequences();
 
             // act, assert (that an exception is thrown when some code runs.)
             Assert.ThrowsAny<ArgumentOutOfRangeException>(() =>
@@ -59,7 +59,7 @@ namespace Sequences.Tests
         public void LongestStringShouldReturnLongest()
         {
             // arrange
-            var seq = new StringSequence();
+            var seq = new StringSequences();
             seq.Add("");
             seq.Add("abc");
             seq.Add("0123456789");

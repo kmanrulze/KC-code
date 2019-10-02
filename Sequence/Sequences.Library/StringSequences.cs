@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sequences.Library
 {
-    public class StringSequence
+    public class StringSequences
     {
         private readonly List<string> _list = new List<string>();
 
