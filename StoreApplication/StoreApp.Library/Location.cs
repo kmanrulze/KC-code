@@ -4,9 +4,11 @@ using System.Text;
 
 namespace StoreApplication
 {
-    class Location
+    public class Location
     {
-        public Inventory inventory { get; set; }
+        public Address address { get; set; }
+        public Inventory storeInventory { get; set; }
+        public int storeNumber { get; set; }
         public void CheckInventory(Location locationBeingChecked)
         {
             //some code to check the inventory of the location being input

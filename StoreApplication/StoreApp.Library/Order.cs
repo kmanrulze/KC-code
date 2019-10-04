@@ -4,9 +4,9 @@ using System.Text;
 
 namespace StoreApplication
 {
-    class Order
+    public class Order
     {
-        public Store storeLocation { get; set; }
+        public Location storeLocation { get; set; }
         public Address ordererAddress { get; set; }
         public Customer customer { get; set; }
         public double orderTime { get; set; }
