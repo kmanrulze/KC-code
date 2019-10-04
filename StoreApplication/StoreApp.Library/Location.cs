@@ -6,7 +6,7 @@ namespace StoreApplication
 {
     class Location
     {
-        public Product inventory { get; set; }
+        public Inventory inventory { get; set; }
         public void CheckInventory(Location locationBeingChecked)
         {
             //some code to check the inventory of the location being input
