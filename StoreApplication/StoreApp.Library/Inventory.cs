@@ -4,7 +4,12 @@ namespace StoreApplication
 {
     public class Inventory
     {
-        //dictionary arranged by string, for what the item is, and int for how many the place has
-        public IDictionary<string, int> inventory { get; set; }
+        public List<Product> inventoryData { get; set; } = new List<Product>();
+
+        public void RestockShelves(List<Product> incomingStock)
+        {
+            //some code to add to the amount of stuff in the shelves of the store
+        }
+
     }
 }
