@@ -1,9 +1,9 @@
 using System;
 using Xunit;
 
-namespace StoreApplication
+namespace StoreApp.Library
 {
-    public class Store
+    public class UnitTest1
     {
         [Fact]
         public void Test1()
