@@ -6,14 +6,14 @@ namespace StoreApplication
 {
     class Order
     {
-
-        public Address address { get; set; }
+        public Store storeLocation { get; set; }
+        public Address ordererAddress { get; set; }
         public Customer customer { get; set; }
         public double orderTime { get; set; }
 
-        public void CheckOrderRules(Order placedOrder)
+        public void CheckOrdererAddress(Order placedOrder)
         {
-            //Additional business rules
+            //checks orderer's address is valid
         }
         public void CheckOrderIsValid(Order placedOrder)
         {
