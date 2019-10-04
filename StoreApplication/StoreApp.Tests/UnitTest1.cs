@@ -14,13 +14,6 @@ namespace StoreApp.Tests
         public Order testOrder = new Order();
         public Customer testCustomer = new Customer();
 
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Test");
-
-
-        }
-
         [Fact]
         public void CreateTestAddresses()
         {
@@ -64,14 +57,6 @@ namespace StoreApp.Tests
             testOrder.ordererAddress = testCustomer.customerAddress;
             testOrder.orderTime = 50;
             testOrder.storeLocation = testLocation;
-        }
-
-        [Fact]
-        public void CreateNewLocation()
-        {
-            Location newLocation = new Location();
-            newLocation.address = new Address();
-            newLocation.address.city = "Arlington";
         }
     }
 }
