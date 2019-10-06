@@ -9,6 +9,7 @@ namespace StoreApplication
         public Location storeLocation { get; set; }
         public Address ordererAddress { get; set; }
         public Customer customer { get; set; }
+        public Product customerProductList { get; set; }
         public double orderTime { get; set; }
 
         public void CheckOrdererAddress(Order placedOrder)
