@@ -13,5 +13,18 @@ namespace StoreApplication
         public string soda = "Soda";
         public int sodaAmount { get; set; }
 
+        public bool CheckInventoryNotNull()
+        {
+            bool checkBool = true;
+            if(this.burgerAmount != null && this.friesAmount != null && this.sodaAmount != null)
+            {
+                return checkBool;
+            }
+            else
+            {
+                checkBool = false;
+                return checkBool;
+            }
+        }
     }
 }
