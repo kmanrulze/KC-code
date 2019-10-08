@@ -18,7 +18,8 @@ namespace StoreApp.Tests
         {
             customerAddress = testAddress,
             firstName = "Mary",
-            lastName = "Jane"
+            lastName = "Jane",
+            customerID = "1028974"
         };
         public static Inventory testInventory = new Inventory()
         {
@@ -35,25 +36,22 @@ namespace StoreApp.Tests
             storeInventory = testInventory,
             storeNumber = "00693"
         };
-        public static Order testOrder = new Order()
-        {
-            customer = testCustomer,
-            customerProductList = new Product()
-            {
-                burgerAmount = 1,
-                friesAmount = 1,
-                sodaAmount = 1
-            },
-            ordererAddress = testAddress,
-            orderTime = 60,
-            storeLocation = testLocation
-        };
         public static Product testProduct = new Product()
         {
             burgerAmount = 1,
             friesAmount = 2,
             sodaAmount = 3
         };
+        public static Order testOrder = new Order()
+        {
+            customer = testCustomer,
+            customerProductList = testProduct,
+            ordererAddress = testAddress,
+            orderTime = 60,
+            storeLocation = testLocation,
+            orderID = "12335"
+        };
+
 
         public Address GetAddress()
         {

@@ -154,9 +154,10 @@ namespace StoreApp.Tests
             Assert.True(testOrder.storeLocation.CheckLocationNotNull());
             Assert.True(testOrder.customerProductList.CheckProductCountNotInvalid());
 
-            if (testOrder.customer.CheckCustomerNotNull() == true || testOrder.ordererAddress.CheckAddressNotNull() == true ||
-                testOrder.storeLocation.CheckLocationNotNull() == true || testOrder.customerProductList.CheckProductCountNotInvalid() == true)
-            {
+            if (testOrder.customer.CheckCustomerNotNull() == true && testOrder.ordererAddress.CheckAddressNotNull() == true &&
+                testOrder.storeLocation.CheckLocationNotNull() == true && testOrder.customerProductList.CheckProductCountNotInvalid() == true &&
+                testOrder.CheckOrderNotNull() == true)
+            { 
                 Assert.True(testOrder.CheckOrderNotNull());
             }
             else

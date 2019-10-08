@@ -22,7 +22,7 @@ namespace StoreApplication
             if (this.storeLocation.CheckLocationNotNull() == true &&
                 this.ordererAddress.CheckAddressNotNull() ==  true &&
                 this.customer.CheckCustomerNotNull() == true &&
-                this.customerProductList.CheckProductCountNotInvalid() == true && orderTime >=0 && orderID != null)
+                this.customerProductList.CheckProductCountNotInvalid() == true && orderTime >= 0 && this.orderID != null)
             {
                 return true;
             }
