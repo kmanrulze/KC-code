@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StoreApp.DataLibrary\StoreApp.DataAccess.csproj" />
     <ProjectReference Include="..\StoreApp.Library\StoreApp.BusinessLogic.csproj" />
     <ProjectReference Include="..\StoreApp.Tests\StoreApp.Tests.csproj" />

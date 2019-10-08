@@ -8,7 +8,7 @@ namespace StoreApp.Tests
 {
     public class UnitTests
     {
-        private TestVarGeneration testVariable = new TestVarGeneration();
+        private readonly TestVarGeneration testVariable = new TestVarGeneration();
 
         //---------------------------------------------------------------------------------------------------------------------------------
         //Tests for any null things within an address object. Returns true if all values are within it correctly and not null
