@@ -12,13 +12,35 @@ namespace StoreApplication
         public Product customerProductList { get; set; }
         public double orderTime { get; set; }
 
-        public void CheckOrdererAddress(Order placedOrder)
-        {
-            //checks orderer's address is valid
-        }
-        public void CheckOrderIsValid(Order placedOrder)
+        public void CheckOrderIsValid()
         {
             //some code to check if order isnt ridiculous
         }
+        public bool CheckOrderNotNull()
+        {
+            if (this.storeLocation.CheckLocationDataNotNull() == true &&
+                this.ordererAddress.CheckNullAddress() ==  true &&
+                this.customer.CheckCustomerForNull() == true &&
+                this.customerProductList.CheckProductNotNull() == true && orderTime != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool CheckOrdererAddress()
+        {
+            if (this.ordererAddress.CheckAddress() == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

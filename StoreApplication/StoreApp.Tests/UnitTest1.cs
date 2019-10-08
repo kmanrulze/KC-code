@@ -1,32 +1,14 @@
 using NUnit.Framework.Internal;
 using StoreApplication;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace StoreApp.Tests
 {
     public class UnitTest1
-    {  
-        public static Address testDefaultAddress = new Address()
-        {
-            street = "777 South St",
-            city = "Kersey",
-            state = "CO",
-            zip = "73737"
-        };
-        public Inventory testInventory = new Inventory()
-        {
-            productData = new Product()
-            {
-                burgerAmount = 3,
-                friesAmount = 2,
-                sodaAmount = 1
-            }
-        };
-
-        public Location testLocation = new Location();
-        public Order testOrder = new Order();
-        public Customer testCustomer = new Customer();
+    {
+        private TestVarGeneration testVariable = new TestVarGeneration();
 
         //---------------------------------------------------------------------------------------------------------------------------------
         //Tests for any null things within an address object. Returns true if all values are within it correctly and not null
@@ -41,7 +23,7 @@ namespace StoreApp.Tests
             testAddress.street = street;
             testAddress.zip = zip;
 
-            Assert.True(testAddress.CheckAddress() == true);
+            Assert.True(testAddress.CheckAddressNotNull() == true);
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------
@@ -59,80 +41,125 @@ namespace StoreApp.Tests
             testAddress.street = street;
             testAddress.zip = zip;
 
-            Assert.False(testAddress.CheckAddress() == false);
+            Assert.False(testAddress.CheckAddressNotNull() == false);
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------
         //Tests if any customer data is firstly null, then if any of their address items are null. Passes if everything is in correctly
+        //Address is expected to return true. A known good address is being passed in
         [Theory]
-        [InlineData("Mary", "Jane", null)]
-        public void CheckCustomerDataReturnTrue(string firstName, string lastName, Address address)
+        [InlineData("Mary", "Jane")]
+        [InlineData("Gary", "Hanes")]
+        public void CheckCustomerDataReturnTrue(string firstName, string lastName)
         {
-            address = testDefaultAddress;
+
             Customer newCust = new Customer();
             newCust.firstName = firstName;
             newCust.lastName = lastName;
-            newCust.customerAddress = address;
+            newCust.customerAddress = testVariable.GetAddress();
 
-            Assert.True(newCust.customerAddress.CheckAddress() == true);
-            Assert.True(newCust.CheckCust() == true);
+            Assert.True(newCust.customerAddress.CheckAddressNotNull() == true);
+            Assert.True(newCust.CheckCustomerNotNull() == true);
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------
-        //Tests if any customer data is firstly null, then if any of their address items are null. Passes if it recognizes a null value
+        //Tests if any customer data is firstly null, then if any of their address items are null.
+        //Should pass on Assert True for the test address passed in that is a known correct value, and false for the false assert as expected
         [Theory]
-        [InlineData("Mary", "Jane", null)]
-        [InlineData("Lary", "Jane", null)]
-        [InlineData("Gary", "Jane", null)]
-        public void CheckCustomerDataReturnFalse(string firstName, string lastName, Address address)
+        [InlineData("Gary", "Lanes")]
+        [InlineData("Boom", "Zoom")]
+        public void CheckCustomerDataReturnFalse(string firstName, string lastName)
         {
             //False for having a null address, or missing name anywhere
             Customer newCust = new Customer();
             newCust.firstName = firstName;
             newCust.lastName = lastName;
-            newCust.customerAddress = address;
+            newCust.customerAddress = testVariable.GetAddress();
 
-            Assert.False(newCust.customerAddress.CheckAddress() == true);
-            Assert.False(newCust.CheckCust() == true);
+            Assert.True(newCust.customerAddress.CheckAddressNotNull() == true);
+            Assert.False(newCust.CheckCustomerNotNull() == false);
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------
         //Tests if items were properly added to the list of products, then sets it to the inventory. Checks to make sure the inventory properly accepted the list of product.
+        //0 is an acceptable amount
         [Theory]
-        [InlineData(null, null, null)]
-        public void CreateTestProductListAndInventory(int burgers, int fries, int soda)
+        [InlineData(0, 1, 2)]
+        [InlineData(3, 4, 5)]
+        public void InventoryCheckReturnsTrue(int burgers, int fries, int soda)
         {
-            Product testProductList = new Product(); 
+            Product testProductList = new Product();
+            Inventory testInventory = testVariable.GetInventory();
             testProductList.burgerAmount = burgers;
             testProductList.friesAmount = fries;
             testProductList.sodaAmount = soda;
 
             testInventory.productData = testProductList;
 
+            Console.WriteLine("~Testing Variables~\nBurgers: " + testProductList.burgerAmount.ToString()
+                + "\nFries: " + testProductList.friesAmount,ToString() + "\nSoda: " + testProductList.sodaAmount.ToString());
             Assert.True(testInventory.productData.CheckInventoryNotNull() == true);
         }
+        //---------------------------------------------------------------------------------------------------------------------------------
+        //Tests if any items are null that are plugged into the used product list. 
         [Theory]
-        [InlineData(null, null, 00693)]
-        //[ClassData(testDefaultAddress, testInventory, 0009)]
-        //[ClassData(typeof(Address), null, 000)]
-        [MemberData(nameof(Data))]
-        public statis
-        public void CheckTestLocationIsNotNull(Address address, Inventory inventory, int storeNum)
+        [InlineData(1, 2, null)]
+        [InlineData(5, null, 6)]
+        [InlineData(null, 5, 9)]
+        public void InventoryCheckReturnsFalse(int burgers, int fries, int soda)
+        {
+            Product testProductList = new Product();
+            Inventory testInventory = testVariable.GetInventory();
+            testProductList.burgerAmount = burgers;
+            testProductList.friesAmount = fries;
+            testProductList.sodaAmount = soda;
+
+            testInventory.productData = testProductList;
+
+            Console.WriteLine("~Testing Variables~\nBurgers: " + testProductList.burgerAmount.ToString()
+                + "\nFries: " + testProductList.friesAmount, ToString() + "\nSoda: " + testProductList.sodaAmount.ToString());
+            Assert.False(testInventory.productData.CheckInventoryNotNull() == false);
+        }
+
+        [Theory]
+        [InlineData(00001)]
+        [InlineData(null)]
+        public void LocationDataCheck(int storeNum)
         {
             Location testLocation = new Location();
-            testLocation.address = address;
-            testLocation.storeInventory = inventory;
-            testLocation.storeNumber = 00693;
+            testLocation.address = testVariable.GetAddress();
+            testLocation.storeInventory = testVariable.GetInventory();
+            testLocation.storeNumber = storeNum;
 
-            Assert.True(testLocation.C);
+            if (storeNum == null)
+            {
+                Assert.False(testLocation.CheckLocationNotNull() == false);
+            }
+            else
+            {
+                Assert.True(testLocation.CheckLocationNotNull() == true);
+            }
+            
         }
-        [Fact]
-        public void CreateTestOrder()
+        [Theory]
+        [InlineData(60)]
+        [InlineData(null)]
+        public void OrderDataCheck(double time)
         {
-            testOrder.customer = testCustomer;
-            testOrder.ordererAddress = testCustomer.customerAddress;
-            testOrder.orderTime = 50;
-            testOrder.storeLocation = testLocation;
+            Order testOrder = new Order();
+            testOrder.customer = testVariable.GetCustomer();
+            testOrder.ordererAddress = testVariable.GetAddress();
+            testOrder.orderTime = time;
+            testOrder.storeLocation = testVariable.GetLocation();
+
+            if (time == null)
+            {
+                Assert.False(testOrder.CheckOrderNotNull() == false);
+            }
+            else
+            {
+                Assert.True(testOrder.CheckOrderNotNull() == true);
+            }
         }
     }
 }

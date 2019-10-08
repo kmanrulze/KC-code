@@ -53,9 +53,9 @@ namespace StoreApplication
 
             return;
         }
-        public bool CheckInventoryNotNull()
+        public bool CheckLocationNotNull()
         {
-            if (this.storeInventory.CheckInventoryNotNull() == true)
+            if (this.storeInventory.checkInventoryNotNull() == true && this.storeNumber != null && this.address.CheckAddress() == true)
             {
                 return true;
             }

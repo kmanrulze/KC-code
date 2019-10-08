@@ -7,19 +7,17 @@
         public string state { get; set; }
         public string zip { get; set; }
 
-        public bool CheckAddress()
+        public bool CheckAddressNotNull()
         {
-            bool test = false;
 
             if(street != null && city != null && state != null && zip != null)
             {
-                test = true;
+                return true;
             }
             else
             {
-                test = false;
+                return false;
             }
-            return test;
         }
     }
 }

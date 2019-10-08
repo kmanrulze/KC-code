@@ -4,7 +4,6 @@ namespace StoreApplication
 {
     public class Inventory
     {
-        //public List<Product> inventoryData { get; set; } = new List<Product>();
 
         public Product productData { get; set; }
 
@@ -20,9 +19,9 @@ namespace StoreApplication
         {
             //returns stock amounts for the current inventory
         }
-        public bool checkNotNull()
+        public bool CheckInventoryNotNull()
         {
-            if(this.productData.CheckInventoryNotNull() == true)
+            if (productData.CheckProductNotNull() == true)
             {
                 return true;
             }
@@ -30,7 +29,6 @@ namespace StoreApplication
             {
                 return false;
             }
-
         }
 
 
