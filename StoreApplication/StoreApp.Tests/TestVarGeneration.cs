@@ -48,6 +48,12 @@ namespace StoreApp.Tests
             orderTime = 60,
             storeLocation = testLocation
         };
+        public static Product testProduct = new Product()
+        {
+            burgerAmount = 1,
+            friesAmount = 2,
+            sodaAmount = 3
+        };
 
         public Address GetAddress()
         {
@@ -68,6 +74,10 @@ namespace StoreApp.Tests
         public Order GetOrder()
         {
             return testOrder;
+        }
+        public Product GetProduct()
+        {
+            return testProduct;
         }
     }
 }

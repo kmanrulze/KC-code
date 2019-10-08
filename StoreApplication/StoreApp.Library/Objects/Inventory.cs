@@ -21,7 +21,7 @@ namespace StoreApplication
         }
         public bool CheckInventoryNotNull()
         {
-            if (productData.CheckProductNotNull() == true)
+            if (productData.CheckProductCountNotInvalid() == true)
             {
                 return true;
             }

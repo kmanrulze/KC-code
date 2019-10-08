@@ -91,17 +91,12 @@ namespace StoreApp.Tests
         [InlineData(3, 4, 5)]
         public void InventoryCheckReturnsTrue(int burgers, int fries, int soda)
         {
-            Product testProductList = new Product();
             Inventory testInventory = testVariable.GetInventory();
-            testProductList.burgerAmount = burgers;
-            testProductList.friesAmount = fries;
-            testProductList.sodaAmount = soda;
+            testInventory.productData.burgerAmount = burgers;
+            testInventory.productData.friesAmount = fries;
+            testInventory.productData.sodaAmount = soda;
 
-            testInventory.productData = testProductList;
-
-            Console.WriteLine("~Testing Variables~\nBurgers: " + testProductList.burgerAmount.ToString()
-                + "\nFries: " + testProductList.friesAmount,ToString() + "\nSoda: " + testProductList.sodaAmount.ToString());
-            Assert.True(testInventory.productData.CheckInventoryNotNull());
+            Assert.True(testInventory.productData.CheckProductCountNotInvalid());
         }
         //---------------------------------------------------------------------------------------------------------------------------------
         //Tests false if any items are negative that are plugged into the used product list. 
@@ -116,7 +111,7 @@ namespace StoreApp.Tests
             testInventory.productData.friesAmount = fries;
             testInventory.productData.sodaAmount = soda;
 
-            Assert.False(testInventory.productData.CheckInventoryNotNull());
+            Assert.False(testInventory.productData.CheckProductCountNotInvalid());
         }
 
         [Theory]
@@ -142,22 +137,31 @@ namespace StoreApp.Tests
         [Theory]
         [InlineData(60, "1234")]
         [InlineData(0, null)]
+        [InlineData(-1, "1234")]
         public void OrderDataCheck(double time, string testID)
         {
-            Order testOrder = new Order();
+            Order testOrder = testVariable.GetOrder();
             testOrder.customer = testVariable.GetCustomer();
             testOrder.ordererAddress = testVariable.GetAddress();
             testOrder.orderTime = time;
             testOrder.storeLocation = testVariable.GetLocation();
             testOrder.orderID = testID;
+            testOrder.customerProductList = testVariable.GetProduct();
 
-            if (time == 0)
+            //Asserts test to make sure the default values aren't causing issues, as we are testing the two strings above to make sure it catches those 
+            Assert.True(testOrder.customer.CheckCustomerNotNull());
+            Assert.True(testOrder.ordererAddress.CheckAddressNotNull());
+            Assert.True(testOrder.storeLocation.CheckLocationNotNull());
+            Assert.True(testOrder.customerProductList.CheckProductCountNotInvalid());
+
+            if (testOrder.customer.CheckCustomerNotNull() == true || testOrder.ordererAddress.CheckAddressNotNull() == true ||
+                testOrder.storeLocation.CheckLocationNotNull() == true || testOrder.customerProductList.CheckProductCountNotInvalid() == true)
             {
-                Assert.False(testOrder.CheckOrderNotNull());
+                Assert.True(testOrder.CheckOrderNotNull());
             }
             else
             {
-                Assert.True(testOrder.CheckOrderNotNull());
+                Assert.False(testOrder.CheckOrderNotNull());
             }
         }
     }
