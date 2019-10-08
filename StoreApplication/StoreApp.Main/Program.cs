@@ -1,4 +1,5 @@
 ﻿using System;
+using StoreApp.DataAccess;
 using StoreApp.Library;
 using StoreApplication;
 
@@ -6,30 +7,11 @@ namespace StoreApp.Main
 {
     class Program
     {
-        private RetrieveDatabaseHandler DBHandler = new RetrieveDatabaseHandler();
+        public static RetrieveDatabaseHandler DBRHandler = new RetrieveDatabaseHandler();
+        public static InputDatabaseHandler DBIHandler = new InputDatabaseHandler();
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome");
-
-            StartMenuOptions();
-            PlaceOrder();
-        }
-        public static void PlaceOrder()
-        {
-            Console.WriteLine("How many burgers would you like? : ");
-            string input = Console.ReadLine();
-            int burger = Int32.Parse(input);
-
-            Console.WriteLine("How many fries would you like? : ");
-            input = Console.ReadLine();
-            int fries = Int32.Parse(input);
-
-            Console.WriteLine("How many sodas would you like? : ");
-            input = Console.ReadLine();
-            int soda = Int32.Parse(input);
-        }
-        public static void StartMenuOptions()
-        {
             string initialInput = "0";
             string secondaryInput = "0";
 
@@ -60,23 +42,113 @@ namespace StoreApp.Main
                     Console.WriteLine("Invalid input, please type one of the following options");
                 }
             }
+            if (secondaryInput == "2")
+            {
+                Customer newCust = new Customer();
+
+                bool whileBool = true;
+                string inputString;
+
+                while (whileBool == true)
+                {
+                    if (newCust.CheckCustomerNotNull() == false)
+                    {
+                        if (newCust.firstName == null)
+                        {
+                            Console.WriteLine("What is your first name?");
+                            newCust.firstName = Console.ReadLine();
+                        }
+                        else if (newCust.lastName == null)
+                        {
+                            Console.WriteLine("What is your last name?");
+                            newCust.lastName = Console.ReadLine();
+                        }
+                        else if (newCust.customerAddress.CheckAddressNotNull() == false)
+                        {
+                            Console.WriteLine("Please enter an address. What is your street?");
+                            newCust.customerAddress.street = Console.ReadLine();
+
+                            Console.WriteLine("Please enter a city");
+                            newCust.customerAddress.city = Console.ReadLine();
+
+                            Console.WriteLine("Please enter a state");
+                            newCust.customerAddress.state = Console.ReadLine();
+
+                            Console.WriteLine("Please enter a zip");
+                            newCust.customerAddress.zip = Console.ReadLine();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
+                        DBIHandler.AddNewCustomerData(newCust);
+                        break;
+
+                    }
+                }
+            }
+            else
+            {
+                //some code for returning customers
+            }
+
         }
-        public void CreateNewCustomer()
+        public static void PlaceOrder()
+        {
+            Console.WriteLine("How many burgers would you like? : ");
+            string input = Console.ReadLine();
+            int burger = Int32.Parse(input);
+
+            Console.WriteLine("How many fries would you like? : ");
+            input = Console.ReadLine();
+            int fries = Int32.Parse(input);
+
+            Console.WriteLine("How many sodas would you like? : ");
+            input = Console.ReadLine();
+            int soda = Int32.Parse(input);
+        }
+        public static void CreateNewCustomer()
         {
             Customer newCust = new Customer();
 
             bool whileBool = true;
+            string inputString;
 
-            while (whileBool = true)
+            while (whileBool == true)
             {
                 if (newCust.CheckCustomerNotNull() == false)
                 {
-                    
+                    if (newCust.firstName == null)
+                    {
+                        Console.WriteLine("What is your first name?");
+                        newCust.firstName = Console.ReadLine();
+                    }
+                    else if (newCust.lastName == null)
+                    {
+                        Console.WriteLine("What is your last name?");
+                        newCust.lastName = Console.ReadLine();
+                    }
+                    else if(newCust.customerAddress.CheckAddressNotNull() == false)
+                    {
+                        Console.WriteLine("Please enter an address. What is your street?");
+                        newCust.customerAddress.street = Console.ReadLine();
+
+                        Console.WriteLine("Please enter a city");
+                        newCust.customerAddress.city = Console.ReadLine();
+
+                        Console.WriteLine("Please enter a state");
+                        newCust.customerAddress.state = Console.ReadLine();
+
+                        Console.WriteLine("Please enter a zip");
+                        newCust.customerAddress.zip = Console.ReadLine();
+                    }
                 }
                 else
                 {
                     Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
-                    DBHandler.
+                    DBIHandler.AddNewCustomerData(newCust);
+                    break;
+                    
                 }
             }
             

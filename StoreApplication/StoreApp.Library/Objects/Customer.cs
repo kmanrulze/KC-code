@@ -16,11 +16,10 @@ namespace StoreApplication
 
         public bool CheckCustomerNotNull()
         {
-
+            //doesnt check for customer ID in the event that a new customer is being added
             if (this.customerAddress.CheckAddressNotNull() == true &&
                 this.firstName != null &&
-                this.lastName != null &&
-                this.customerID != null)
+                this.lastName != null)
             {
                 return true;
             }

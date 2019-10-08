@@ -68,17 +68,16 @@ namespace StoreApp.Tests
         //Tests if any customer data is firstly null, then if any of their address items are null.
         //Should pass on Assert True for the test address passed in that is a known correct value, and false for the false assert as expected
         [Theory]
-        [InlineData(null, "Lanes", "30289")]
-        [InlineData("Boom", null, "26795")]
-        [InlineData("Boom", "Loom", null)]
-        public void CheckCustomerDataReturnFalse(string firstName, string lastName, string testID)
+        [InlineData(null, "Lanes")]
+        [InlineData("Boom", null)]
+        public void CheckCustomerDataReturnFalse(string firstName, string lastName)
         {
             //False for having a null address, or missing name anywhere
             Customer newCust = new Customer();
             newCust.firstName = firstName;
             newCust.lastName = lastName;
             newCust.customerAddress = testVariable.GetAddress();
-            newCust.customerID = testID;
+            newCust.customerID = "00000";
 
             Assert.False(newCust.CheckCustomerNotNull());
         }
