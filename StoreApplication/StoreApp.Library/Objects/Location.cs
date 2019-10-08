@@ -12,9 +12,9 @@ namespace StoreApplication
         public bool CheckInventory(Location locationBeingChecked, Order order)
         {
             //If the ordered amount doesnt exceed any of the three things the store has
-            if (locationBeingChecked.storeInventory.inventoryData.burgerAmount >= order.customerProductList.burgerAmount && 
-                locationBeingChecked.storeInventory.inventoryData.friesAmount >= order.customerProductList.friesAmount &&
-                locationBeingChecked.storeInventory.inventoryData.sodaAmount >= order.customerProductList.sodaAmount)
+            if (locationBeingChecked.storeInventory.productData.burgerAmount >= order.customerProductList.burgerAmount && 
+                locationBeingChecked.storeInventory.productData.friesAmount >= order.customerProductList.friesAmount &&
+                locationBeingChecked.storeInventory.productData.sodaAmount >= order.customerProductList.sodaAmount)
             {
                 //Order is successful
                 Console.WriteLine("Location has sufficient product.");
@@ -27,9 +27,9 @@ namespace StoreApplication
             {
 
                 Console.WriteLine("Location does not have all the necessary things needed for the order. Location contains " +
-                    locationBeingChecked.storeInventory.inventoryData.burgerAmount.ToString() + " burgers, " + 
-                    locationBeingChecked.storeInventory.inventoryData.friesAmount.ToString() +  " fries, and " +
-                    locationBeingChecked.storeInventory.inventoryData.sodaAmount.ToString());
+                    locationBeingChecked.storeInventory.productData.burgerAmount.ToString() + " burgers, " + 
+                    locationBeingChecked.storeInventory.productData.friesAmount.ToString() +  " fries, and " +
+                    locationBeingChecked.storeInventory.productData.sodaAmount.ToString());
 
                 Console.WriteLine("Client order is requesting " +
                     order.customerProductList.burgerAmount + " burgers, " +
@@ -41,17 +41,29 @@ namespace StoreApplication
         }
         public void UpdateInventory(Location locationToBeUpdated, Order placedOrder)
         {
-            locationToBeUpdated.storeInventory.inventoryData.burgerAmount = locationToBeUpdated.storeInventory.inventoryData.burgerAmount - placedOrder.customerProductList.burgerAmount;
-            locationToBeUpdated.storeInventory.inventoryData.friesAmount = locationToBeUpdated.storeInventory.inventoryData.friesAmount - placedOrder.customerProductList.friesAmount;
-            locationToBeUpdated.storeInventory.inventoryData.sodaAmount = locationToBeUpdated.storeInventory.inventoryData.sodaAmount - placedOrder.customerProductList.sodaAmount;
+            locationToBeUpdated.storeInventory.productData.burgerAmount = locationToBeUpdated.storeInventory.productData.burgerAmount - placedOrder.customerProductList.burgerAmount;
+            locationToBeUpdated.storeInventory.productData.friesAmount = locationToBeUpdated.storeInventory.productData.friesAmount - placedOrder.customerProductList.friesAmount;
+            locationToBeUpdated.storeInventory.productData.sodaAmount = locationToBeUpdated.storeInventory.productData.sodaAmount - placedOrder.customerProductList.sodaAmount;
 
             Console.WriteLine("Updated location for store number " + locationToBeUpdated.storeNumber.ToString() + ".\n");
             Console.WriteLine("Store inventory contains " +
-                    locationToBeUpdated.storeInventory.inventoryData.burgerAmount.ToString() + " burgers, " +
-                    locationToBeUpdated.storeInventory.inventoryData.friesAmount.ToString() + " fries, and " +
-                    locationToBeUpdated.storeInventory.inventoryData.sodaAmount.ToString());
+                    locationToBeUpdated.storeInventory.productData.burgerAmount.ToString() + " burgers, " +
+                    locationToBeUpdated.storeInventory.productData.friesAmount.ToString() + " fries, and " +
+                    locationToBeUpdated.storeInventory.productData.sodaAmount.ToString());
 
             return;
+        }
+        public bool CheckInventoryNotNull()
+        {
+            if (this.storeInventory.CheckInventoryNotNull() == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
 

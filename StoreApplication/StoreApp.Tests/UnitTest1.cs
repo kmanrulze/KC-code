@@ -14,11 +14,21 @@ namespace StoreApp.Tests
             state = "CO",
             zip = "73737"
         };
+        public Inventory testInventory = new Inventory()
+        {
+            productData = new Product()
+            {
+                burgerAmount = 3,
+                friesAmount = 2,
+                sodaAmount = 1
+            }
+        };
+
         public Location testLocation = new Location();
-        public Inventory testInventory = new Inventory();
         public Order testOrder = new Order();
         public Customer testCustomer = new Customer();
 
+        //---------------------------------------------------------------------------------------------------------------------------------
         //Tests for any null things within an address object. Returns true if all values are within it correctly and not null
         [Theory]
         [InlineData ("Arlington", "TX", "100 ABC Street", "12345")]
@@ -34,6 +44,7 @@ namespace StoreApp.Tests
             Assert.True(testAddress.CheckAddress() == true);
         }
 
+        //---------------------------------------------------------------------------------------------------------------------------------
         //Tests if something is null within the address object. Function in Address.cs returns false if any null items.
         [Theory]
         [InlineData("Arlington", "TX", "100 ABC Street", null)]
@@ -51,6 +62,7 @@ namespace StoreApp.Tests
             Assert.False(testAddress.CheckAddress() == false);
         }
 
+        //---------------------------------------------------------------------------------------------------------------------------------
         //Tests if any customer data is firstly null, then if any of their address items are null. Passes if everything is in correctly
         [Theory]
         [InlineData("Mary", "Jane", null)]
@@ -66,6 +78,7 @@ namespace StoreApp.Tests
             Assert.True(newCust.CheckCust() == true);
         }
 
+        //---------------------------------------------------------------------------------------------------------------------------------
         //Tests if any customer data is firstly null, then if any of their address items are null. Passes if it recognizes a null value
         [Theory]
         [InlineData("Mary", "Jane", null)]
@@ -82,7 +95,8 @@ namespace StoreApp.Tests
             Assert.False(newCust.customerAddress.CheckAddress() == true);
             Assert.False(newCust.CheckCust() == true);
         }
-        
+
+        //---------------------------------------------------------------------------------------------------------------------------------
         //Tests if items were properly added to the list of products, then sets it to the inventory. Checks to make sure the inventory properly accepted the list of product.
         [Theory]
         [InlineData(null, null, null)]
@@ -93,16 +107,24 @@ namespace StoreApp.Tests
             testProductList.friesAmount = fries;
             testProductList.sodaAmount = soda;
 
-            testInventory.inventoryData = testProductList;
+            testInventory.productData = testProductList;
 
-            Assert.True(testInventory.inventoryData.CheckInventoryNotNull() == true);
+            Assert.True(testInventory.productData.CheckInventoryNotNull() == true);
         }
- /*       [Fact]
-        public void CreateTestLocation()
+        [Theory]
+        [InlineData(null, null, 00693)]
+        //[ClassData(testDefaultAddress, testInventory, 0009)]
+        //[ClassData(typeof(Address), null, 000)]
+        [MemberData(nameof(Data))]
+        public statis
+        public void CheckTestLocationIsNotNull(Address address, Inventory inventory, int storeNum)
         {
-            testLocation.address = testLocationAddress;
-            testLocation.storeInventory = testInventory;
+            Location testLocation = new Location();
+            testLocation.address = address;
+            testLocation.storeInventory = inventory;
             testLocation.storeNumber = 00693;
+
+            Assert.True(testLocation.C);
         }
         [Fact]
         public void CreateTestOrder()
@@ -111,6 +133,6 @@ namespace StoreApp.Tests
             testOrder.ordererAddress = testCustomer.customerAddress;
             testOrder.orderTime = 50;
             testOrder.storeLocation = testLocation;
-        }*/
+        }
     }
 }
