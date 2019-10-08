@@ -8,7 +8,7 @@ namespace StoreApplication
     {
         public Address address { get; set; }
         public Inventory storeInventory { get; set; }
-        public int storeNumber { get; set; }
+        public string storeNumber { get; set; }
         public bool CheckInventory(Location locationBeingChecked, Order order)
         {
             //If the ordered amount doesnt exceed any of the three things the store has
@@ -55,7 +55,7 @@ namespace StoreApplication
         }
         public bool CheckLocationNotNull()
         {
-            if (this.storeInventory.checkInventoryNotNull() == true && this.storeNumber != null && this.address.CheckAddress() == true)
+            if (this.storeInventory.CheckInventoryNotNull() == true && this.storeNumber != null && this.address.CheckAddressNotNull() == true)
             {
                 return true;
             }

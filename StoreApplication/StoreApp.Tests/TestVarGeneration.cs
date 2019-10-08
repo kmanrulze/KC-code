@@ -33,7 +33,7 @@ namespace StoreApp.Tests
         {
             address = testAddress,
             storeInventory = testInventory,
-            storeNumber = 00693
+            storeNumber = "00693"
         };
         public static Order testOrder = new Order()
         {

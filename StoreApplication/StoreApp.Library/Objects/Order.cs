@@ -18,10 +18,10 @@ namespace StoreApplication
         }
         public bool CheckOrderNotNull()
         {
-            if (this.storeLocation.CheckLocationDataNotNull() == true &&
-                this.ordererAddress.CheckNullAddress() ==  true &&
-                this.customer.CheckCustomerForNull() == true &&
-                this.customerProductList.CheckProductNotNull() == true && orderTime != null)
+            if (this.storeLocation.CheckLocationNotNull() == true &&
+                this.ordererAddress.CheckAddressNotNull() ==  true &&
+                this.customer.CheckCustomerNotNull() == true &&
+                this.customerProductList.CheckProductNotNull() == true && orderTime != 0)
             {
                 return true;
             }
@@ -32,7 +32,7 @@ namespace StoreApplication
         }
         public bool CheckOrdererAddress()
         {
-            if (this.ordererAddress.CheckAddress() == true)
+            if (this.ordererAddress.CheckAddressNotNull() == true)
             {
                 return true;
             }

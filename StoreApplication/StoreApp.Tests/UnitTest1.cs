@@ -23,7 +23,7 @@ namespace StoreApp.Tests
             testAddress.street = street;
             testAddress.zip = zip;
 
-            Assert.True(testAddress.CheckAddressNotNull() == true);
+            Assert.True(testAddress.CheckAddressNotNull());
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------
@@ -35,13 +35,15 @@ namespace StoreApp.Tests
         [InlineData(null, "TX", "100 ABC Street", "12345")]
         public void CheckAddressReturnsFalse(string city, string state, string street, string zip)
         {
-            Address testAddress = new Address();
-            testAddress.city = city;
-            testAddress.state = state;
-            testAddress.street = street;
-            testAddress.zip = zip;
+            Address testAddress = new Address()
+            {
+                city = city,
+                state = state,
+                street = street,
+                zip = zip
+            };
 
-            Assert.False(testAddress.CheckAddressNotNull() == false);
+            Assert.False(testAddress.CheckAddressNotNull());
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------
@@ -58,8 +60,7 @@ namespace StoreApp.Tests
             newCust.lastName = lastName;
             newCust.customerAddress = testVariable.GetAddress();
 
-            Assert.True(newCust.customerAddress.CheckAddressNotNull() == true);
-            Assert.True(newCust.CheckCustomerNotNull() == true);
+            Assert.True(newCust.CheckCustomerNotNull());
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------
@@ -76,8 +77,7 @@ namespace StoreApp.Tests
             newCust.lastName = lastName;
             newCust.customerAddress = testVariable.GetAddress();
 
-            Assert.True(newCust.customerAddress.CheckAddressNotNull() == true);
-            Assert.False(newCust.CheckCustomerNotNull() == false);
+            Assert.False(newCust.CheckCustomerNotNull());
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------
@@ -98,14 +98,14 @@ namespace StoreApp.Tests
 
             Console.WriteLine("~Testing Variables~\nBurgers: " + testProductList.burgerAmount.ToString()
                 + "\nFries: " + testProductList.friesAmount,ToString() + "\nSoda: " + testProductList.sodaAmount.ToString());
-            Assert.True(testInventory.productData.CheckInventoryNotNull() == true);
+            Assert.True(testInventory.productData.CheckInventoryNotNull());
         }
         //---------------------------------------------------------------------------------------------------------------------------------
         //Tests if any items are null that are plugged into the used product list. 
         [Theory]
-        [InlineData(1, 2, null)]
-        [InlineData(5, null, 6)]
-        [InlineData(null, 5, 9)]
+        [InlineData(1, 2, -1)]
+        [InlineData(5, -1, 6)]
+        [InlineData(-1, 5, 9)]
         public void InventoryCheckReturnsFalse(int burgers, int fries, int soda)
         {
             Product testProductList = new Product();
@@ -118,13 +118,13 @@ namespace StoreApp.Tests
 
             Console.WriteLine("~Testing Variables~\nBurgers: " + testProductList.burgerAmount.ToString()
                 + "\nFries: " + testProductList.friesAmount, ToString() + "\nSoda: " + testProductList.sodaAmount.ToString());
-            Assert.False(testInventory.productData.CheckInventoryNotNull() == false);
+            Assert.False(testInventory.productData.CheckInventoryNotNull());
         }
 
         [Theory]
-        [InlineData(00001)]
+        [InlineData("00001")]
         [InlineData(null)]
-        public void LocationDataCheck(int storeNum)
+        public void LocationDataCheck(string storeNum)
         {
             Location testLocation = new Location();
             testLocation.address = testVariable.GetAddress();
@@ -133,17 +133,17 @@ namespace StoreApp.Tests
 
             if (storeNum == null)
             {
-                Assert.False(testLocation.CheckLocationNotNull() == false);
+                Assert.False(testLocation.CheckLocationNotNull());
             }
             else
             {
-                Assert.True(testLocation.CheckLocationNotNull() == true);
+                Assert.True(testLocation.CheckLocationNotNull());
             }
             
         }
         [Theory]
         [InlineData(60)]
-        [InlineData(null)]
+        [InlineData(0)]
         public void OrderDataCheck(double time)
         {
             Order testOrder = new Order();
@@ -152,13 +152,13 @@ namespace StoreApp.Tests
             testOrder.orderTime = time;
             testOrder.storeLocation = testVariable.GetLocation();
 
-            if (time == null)
+            if (time == 0)
             {
-                Assert.False(testOrder.CheckOrderNotNull() == false);
+                Assert.False(testOrder.CheckOrderNotNull());
             }
             else
             {
-                Assert.True(testOrder.CheckOrderNotNull() == true);
+                Assert.True(testOrder.CheckOrderNotNull());
             }
         }
     }

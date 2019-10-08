@@ -16,7 +16,7 @@ namespace StoreApplication
         public bool CheckProductNotNull()
         {
             bool checkBool = true;
-            if(this.burgerAmount != null && this.friesAmount != null && this.sodaAmount != null)
+            if(this.burgerAmount >= 0 && this.friesAmount >= 0 && this.sodaAmount >= 0)
             {
                 return checkBool;
             }
