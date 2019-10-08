@@ -6,7 +6,7 @@ using Xunit;
 
 namespace StoreApp.Tests
 {
-    public class UnitTest1
+    public class UnitTests
     {
         private TestVarGeneration testVariable = new TestVarGeneration();
 
@@ -50,15 +50,16 @@ namespace StoreApp.Tests
         //Tests if any customer data is firstly null, then if any of their address items are null. Passes if everything is in correctly
         //Address is expected to return true. A known good address is being passed in
         [Theory]
-        [InlineData("Mary", "Jane")]
-        [InlineData("Gary", "Hanes")]
-        public void CheckCustomerDataReturnTrue(string firstName, string lastName)
+        [InlineData("Mary", "Jane", "28326")]
+        [InlineData("Gary", "Hanes", "00022")]
+        public void CheckCustomerDataReturnTrue(string firstName, string lastName, string testID)
         {
 
             Customer newCust = new Customer();
             newCust.firstName = firstName;
             newCust.lastName = lastName;
             newCust.customerAddress = testVariable.GetAddress();
+            newCust.customerID = testID;
 
             Assert.True(newCust.CheckCustomerNotNull());
         }
@@ -67,15 +68,17 @@ namespace StoreApp.Tests
         //Tests if any customer data is firstly null, then if any of their address items are null.
         //Should pass on Assert True for the test address passed in that is a known correct value, and false for the false assert as expected
         [Theory]
-        [InlineData("Gary", "Lanes")]
-        [InlineData("Boom", "Zoom")]
-        public void CheckCustomerDataReturnFalse(string firstName, string lastName)
+        [InlineData(null, "Lanes", "30289")]
+        [InlineData("Boom", null, "26795")]
+        [InlineData("Boom", "Loom", null)]
+        public void CheckCustomerDataReturnFalse(string firstName, string lastName, string testID)
         {
             //False for having a null address, or missing name anywhere
             Customer newCust = new Customer();
             newCust.firstName = firstName;
             newCust.lastName = lastName;
             newCust.customerAddress = testVariable.GetAddress();
+            newCust.customerID = testID;
 
             Assert.False(newCust.CheckCustomerNotNull());
         }
@@ -101,23 +104,18 @@ namespace StoreApp.Tests
             Assert.True(testInventory.productData.CheckInventoryNotNull());
         }
         //---------------------------------------------------------------------------------------------------------------------------------
-        //Tests if any items are null that are plugged into the used product list. 
+        //Tests false if any items are negative that are plugged into the used product list. 
         [Theory]
         [InlineData(1, 2, -1)]
         [InlineData(5, -1, 6)]
         [InlineData(-1, 5, 9)]
         public void InventoryCheckReturnsFalse(int burgers, int fries, int soda)
         {
-            Product testProductList = new Product();
             Inventory testInventory = testVariable.GetInventory();
-            testProductList.burgerAmount = burgers;
-            testProductList.friesAmount = fries;
-            testProductList.sodaAmount = soda;
+            testInventory.productData.burgerAmount = burgers;
+            testInventory.productData.friesAmount = fries;
+            testInventory.productData.sodaAmount = soda;
 
-            testInventory.productData = testProductList;
-
-            Console.WriteLine("~Testing Variables~\nBurgers: " + testProductList.burgerAmount.ToString()
-                + "\nFries: " + testProductList.friesAmount, ToString() + "\nSoda: " + testProductList.sodaAmount.ToString());
             Assert.False(testInventory.productData.CheckInventoryNotNull());
         }
 
@@ -142,15 +140,16 @@ namespace StoreApp.Tests
             
         }
         [Theory]
-        [InlineData(60)]
-        [InlineData(0)]
-        public void OrderDataCheck(double time)
+        [InlineData(60, "1234")]
+        [InlineData(0, null)]
+        public void OrderDataCheck(double time, string testID)
         {
             Order testOrder = new Order();
             testOrder.customer = testVariable.GetCustomer();
             testOrder.ordererAddress = testVariable.GetAddress();
             testOrder.orderTime = time;
             testOrder.storeLocation = testVariable.GetLocation();
+            testOrder.orderID = testID;
 
             if (time == 0)
             {

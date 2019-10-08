@@ -11,6 +11,7 @@ namespace StoreApplication
         public Customer customer { get; set; }
         public Product customerProductList { get; set; }
         public double orderTime { get; set; }
+        public string orderID { get; set; }
 
         public void CheckOrderIsValid()
         {
@@ -21,7 +22,7 @@ namespace StoreApplication
             if (this.storeLocation.CheckLocationNotNull() == true &&
                 this.ordererAddress.CheckAddressNotNull() ==  true &&
                 this.customer.CheckCustomerNotNull() == true &&
-                this.customerProductList.CheckProductNotNull() == true && orderTime != 0)
+                this.customerProductList.CheckProductNotNull() == true && orderTime != 0 && orderID != null)
             {
                 return true;
             }
