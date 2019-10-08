@@ -1,13 +1,7 @@
 ﻿namespace StoreApplication
 {
-    public class DatabaseHandler
-    {
-        public string GenerateID()
-        {
-            //Some code to generate ID's for Customer and Order
-            string generatedID = "";
-            return generatedID;
-        }
+    public class RetrieveDatabaseHandler
+    { 
         public string CheckCustomerID()
         {
             //Some code to check information tied to the customer ID

@@ -6,6 +6,7 @@ namespace StoreApp.Main
 {
     class Program
     {
+        private RetrieveDatabaseHandler DBHandler = new RetrieveDatabaseHandler();
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome");
@@ -43,6 +44,7 @@ namespace StoreApp.Main
                     //code for manager
                     //Can display current stocks and things for locations and other things stored
                     //Managment can stock their stores and check and edit customer data
+                    break;
 
                 }
                 else if (initialInput == "2")
@@ -51,12 +53,33 @@ namespace StoreApp.Main
                     //Will run code to make new customer, retrieve old customer data, and place orders
                     Console.WriteLine("Welcome! Are you a returning customer?\n[1] Yes\n[2] No\n");
                     secondaryInput = Console.ReadLine();
+                    break;
                 }
                 else
                 {
                     Console.WriteLine("Invalid input, please type one of the following options");
                 }
             }
+        }
+        public void CreateNewCustomer()
+        {
+            Customer newCust = new Customer();
+
+            bool whileBool = true;
+
+            while (whileBool = true)
+            {
+                if (newCust.CheckCustomerNotNull() == false)
+                {
+                    
+                }
+                else
+                {
+                    Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
+                    DBHandler.
+                }
+            }
+            
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using StoreApplication;
 
 namespace StoreApplication
 {
@@ -16,7 +17,10 @@ namespace StoreApplication
         public bool CheckCustomerNotNull()
         {
 
-            if (this.customerAddress.CheckAddressNotNull() == true && this.firstName != null && this.lastName != null && this.customerID != null)
+            if (this.customerAddress.CheckAddressNotNull() == true &&
+                this.firstName != null &&
+                this.lastName != null &&
+                this.customerID != null)
             {
                 return true;
             }
