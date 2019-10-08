@@ -6,9 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StoreApp.DataLibrary\StoreApp.DataAccess.csproj" />
     <ProjectReference Include="..\StoreApp.Library\StoreApp.BusinessLogic.csproj" />
-    <ProjectReference Include="..\StoreApp.Tests\StoreApp.Tests.csproj" />
   </ItemGroup>
 
 </Project>

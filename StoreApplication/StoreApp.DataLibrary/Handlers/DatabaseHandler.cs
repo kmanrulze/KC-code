@@ -1,6 +1,6 @@
 ﻿namespace StoreApplication
 {
-    public class DBHandler
+    public class DatabaseHandler
     {
         public string GenerateID()
         {
