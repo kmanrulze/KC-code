@@ -6,10 +6,10 @@ namespace StoreApplication
 {
     public class Order
     {
-        public Location storeLocation { get; set; }
-        public Address ordererAddress { get; set; }
-        public Customer customer { get; set; }
-        public Product customerProductList { get; set; }
+        public Location storeLocation = new Location();
+        public Address ordererAddress = new Address();
+        public Customer customer = new Customer();
+        public Product customerProductList = new Product();
         public double orderTime { get; set; }
         public string orderID { get; set; }
 

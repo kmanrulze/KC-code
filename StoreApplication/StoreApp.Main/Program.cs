@@ -12,11 +12,12 @@ namespace StoreApp.Main
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome");
+
             string initialInput = "0";
             string secondaryInput = "0";
+            bool whileBool = true;
 
-            bool inputBool = true;
-            while (inputBool == true)
+            while (whileBool == true)
             {
                 Console.WriteLine("Are you using this console as a manager or a customer?\n[1] Manager\n[2] Customer\n");
                 initialInput = Console.ReadLine();
@@ -35,22 +36,22 @@ namespace StoreApp.Main
                     //Will run code to make new customer, retrieve old customer data, and place orders
                     Console.WriteLine("Welcome! Are you a returning customer?\n[1] Yes\n[2] No\n");
                     secondaryInput = Console.ReadLine();
-                    break;
+                    whileBool = false;
                 }
                 else
                 {
                     Console.WriteLine("Invalid input, please type one of the following options");
                 }
             }
+            // Number 2 selected
+            whileBool = true;
             if (secondaryInput == "2")
             {
                 Customer newCust = new Customer();
 
-                bool whileBool = true;
-                string inputString;
-
                 while (whileBool == true)
                 {
+
                     if (newCust.CheckCustomerNotNull() == false)
                     {
                         if (newCust.firstName == null)

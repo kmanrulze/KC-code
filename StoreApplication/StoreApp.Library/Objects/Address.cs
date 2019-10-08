@@ -9,7 +9,6 @@
 
         public bool CheckAddressNotNull()
         {
-
             if(street != null && city != null && state != null && zip != null)
             {
                 return true;

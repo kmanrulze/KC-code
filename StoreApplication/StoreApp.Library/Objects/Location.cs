@@ -6,8 +6,8 @@ namespace StoreApplication
 {
     public class Location
     {
-        public Address address { get; set; }
-        public Inventory storeInventory { get; set; }
+        public Address address = new Address();
+        public Inventory storeInventory = new Inventory();
         public string storeNumber { get; set; }
         public bool CheckInventory(Location locationBeingChecked, Order order)
         {

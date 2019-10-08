@@ -1,4 +1,6 @@
-﻿namespace StoreApplication
+﻿using StoreApplication;
+
+namespace StoreApplication
 {
     public class RetrieveDatabaseHandler
     { 

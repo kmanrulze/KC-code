@@ -11,15 +11,13 @@ namespace StoreApplication
 
         public string firstName { get; set; }
         public string lastName { get; set; }
-        public Address customerAddress { get; set; }
+        public Address customerAddress = new Address();
         public string customerID { get; set; }
 
         public bool CheckCustomerNotNull()
         {
             //doesnt check for customer ID in the event that a new customer is being added
-            if (this.customerAddress.CheckAddressNotNull() == true &&
-                this.firstName != null &&
-                this.lastName != null)
+            if (customerAddress.CheckAddressNotNull() == true && this.firstName != null && this.lastName != null)
             {
                 return true;
             }

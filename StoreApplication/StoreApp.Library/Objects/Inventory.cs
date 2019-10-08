@@ -5,7 +5,7 @@ namespace StoreApplication
     public class Inventory
     {
 
-        public Product productData { get; set; }
+        public Product productData = new Product();
 
         public void RestockShelves(List<Product> incomingStock)
         {
