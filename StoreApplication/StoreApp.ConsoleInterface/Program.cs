@@ -12,13 +12,6 @@ namespace StoreApp.Main
         public static InputDatabaseHandler DBIHandler = new InputDatabaseHandler();
         static void Main(string[] args)
         {
-            Console.WriteLine("Connecting to Database . . .");
-            string connectionString = ("Server=tcp:kc-guzman.database.windows.net,1433;Initial Catalog=StoreApp;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            SqlConnection database = new SqlConnection(connectionString);
-            database.Open();
-            Console.WriteLine("Databate access success!");
-
-            database.Dispose();
 
             Console.WriteLine("Welcome!");
 
