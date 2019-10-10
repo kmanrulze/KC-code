@@ -3,50 +3,33 @@ GO
 
 CREATE TABLE app.Customer
 (
-    CustomerID INT PRIMARY KEY,
-    FirstName NVARCHAR(25),
-    LastName NVARCHAR(25)
-);
-CREATE TABLE app.CustomerAddress
-(
-    CustomerID INT FOREIGN KEY REFERENCES app.Customer(CustomerID),
+    CustomerID INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName NVARCHAR(25) NOT NULL,
+    LastName NVARCHAR(25) NOT NULL,
     Street NVARCHAR(50),
     City NVARCHAR(25),
     State NVARCHAR(25),
-    Zip NVARCHAR(9)
-);
-CREATE TABLE app.Product
-(
-    ProductID INT PRIMARY KEY,
-    Burgers INT,
-    Fries INT,
-    Sodas INT
-);
-CREATE TABLE app.CustomerProduct
-(
-    CustomerID INT FOREIGN KEY REFERENCES app.Customer(CustomerID),
-    ProductID INT FOREIGN KEY REFERENCES app.Product(ProductID)
-);
-CREATE TABLE app.CustomerHistory
-(
-    OrderID INT PRIMARY KEY,
-    CustomerID INT FOREIGN KEY REFERENCES app.Customer(CustomerID),
-    Burgers INT,
-    Fries INT,
-    Soda INT
+    Zip NVARCHAR(5)
 );
 CREATE TABLE app.Store
 (
-    StoreNumber INT PRIMARY KEY,
+    StoreNumber INT IDENTITY(1,1) PRIMARY KEY,
     Street NVARCHAR(50),
     City NVARCHAR(25),
     State NVARCHAR(25),
-    Zip NVARCHAR(9)
+    Zip NVARCHAR(5),
+    BurgerAmount INT,
+    FriesAmount INT,
+    SodaAmount INT
 );
-CREATE TABLE app.ProductLocation
+CREATE TABLE app.Orders
 (
+    OrderID INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerID INT FOREIGN KEY REFERENCES app.Customer(CustomerID),
     StoreNumber INT FOREIGN KEY REFERENCES app.Store(StoreNumber),
-    ProductID INT FOREIGN KEY REFERENCES app.Product(ProductID)
+    BurgerAmount INT,
+    FriesAmount INT,
+    SodaAmount INT
 );
 CREATE TABLE app.Manager
 (
