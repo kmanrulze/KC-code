@@ -1,9 +1,11 @@
 ﻿using StoreApplication;
+using System.IO;
 
 namespace StoreApplication
 {
     public class RetrieveDatabaseHandler
-    { 
+    {
+        public string connectionString = File.ReadAllText(@"C:/revature/kc-project0/StoreApplication/StoreApp.DataLibrary/Connection String/string.txt");
         public string CheckCustomerID()
         {
             //Some code to check information tied to the customer ID
@@ -27,6 +29,10 @@ namespace StoreApplication
             //Some code to retrieve a list of order data
             string dataString = "";
             return dataString;
+        }
+        public string GetConnectionString()
+        {
+            return connectionString;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace StoreApp.Main
         static void Main(string[] args)
         {
 
-            Console.WriteLine("Welcome!");
+            Console.WriteLine("Hello!");
 
             string initialInput = "0";
             string secondaryInput = "0";
