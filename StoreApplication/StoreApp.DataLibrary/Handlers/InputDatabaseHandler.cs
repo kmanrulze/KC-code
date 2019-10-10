@@ -17,8 +17,8 @@ namespace StoreApp.DataAccess
             command.CommandText = @"INSERT
             
             ";
-            command.Parameters.AddWithValue("@FirstName");
-            command.Parameters.AddWithValue("@LastName");
+            //command.Parameters.AddWithValue("@FirstName");
+            //command.Parameters.AddWithValue("@LastName");
 
             connection.Open();
 
