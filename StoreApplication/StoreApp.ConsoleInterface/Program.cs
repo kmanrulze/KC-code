@@ -1,5 +1,5 @@
 ﻿using System;
-using StoreApp.DataLibrary.Entities;
+using StoreApp.DataLibrary;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using System.Linq;
@@ -22,6 +22,7 @@ namespace StoreApp.Main
             string initialInput = "0";
             string secondaryInput = "0";
             bool whileBool = true;
+            bool check = true;
 
             //DB initialization
 
@@ -32,9 +33,6 @@ namespace StoreApp.Main
 
             using var context = new StoreApplicationContext(options);
 
-
-
-
             while (whileBool == true)
             {
                 Console.WriteLine("Are you using this console as a manager or a customer?\n[1] Manager\n[2] Customer\n");
@@ -43,21 +41,44 @@ namespace StoreApp.Main
                 if (initialInput == "1") //Manager
                 {
                     string managerIDInput;
+                    int managerID;
                     //code for manager
                     //Can display current stocks and things for locations and other things stored
                     //Managment can stock their stores and check and edit customer data
 
-#warning Testing function for now to make sure the thing is pulling properly from the DB for now. Delete once not needed.
-                    List<StoreApp.BusinessLogic.Objects.Customer> customerList = new List<StoreApp.BusinessLogic.Objects.Customer>();
-                    customerList = DBRHandler.GetAllCustomerData(context);
 
-                    foreach (StoreApp.BusinessLogic.Objects.Customer cust in customerList)
+                    while (check == true)
                     {
-                        Console.WriteLine("CustomerID: "+ cust.customerID + "\n" + "Customer Name: " + cust.firstName + " "+ cust.lastName + "\n\n");
-                    }
+                        Console.WriteLine("What is your manager ID?");
+                        managerIDInput = Console.ReadLine();
 
-                    Console.WriteLine("What is your manager ID?");
-                    managerIDInput = Console.ReadLine();
+                        if (DBRHandler.CheckIDParsable(managerIDInput) == false)
+                        {
+                            Console.WriteLine("Invalid characters. Please try again with a numerical value");
+                            break;
+
+                        }
+                        else //if the input only has numbers in it
+                        {
+                            managerID = Int32.Parse(managerIDInput);
+
+                            try
+                            {
+                                StoreApp.BusinessLogic.Objects.Manager retrievedManager = DBRHandler.GetManagerDataFromID(managerID, context);
+                                Console.WriteLine("Welcome back, " + retrievedManager.firstName + " " + retrievedManager.lastName + "! What can we do for you today?");
+                                check = false;
+                                whileBool = false;
+                            }
+                            catch (NullReferenceException e)
+                            {
+                                Console.WriteLine("Unable to perform the operation due to null value returned with Customer ID " + managerID + ": " + e.Message + "\n");
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Unknown exeption " + e);
+                            }
+                        }
+                    }
 
                     //Some code to compare manager ID to the table and welcome manager options
 
@@ -77,7 +98,7 @@ namespace StoreApp.Main
             }
             //------------------------------------------------------------------------------------------------------------------
             whileBool = true;
-            bool check = true;
+            check = true;
             while (whileBool == true)//Returning Customer or New Customer
             {
                 if (secondaryInput == "1") //Returning Customer
@@ -90,9 +111,9 @@ namespace StoreApp.Main
                         Console.WriteLine("Welcome back! What is your customer ID?");
                         secondaryInput = Console.ReadLine();
 
-                        if (DBRHandler.CheckCustomerIDParsable(secondaryInput) == false)
+                        if (DBRHandler.CheckIDParsable(secondaryInput) == false)
                         {
-                            Console.WriteLine("Incorrect customer ID. Please try again");
+                            Console.WriteLine("Invalid characters. Please try again with a numerical value");
                             break;
 
                         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StoreApp.BusinessLogic.Objects
 {
-    class Manager
+    public class Manager
     {
         public string firstName { get; set; }
         public string lastName { get; set; }

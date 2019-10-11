@@ -1,4 +1,5 @@
-﻿using StoreApp.DataLibrary.ConnectionData;
+﻿using StoreApp.BusinessLogic.Objects;
+using StoreApp.DataLibrary.ConnectionData;
 using StoreApp.DataLibrary.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,8 @@ namespace StoreApp.DataLibrary.Handlers
 {
     public class RetrieveDatabaseHandler
     {
-        public bool CheckCustomerIDParsable(string IDString)
+        private ParseHandler parser = new ParseHandler();
+        public bool CheckIDParsable(string IDString)
         {
             //Checks if the ID string input is parsable to an int and returns true or false
 
@@ -30,17 +32,14 @@ namespace StoreApp.DataLibrary.Handlers
         public StoreApp.BusinessLogic.Objects.Customer GetCustomerDataFromID(int customerID, StoreApplicationContext context)
         {
             //Some code to retrieve a list of customer data
-            List<StoreApp.BusinessLogic.Objects.Customer> retrievedCustomerList = new List<StoreApp.BusinessLogic.Objects.Customer>();
-
-            retrievedCustomerList = GetAllCustomerData(context);
 
             try
             {
-                foreach (StoreApp.BusinessLogic.Objects.Customer cust in retrievedCustomerList)
+                foreach (StoreApp.DataLibrary.Entities.Customer cust in context.Customer)
                 {
-                    if (cust.customerID.Equals(customerID))
+                    if (cust.CustomerId == customerID)
                     {
-                        return cust;
+                        return parser.ContextCustomerToLogicCustomer(cust);
                     }
                 }
                 return null;
@@ -71,19 +70,31 @@ namespace StoreApp.DataLibrary.Handlers
             {
                 StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = new StoreApp.BusinessLogic.Objects.Customer();
 
-                retrievedCustomer.customerAddress.street = customerInDB.Street;
-                retrievedCustomer.customerAddress.city = customerInDB.City;
-                retrievedCustomer.customerAddress.state = customerInDB.State;
-                retrievedCustomer.customerAddress.zip = customerInDB.Zip;
-
-                retrievedCustomer.customerID = customerInDB.CustomerId;
-                retrievedCustomer.firstName = customerInDB.FirstName;
-                retrievedCustomer.lastName = customerInDB.LastName;
-
                 listOfCustomerData.Add(retrievedCustomer);
             }
 
             return listOfCustomerData;
+        }
+
+        public BusinessLogic.Objects.Manager GetManagerDataFromID(int managerID, StoreApplicationContext context)
+        {
+
+            try
+            {
+                foreach (StoreApp.DataLibrary.Entities.Manager man in context.Manager)
+                {
+                    if (man.ManagerId == managerID)
+                    {
+                        return parser.ContextManagerToLogicManager(man);
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Operation failed: " + e.Message);
+                return null;
+            }
         }
     }
 }

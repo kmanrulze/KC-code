@@ -19,11 +19,17 @@ VALUES
 -- OrderID auto incremented, insert customerID, StoreNumber, BurgerAmount, FriesAmount, and SodaAmount
 INSERT INTO app.Orders
 VALUES
-    ((SELECT CustomerID FROM app.Customer WHERE FirstName = 'Kevin'),1,3,2,1),
+    (1,1,3,2,1),
     (1,1,1,2,0),
     (3,2,3,2,1),
     (3,2,0,0,1);
 
+INSERT INTO app.Manager
+VALUES
+	(1,'John', 'Johnston'),
+	(2, 'Man', 'Manston');
+
 SELECT * FROM app.Customer;
 SELECT * FROM app.Orders;
 SELECT * FROM app.Store;
+SELECT * FROM app.Manager;

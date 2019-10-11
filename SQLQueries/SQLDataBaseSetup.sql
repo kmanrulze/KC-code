@@ -33,8 +33,8 @@ CREATE TABLE app.Orders
 );
 CREATE TABLE app.Manager
 (
-    ManagerID INT PRIMARY KEY,
-    StoreNumber INT FOREIGN KEY REFERENCES app.Store(StoreNumber),
+    ManagerID INT IDENTITY(1,1) PRIMARY KEY,
+    StoreNumber INT UNIQUE FOREIGN KEY REFERENCES app.Store(StoreNumber),
     FirstName NVARCHAR(25),
     LastName NVARCHAR(25)
 );
