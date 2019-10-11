@@ -65,22 +65,25 @@ namespace StoreApp.Main
                     Console.WriteLine("Invalid input, please type one of the following options");
                 }
             }
+            //------------------------------------------------------------------------------------------------------------------
             whileBool = true;
-            if (secondaryInput == "1") //Returning Customer
+            while (whileBool == true)//Returning Customer or New Customer
             {
-                foreach (DataLibrary.Entities.Customer customer in context.Customer)
+                if (secondaryInput == "1") //Returning Customer
                 {
                     int customerID;
                     bool IDCheck = false;
 
-                    Console.WriteLine("Welcome back! What is your customer ID?");
-                    secondaryInput = Console.ReadLine();
-
                     while (IDCheck == false)
                     {
+                        Console.WriteLine("Welcome back! What is your customer ID?");
+                        secondaryInput = Console.ReadLine();
+
                         if (DBRHandler.CheckCustomerIDParsable(secondaryInput) == false)
                         {
                             Console.WriteLine("Incorrect customer ID. Please try again");
+                            break;
+
                         }
                         else //if the input only has numbers in it
                         {
@@ -89,72 +92,58 @@ namespace StoreApp.Main
                             try
                             {
                                 StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerData(customerID, context);
-                                Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + retrievedCustomer.lastName + "! What can we do for you today?");
+                                Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "! What can we do for you today?");
+                                break;
                             }
                             catch (Exception e)
                             {
                                 Console.WriteLine("Unable to perform the operation with ID " + customerID + ": " + e.Message);
                             }
-                            
+
                         }
                     }
-
-
-                }
-            }
-            else if (secondaryInput == "2")
-            {
-                StoreApp.BusinessLogic.Objects.Customer newCust = new StoreApp.BusinessLogic.Objects.Customer();
-
-                while (whileBool == true)
-                {
-
-                    if (newCust.CheckCustomerNotNull() == false)
-                    {
-                        if (newCust.firstName == null)
-                        {
-                            Console.WriteLine("What is your first name?");
-                            newCust.firstName = Console.ReadLine();
-                        }
-                        else if (newCust.lastName == null)
-                        {
-                            Console.WriteLine("What is your last name?");
-                            newCust.lastName = Console.ReadLine();
-                        }
-                        else if (newCust.customerAddress.CheckAddressNotNull() == false)
-                        {
-                            Console.WriteLine("Please enter an address. What is your street?");
-                            newCust.customerAddress.street = Console.ReadLine();
-
-                            Console.WriteLine("Please enter a city");
-                            newCust.customerAddress.city = Console.ReadLine();
-
-                            Console.WriteLine("Please enter a state");
-                            newCust.customerAddress.state = Console.ReadLine();
-
-                            Console.WriteLine("Please enter a zip");
-                            newCust.customerAddress.zip = Console.ReadLine();
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
-                        DBIHandler.AddNewCustomerData(newCust);
-                        break;
-                    }
-                }
-            }
-            else if(secondaryInput == "1")
-            {
-                Console.WriteLine("What is your customer ID?");
-                secondaryInput = Console.ReadLine();
-                if (secondaryInput == "1")
-                {
-
                 }
                 else if (secondaryInput == "2")
                 {
+                    StoreApp.BusinessLogic.Objects.Customer newCust = new StoreApp.BusinessLogic.Objects.Customer();
 
+                    while (whileBool == true)
+                    {
+
+                        if (newCust.CheckCustomerNotNull() == false)
+                        {
+                            if (newCust.firstName == null)
+                            {
+                                Console.WriteLine("What is your first name?");
+                                newCust.firstName = Console.ReadLine();
+                            }
+                            else if (newCust.lastName == null)
+                            {
+                                Console.WriteLine("What is your last name?");
+                                newCust.lastName = Console.ReadLine();
+                            }
+                            else if (newCust.customerAddress.CheckAddressNotNull() == false)
+                            {
+                                Console.WriteLine("Please enter an address. What is your street?");
+                                newCust.customerAddress.street = Console.ReadLine();
+
+                                Console.WriteLine("Please enter a city");
+                                newCust.customerAddress.city = Console.ReadLine();
+
+                                Console.WriteLine("Please enter a state");
+                                newCust.customerAddress.state = Console.ReadLine();
+
+                                Console.WriteLine("Please enter a zip");
+                                newCust.customerAddress.zip = Console.ReadLine();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
+                            DBIHandler.AddNewCustomerData(newCust);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -183,7 +172,8 @@ namespace StoreApp.Main
             {
                 if (input == null)
                 {
-                    Console.WriteLine("Invalid input. Insert correct input option");
+                    Console.WriteLine("Invalid input. Insert correct input option\n");
+                    return null;
                 }
                 else
                 {
@@ -191,20 +181,21 @@ namespace StoreApp.Main
                     {
                         if (thing < '0' || thing > '9')
                         {
-                            Console.WriteLine("Invalid input. Insert correct input option");
+                            Console.WriteLine("Invalid input. Only insert a number option\n");
+                            return null;
                         }
                         else
                         {
                             inputInt = Int32.Parse(input);
                             if (inputInt > maxNum)
                             {
-                                Console.WriteLine("Invalid input. Insert correct input option");
+                                Console.WriteLine("Invalid input. Insert correct number from the list above\n");
+                                return null;
                             }
                             else
                             {
                                 return input;
                             }
-                            return input;
                         }
                     }
                 }
