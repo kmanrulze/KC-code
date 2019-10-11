@@ -122,7 +122,7 @@ namespace StoreApp.Tests
             testLocation.storeInventory = testVariable.GetInventory();
             testLocation.storeNumber = storeNum;
 
-            if (storeNum <= 0)
+            if (storeNum == 0 || storeNum <= 0)
             {
                 Assert.False(testLocation.CheckLocationNotNull());
             }
@@ -134,7 +134,7 @@ namespace StoreApp.Tests
         }
         [Theory]
         [InlineData(60, 12)]
-        [InlineData(0, null)]
+        [InlineData(0, -2)]
         [InlineData(-1, 34)]
         public void OrderDataCheck(double time, int testID)
         {

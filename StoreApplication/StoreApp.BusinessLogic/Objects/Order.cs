@@ -22,7 +22,7 @@ namespace StoreApp.BusinessLogic.Objects
             if (this.storeLocation.CheckLocationNotNull() == true &&
                 this.ordererAddress.CheckAddressNotNull() ==  true &&
                 this.customer.CheckCustomerNotNull() == true &&
-                this.customerProductList.CheckProductCountNotInvalid() == true && orderTime >= 0 && this.orderID != null)
+                this.customerProductList.CheckProductCountNotInvalid() == true && orderTime >= 0 && this.orderID > 0)
             {
                 return true;
             }

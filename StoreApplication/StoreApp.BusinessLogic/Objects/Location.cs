@@ -56,7 +56,7 @@ namespace StoreApp.BusinessLogic.Objects
         }
         public bool CheckLocationNotNull()
         {
-            if (this.storeInventory.CheckInventoryNotNull() == true && this.storeNumber != null && this.address.CheckAddressNotNull() == true)
+            if (this.storeInventory.CheckInventoryNotNull() == true && this.storeNumber >0 && this.address.CheckAddressNotNull() == true)
             {
                 return true;
             }
