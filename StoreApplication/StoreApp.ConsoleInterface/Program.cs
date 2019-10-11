@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using System.Linq;
 using StoreApp.BusinessLogic;
-using StoreApp.DataLibrary;
 using StoreApp.DataLibrary.Handlers;
 using System.Collections.Generic;
 using StoreApp.DataLibrary.Entities;
@@ -31,6 +30,7 @@ namespace StoreApp.Main
             //6 - customer options menu
             //7 - manager store view menu
             //8 - order menu
+            //9 - Select store ID
 
             int menuSwitch = 1;
             bool whileInMenu = true;
@@ -49,6 +49,10 @@ namespace StoreApp.Main
                 string managerIDInput;
                 int managerID;
                 int customerID;
+                int storeNum;
+                StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = new BusinessLogic.Objects.Customer();
+                StoreApp.BusinessLogic.Objects.Store retrievedStore = new BusinessLogic.Objects.Store();
+
                 switch (menuSwitch)
                 {
                     case 1: //Start menu
@@ -158,7 +162,7 @@ namespace StoreApp.Main
 
                                 try
                                 {
-                                    StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerDataFromID(customerID, context);
+                                    retrievedCustomer = DBRHandler.GetCustomerDataFromID(customerID, context);
                                     Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "! What can we do for you today?");
                                     menuSwitch = 6;
                                     whileInSecondaryMenu = false;
@@ -228,26 +232,143 @@ namespace StoreApp.Main
                     case 6: //customer options menu
                         while(whileInSecondaryMenu)
                         {
+                            Console.WriteLine("Customer Options\n[1] Place order\n[2] View profile information\n[3] View order history\n[4] Exit to start menu");
+                            inputOne = CheckAndReturnCustomerOptionChosen(Console.ReadLine(), 4);
 
+                            if (inputOne == "1")
+                            {
+
+                            }
+                            else if (inputOne == "2")
+                            {
+
+                            }
+                            else if (inputOne == "3")
+                            {
+
+                            }
+                            else if (inputOne == "4")
+                            {
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input, please type one of the following options");
+                            }
                         }
                         whileInSecondaryMenu = true; //resets menu true to go into next menu
                         break;
+                    case 7: //manager store view menu
+                        whileInSecondaryMenu = true;
+                        break;
+                    case 8: //Order menu
+                        bool decided = false;
+                        int burger;
+                        int fries;
+                        int soda;
+                        while (whileInSecondaryMenu)
+                        {
+                            while (decided == false)
+                            {
+                                try
+                                {
+                                    Console.WriteLine("How many burgers would you like?");
+                                    string input = Console.ReadLine();
+                                    burger = Int32.Parse(input);
+
+                                    Console.WriteLine("How many fries would you like?");
+                                    input = Console.ReadLine();
+                                    fries = Int32.Parse(input);
+
+                                    Console.WriteLine("How many sodas would you like?");
+                                    input = Console.ReadLine();
+                                    soda = Int32.Parse(input);
+
+                                    Console.WriteLine("You have an order of\nBurgers: " + burger + "\nFries: " + fries + "\nSodas: " + soda + "\nIs this alright?" +
+                                        "\n[1] Yes\n[2] No");
+                                    inputOne = CheckAndReturnCustomerOptionChosen(Console.ReadLine(), 2);
+
+                                    if (inputOne == "1")
+                                    {
+                                        decided = true;
+                                        Console.WriteLine("Please wait while your order is created. . .");
+
+                                        StoreApp.BusinessLogic.Objects.Order inputOrder = new BusinessLogic.Objects.Order();
+                                        //uses input handler to input order into DB
+                                        inputOrder.customer = retrievedCustomer;
+                                        inputOrder.customerProductList.burgerAmount = burger;
+                                        inputOrder.customerProductList.friesAmount = fries;
+                                        inputOrder.customerProductList.sodaAmount = soda;
+                                        inputOrder.ordererAddress = retrievedCustomer.customerAddress;
+                                        inputOrder.CalculateOrderTime(inputOrder.customerProductList);
+                                        inputOrder.storeLocation = retrievedStore;
+                                        
+
+                                        try
+                                        {
+                                            DBIHandler.InputOrder(inputOrder, context);
+                                            menuSwitch = 6;
+                                            whileInSecondaryMenu = false;
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Console.WriteLine("Unable to perform the operation: " + e.Message + "\n");
+                                        }
+                                    }
+                                    else if (inputOne == "2")
+                                    {
+                                        Console.WriteLine("Please type in your order once more with the desired values.");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid input, please type one of the following options.");
+                                    }
+
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message + "\nPlease enter correct numerical values for your order.");
+                                }   
+                            }
+
+                        }
+                        whileInSecondaryMenu = true;
+                        break;
+                    case 9: //Select order store menu
+                        while (whileInSecondaryMenu)
+                        {
+                            Console.WriteLine("What store number are you ordering from?");
+                            inputOne = Console.ReadLine();
+
+                            if (DBRHandler.CheckIDParsable(inputOne) == false)
+                            {
+                                Console.WriteLine("Invalid characters. Please try again with a numerical value");
+                                break;
+                            }
+                            else //if the input only has numbers in it
+                            {
+                                storeNum = Int32.Parse(inputTwo);
+
+                                try
+                                {
+                                    retrievedStore = DBRHandler.GetStoreFromStoreNumber(storeNum, context);
+                                    Console.WriteLine();
+                                    menuSwitch = 8;
+                                    whileInSecondaryMenu = false;
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine("Error finding store with input ID: " + e.Message + "\n");
+                                }
+                            }
+                        }
+                        whileInSecondaryMenu = true;
+                        break;
+                    default:
+                            Console.WriteLine("Default case");
+                            break;
                 }
             }
-        }
-        public static void PlaceOrder()
-        {
-            Console.WriteLine("How many burgers would you like? : ");
-            string input = Console.ReadLine();
-            int burger = Int32.Parse(input);
-
-            Console.WriteLine("How many fries would you like? : ");
-            input = Console.ReadLine();
-            int fries = Int32.Parse(input);
-
-            Console.WriteLine("How many sodas would you like? : ");
-            input = Console.ReadLine();
-            int soda = Int32.Parse(input);
         }
 
         //Used for checking menue options are not null or invalid given the input, and the max number of options on a given menue

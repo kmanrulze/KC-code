@@ -1,4 +1,5 @@
-﻿using StoreApp.BusinessLogic.Objects;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreApp.BusinessLogic.Objects;
 using StoreApp.DataLibrary.ConnectionData;
 using StoreApp.DataLibrary.Entities;
 using System;
@@ -9,9 +10,17 @@ namespace StoreApp.DataLibrary.Handlers
 {
     public class InputDatabaseHandler
     {
-        public void InputOrder(Order order)
+        private ParseHandler parser = new ParseHandler();
+        public void InputOrder(Order BLorder, StoreApplicationContext context)
         {
-
+            try
+            {
+                context.Orders.Add(parser.LogicOrderToContextOrder(BLorder));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong inputting order: " + e.Message);
+            }
         }
         public void AddNewCustomerData(StoreApp.BusinessLogic.Objects.Customer inputedCustomer, StoreApplicationContext context)
         {

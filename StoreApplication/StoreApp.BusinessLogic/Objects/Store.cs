@@ -5,12 +5,12 @@ using System.Text;
 
 namespace StoreApp.BusinessLogic.Objects
 {
-    public class Location
+    public class Store
     {
         public Address address = new Address();
         public Inventory storeInventory = new Inventory();
         public int storeNumber { get; set; }
-        public bool CheckInventory(Location locationBeingChecked, Order order)
+        public bool CheckInventory(Store locationBeingChecked, Order order)
         {
             //If the ordered amount doesnt exceed any of the three things the store has
             if (locationBeingChecked.storeInventory.productData.burgerAmount >= order.customerProductList.burgerAmount && 
@@ -40,7 +40,7 @@ namespace StoreApp.BusinessLogic.Objects
                 return false;
             }
         }
-        public void UpdateInventory(Location locationToBeUpdated, Order placedOrder)
+        public void UpdateInventory(Store locationToBeUpdated, Order placedOrder)
         {
             locationToBeUpdated.storeInventory.productData.burgerAmount = locationToBeUpdated.storeInventory.productData.burgerAmount - placedOrder.customerProductList.burgerAmount;
             locationToBeUpdated.storeInventory.productData.friesAmount = locationToBeUpdated.storeInventory.productData.friesAmount - placedOrder.customerProductList.friesAmount;

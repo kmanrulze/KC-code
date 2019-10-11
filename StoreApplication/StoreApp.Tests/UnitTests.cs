@@ -117,7 +117,7 @@ namespace StoreApp.Tests
         [InlineData(-1)]
         public void LocationDataCheck(int storeNum)
         {
-            Location testLocation = new Location();
+            Store testLocation = new Store();
             testLocation.address = testVariable.GetAddress();
             testLocation.storeInventory = testVariable.GetInventory();
             testLocation.storeNumber = storeNum;

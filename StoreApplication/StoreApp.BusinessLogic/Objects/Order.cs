@@ -6,7 +6,7 @@ namespace StoreApp.BusinessLogic.Objects
 {
     public class Order
     {
-        public Location storeLocation = new Location();
+        public Store storeLocation = new Store();
         public Address ordererAddress = new Address();
         public Customer customer = new Customer();
         public Product customerProductList = new Product();
@@ -43,5 +43,27 @@ namespace StoreApp.BusinessLogic.Objects
             }
         }
 
+        public void CalculateOrderTime(Product customerProductList)
+        {
+
+            this.orderTime = 5;
+            Product tempProd = customerProductList;
+
+            while (tempProd.burgerAmount > 0)
+            {
+                this.orderTime += 3;
+                tempProd.burgerAmount -= 1;
+            }
+            while (tempProd.friesAmount > 0)
+            {
+                this.orderTime += 2;
+                tempProd.friesAmount -= 1;
+            }
+            while (tempProd.sodaAmount > 0)
+            {
+                this.orderTime += 1;
+                tempProd.sodaAmount -= 1;
+            }
+        }
     }
 }

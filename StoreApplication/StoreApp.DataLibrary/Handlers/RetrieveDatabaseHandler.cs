@@ -96,5 +96,25 @@ namespace StoreApp.DataLibrary.Handlers
                 return null;
             }
         }
+
+        public BusinessLogic.Objects.Store GetStoreFromStoreNumber(int storeNum, StoreApplicationContext context)
+        {
+            try
+            {
+                foreach (StoreApp.DataLibrary.Entities.Store storeLoc in context.Store)
+                {
+                    if (storeLoc.StoreNumber == storeNum)
+                    {
+                        return parser.ContextStoreToLogicStore(storeLoc);
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Operation failed: " + e.Message);
+                return null;
+            }
+        }
     }
 }

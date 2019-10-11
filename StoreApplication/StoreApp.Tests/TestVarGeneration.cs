@@ -30,7 +30,7 @@ namespace StoreApp.Tests
                 sodaAmount = 1
             }
         };
-        public static Location testLocation = new Location()
+        public static Store testLocation = new Store()
         {
             address = testAddress,
             storeInventory = testInventory,
@@ -65,7 +65,7 @@ namespace StoreApp.Tests
         {
             return testInventory;
         }
-        public Location GetLocation()
+        public Store GetLocation()
         {
             return testLocation;
         }
