@@ -67,12 +67,13 @@ namespace StoreApp.Main
             }
             //------------------------------------------------------------------------------------------------------------------
             whileBool = true;
+            bool IDCheck = false;
             while (whileBool == true)//Returning Customer or New Customer
             {
                 if (secondaryInput == "1") //Returning Customer
                 {
                     int customerID;
-                    bool IDCheck = false;
+                    
 
                     while (IDCheck == false)
                     {
@@ -93,7 +94,7 @@ namespace StoreApp.Main
                             {
                                 StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerData(customerID, context);
                                 Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "! What can we do for you today?");
-                                break;
+                                IDCheck = true;
                             }
                             catch (Exception e)
                             {
@@ -103,7 +104,7 @@ namespace StoreApp.Main
                         }
                     }
                 }
-                else if (secondaryInput == "2")
+                else if (secondaryInput == "2") // New Customer
                 {
                     StoreApp.BusinessLogic.Objects.Customer newCust = new StoreApp.BusinessLogic.Objects.Customer();
 
