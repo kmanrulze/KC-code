@@ -2,7 +2,6 @@
 using StoreApp.DataLibrary.Entities;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace StoreApp.DataLibrary.Handlers
@@ -28,35 +27,23 @@ namespace StoreApp.DataLibrary.Handlers
             string pulledID = "";
             return pulledID;
         }
-        public StoreApp.BusinessLogic.Objects.Customer GetCustomerData(int customerID, StoreApplicationContext context)
+        public StoreApp.BusinessLogic.Objects.Customer GetCustomerDataFromID(int customerID, StoreApplicationContext context)
         {
             //Some code to retrieve a list of customer data
-            StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = new StoreApp.BusinessLogic.Objects.Customer();
+            List<StoreApp.BusinessLogic.Objects.Customer> retrievedCustomerList = new List<StoreApp.BusinessLogic.Objects.Customer>();
+
+            retrievedCustomerList = GetAllCustomerData(context);
 
             try
             {
-                foreach (StoreApp.DataLibrary.Entities.Customer customerInDB in context.Customer)
+                foreach (StoreApp.BusinessLogic.Objects.Customer cust in retrievedCustomerList)
                 {
-                    if (customerInDB.CustomerId == customerID)
+                    if (cust.customerID.Equals(customerID))
                     {
-                        retrievedCustomer.customerAddress.street = customerInDB.Street;
-                        retrievedCustomer.customerAddress.city = customerInDB.City;
-                        retrievedCustomer.customerAddress.state = customerInDB.State;
-                        retrievedCustomer.customerAddress.zip = customerInDB.Zip;
-
-                        retrievedCustomer.customerID = customerInDB.CustomerId;
-                        retrievedCustomer.firstName = customerInDB.FirstName;
-                        retrievedCustomer.lastName = customerInDB.LastName;
-
-                        return retrievedCustomer;
-                    }
-                    else
-                    {
-                        Console.WriteLine("No records of customer with Customer ID of " + customerID);
-                        return null;
+                        return cust;
                     }
                 }
-                return retrievedCustomer;
+                return null;
             }
             catch (Exception e)
             {
@@ -74,10 +61,11 @@ namespace StoreApp.DataLibrary.Handlers
         {
             return Secret.connectionString;
         }
+
+        //Returns list of customers using the BusinessLogic framework to the method that calls it, given a context
         public List<StoreApp.BusinessLogic.Objects.Customer> GetAllCustomerData(StoreApplicationContext context)
         {
             List<StoreApp.BusinessLogic.Objects.Customer> listOfCustomerData = new List<StoreApp.BusinessLogic.Objects.Customer>();
-
 
             foreach (StoreApp.DataLibrary.Entities.Customer customerInDB in context.Customer)
             {

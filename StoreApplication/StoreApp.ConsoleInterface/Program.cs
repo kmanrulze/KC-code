@@ -102,7 +102,7 @@ namespace StoreApp.Main
 
                             try
                             {
-                                StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerData(customerID, context);
+                                StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerDataFromID(customerID, context);
                                 Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "! What can we do for you today?");
                                 check = false;
                                 whileBool = false;

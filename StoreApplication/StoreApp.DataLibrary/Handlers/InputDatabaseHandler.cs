@@ -19,7 +19,8 @@ namespace StoreApp.DataLibrary.Handlers
 
             try
             {
-
+                //SaveChanges is needed to persist the data
+                //context.SaveChanges();
             }
             catch (Exception e)
             {
