@@ -1,4 +1,4 @@
-﻿namespace StoreApplication
+﻿namespace StoreApp.BusinessLogic.Objects
 {
     public class Address
     {

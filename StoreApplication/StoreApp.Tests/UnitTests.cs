@@ -1,4 +1,4 @@
-using StoreApplication;
+using StoreApp.BusinessLogic.Objects;
 using System;
 using System.Collections.Generic;
 using Xunit;

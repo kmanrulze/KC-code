@@ -1,10 +1,9 @@
 ﻿using StoreApp.DataLibrary.Entities;
-using StoreApplication;
 using System;
 using System.IO;
 using System.Linq;
 
-namespace StoreApplication
+namespace StoreApp.DataLibrary.Handlers
 {
     public class RetrieveDatabaseHandler
     {
@@ -28,10 +27,10 @@ namespace StoreApplication
             string pulledID = "";
             return pulledID;
         }
-        public Customer GetCustomerData(int customerID, StoreApplicationContext context)
+        public StoreApp.BusinessLogic.Objects.Customer GetCustomerData(int customerID, StoreApplicationContext context)
         {
             //Some code to retrieve a list of customer data
-            Customer retrievedCustomer = new Customer();
+            StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = new StoreApp.BusinessLogic.Objects.Customer();
 
             try
             {

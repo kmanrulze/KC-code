@@ -1,10 +1,10 @@
-﻿using StoreApp.DataLibrary.Entities;
-using StoreApplication;
+﻿using StoreApp.BusinessLogic.Objects;
+using StoreApp.DataLibrary.Entities;
 using System;
 using System.IO;
 using System.Linq;
 
-namespace StoreApplication
+namespace StoreApp.DataLibrary.Handlers
 {
     public class InputDatabaseHandler
     {
@@ -13,7 +13,7 @@ namespace StoreApplication
         {
 
         }
-        public void AddNewCustomerData(Customer cust)
+        public void AddNewCustomerData(StoreApp.BusinessLogic.Objects.Customer cust)
         {
             //Some code to input customer data to the DB
         }

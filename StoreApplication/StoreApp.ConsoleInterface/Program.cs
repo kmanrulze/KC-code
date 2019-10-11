@@ -1,9 +1,11 @@
 ﻿using System;
 using StoreApp.DataLibrary.Entities;
 using Microsoft.EntityFrameworkCore;
-using StoreApplication;
 using System.Text.RegularExpressions;
 using System.Linq;
+using StoreApp.BusinessLogic;
+using StoreApp.DataLibrary;
+using StoreApp.DataLibrary.Handlers;
 
 namespace StoreApp.Main
 {
@@ -81,7 +83,7 @@ namespace StoreApp.Main
                         {
                             customerID = Int32.Parse(secondaryInput);
 
-                            DBRHandler.GetCustomerData(customerID, context);
+                            StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerData(customerID, context);
 
                         }
                     }
@@ -91,7 +93,7 @@ namespace StoreApp.Main
             }
             else if (secondaryInput == "2")
             {
-                StoreApplication.Customer newCust = new StoreApplication.Customer();
+                StoreApp.BusinessLogic.Objects.Customer newCust = new StoreApp.BusinessLogic.Objects.Customer();
 
                 while (whileBool == true)
                 {

@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using StoreApplication;
 
-namespace StoreApplication
+namespace StoreApp.BusinessLogic.Objects
 {
     public class Customer
     {

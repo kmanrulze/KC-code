@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StoreApplication
+
+namespace StoreApp.BusinessLogic.Objects
 {
     public class Location
     {

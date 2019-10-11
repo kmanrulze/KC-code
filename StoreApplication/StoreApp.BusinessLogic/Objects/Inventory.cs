@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace StoreApplication
+
+namespace StoreApp.BusinessLogic.Objects
 {
     public class Inventory
     {
