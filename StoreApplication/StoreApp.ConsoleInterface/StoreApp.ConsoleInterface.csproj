@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StoreApp.BusinessLogic\StoreApp.BusinessLogic.csproj" />
+    <ProjectReference Include="..\StoreApp.DataLibrary\StoreApp.DataLibrary.csproj" />
   </ItemGroup>
 
 </Project>
