@@ -1,6 +1,7 @@
 ﻿using StoreApp.DataLibrary.ConnectionData;
 using StoreApp.DataLibrary.Entities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -51,7 +52,7 @@ namespace StoreApp.DataLibrary.Handlers
                     }
                     else
                     {
-                        Console.WriteLine("No records of customer with ID of " + customerID);
+                        Console.WriteLine("No records of customer with Customer ID of " + customerID);
                         return null;
                     }
                 }
@@ -72,6 +73,29 @@ namespace StoreApp.DataLibrary.Handlers
         public string GetConnectionString()
         {
             return Secret.connectionString;
+        }
+        public List<StoreApp.BusinessLogic.Objects.Customer> GetAllCustomerData(StoreApplicationContext context)
+        {
+            List<StoreApp.BusinessLogic.Objects.Customer> listOfCustomerData = new List<StoreApp.BusinessLogic.Objects.Customer>();
+
+
+            foreach (StoreApp.DataLibrary.Entities.Customer customerInDB in context.Customer)
+            {
+                StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = new StoreApp.BusinessLogic.Objects.Customer();
+
+                retrievedCustomer.customerAddress.street = customerInDB.Street;
+                retrievedCustomer.customerAddress.city = customerInDB.City;
+                retrievedCustomer.customerAddress.state = customerInDB.State;
+                retrievedCustomer.customerAddress.zip = customerInDB.Zip;
+
+                retrievedCustomer.customerID = customerInDB.CustomerId;
+                retrievedCustomer.firstName = customerInDB.FirstName;
+                retrievedCustomer.lastName = customerInDB.LastName;
+
+                listOfCustomerData.Add(retrievedCustomer);
+            }
+
+            return listOfCustomerData;
         }
     }
 }

@@ -13,9 +13,18 @@ namespace StoreApp.DataLibrary.Handlers
         {
 
         }
-        public void AddNewCustomerData(StoreApp.BusinessLogic.Objects.Customer cust)
+        public void AddNewCustomerData(StoreApp.BusinessLogic.Objects.Customer inputedCustomer, StoreApplicationContext context)
         {
             //Some code to input customer data to the DB
+
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to put the customer into the database.");
+            }
         }
         public string GetConnectionString()
         {

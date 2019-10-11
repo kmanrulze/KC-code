@@ -6,6 +6,7 @@ using System.Linq;
 using StoreApp.BusinessLogic;
 using StoreApp.DataLibrary;
 using StoreApp.DataLibrary.Handlers;
+using System.Collections.Generic;
 
 namespace StoreApp.Main
 {
@@ -46,6 +47,15 @@ namespace StoreApp.Main
                     //Can display current stocks and things for locations and other things stored
                     //Managment can stock their stores and check and edit customer data
 
+#warning Testing function for now to make sure the thing is pulling properly from the DB for now. Delete once not needed.
+                    List<StoreApp.BusinessLogic.Objects.Customer> customerList = new List<StoreApp.BusinessLogic.Objects.Customer>();
+                    customerList = DBRHandler.GetAllCustomerData(context);
+
+                    foreach (StoreApp.BusinessLogic.Objects.Customer cust in customerList)
+                    {
+                        Console.WriteLine("CustomerID: "+ cust.customerID + "\n" + "Customer Name: " + cust.firstName + " "+ cust.lastName + "\n\n");
+                    }
+
                     Console.WriteLine("What is your manager ID?");
                     managerIDInput = Console.ReadLine();
 
@@ -67,7 +77,7 @@ namespace StoreApp.Main
             }
             //------------------------------------------------------------------------------------------------------------------
             whileBool = true;
-            bool IDCheck = false;
+            bool check = true;
             while (whileBool == true)//Returning Customer or New Customer
             {
                 if (secondaryInput == "1") //Returning Customer
@@ -75,7 +85,7 @@ namespace StoreApp.Main
                     int customerID;
                     
 
-                    while (IDCheck == false)
+                    while (check == true)
                     {
                         Console.WriteLine("Welcome back! What is your customer ID?");
                         secondaryInput = Console.ReadLine();
@@ -94,13 +104,17 @@ namespace StoreApp.Main
                             {
                                 StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerData(customerID, context);
                                 Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "! What can we do for you today?");
-                                IDCheck = true;
+                                check = false;
+                                whileBool = false;
+                            }
+                            catch (NullReferenceException e)
+                            {
+                                Console.WriteLine("Unable to perform the operation due to null value returned with Customer ID " + customerID + ": " + e.Message + "\n");
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine("Unable to perform the operation with ID " + customerID + ": " + e.Message);
+                                Console.WriteLine("Unknown exeption " + e);
                             }
-
                         }
                     }
                 }
@@ -108,7 +122,7 @@ namespace StoreApp.Main
                 {
                     StoreApp.BusinessLogic.Objects.Customer newCust = new StoreApp.BusinessLogic.Objects.Customer();
 
-                    while (whileBool == true)
+                    while (check == true)
                     {
 
                         if (newCust.CheckCustomerNotNull() == false)
@@ -140,13 +154,24 @@ namespace StoreApp.Main
                         }
                         else
                         {
-                            Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
-                            DBIHandler.AddNewCustomerData(newCust);
-                            break;
+                            try
+                            {
+                                Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
+                                DBIHandler.AddNewCustomerData(newCust, context);
+                                break;
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Unknown exception thrown: " + e);
+                            }
+
                         }
                     }
                 }
             }
+            //Bracket end for while loop 
+
+
         }
         public static void PlaceOrder()
         {
