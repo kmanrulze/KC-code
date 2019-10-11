@@ -83,8 +83,16 @@ namespace StoreApp.Main
                         {
                             customerID = Int32.Parse(secondaryInput);
 
-                            StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerData(customerID, context);
-
+                            try
+                            {
+                                StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerData(customerID, context);
+                                Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + retrievedCustomer.lastName + "! What can we do for you today?");
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Unable to perform the operation with ID " + customerID + ": " + e.Message);
+                            }
+                            
                         }
                     }
 
