@@ -7,6 +7,7 @@ using StoreApp.BusinessLogic;
 using StoreApp.DataLibrary;
 using StoreApp.DataLibrary.Handlers;
 using System.Collections.Generic;
+using StoreApp.DataLibrary.Entities;
 
 namespace StoreApp.Main
 {
@@ -17,12 +18,23 @@ namespace StoreApp.Main
         static void Main(string[] args)
         {
 
-            Console.WriteLine("Hello!");
+            Console.WriteLine("Hello! Welcome to the store application!");
 
-            string initialInput = "0";
-            string secondaryInput = "0";
-            bool whileBool = true;
-            bool check = true;
+            string inputOne = "0";
+            string inputTwo = "0";
+
+            //1 - start menu
+            //2 - manager menu
+            //3 - customer menu
+            //4 - return customer menu
+            //5 - new customer menu
+            //6 - customer options menu
+            //7 - manager store view menu
+            //8 - order menu
+
+            int menuSwitch = 1;
+            bool whileInMenu = true;
+            bool whileInSecondaryMenu = true;
 
             //DB initialization
 
@@ -32,167 +44,196 @@ namespace StoreApp.Main
                 .Options;
 
             using var context = new StoreApplicationContext(options);
-
-            while (whileBool == true)
+            while (whileInMenu)
             {
-                Console.WriteLine("Are you using this console as a manager or a customer?\n[1] Manager\n[2] Customer\n");
-                initialInput = CheckAndReturnCustomerOptionChosen(Console.ReadLine(), 2);
-
-                if (initialInput == "1") //Manager
+                string managerIDInput;
+                int managerID;
+                int customerID;
+                switch (menuSwitch)
                 {
-                    string managerIDInput;
-                    int managerID;
-                    //code for manager
-                    //Can display current stocks and things for locations and other things stored
-                    //Managment can stock their stores and check and edit customer data
-
-
-                    while (check == true)
-                    {
-                        Console.WriteLine("What is your manager ID?");
-                        managerIDInput = Console.ReadLine();
-
-                        if (DBRHandler.CheckIDParsable(managerIDInput) == false)
+                    case 1: //Start menu
+                        while (whileInSecondaryMenu)
                         {
-                            Console.WriteLine("Invalid characters. Please try again with a numerical value");
-                            break;
+                            Console.WriteLine("Are you using this console as a manager or a customer?\n[1] Manager\n[2] Customer\n");
+                            inputOne = CheckAndReturnCustomerOptionChosen(Console.ReadLine(), 2);
 
-                        }
-                        else //if the input only has numbers in it
-                        {
-                            managerID = Int32.Parse(managerIDInput);
+                            if (inputOne == "1") //Manager
+                            {
 
-                            try
-                            {
-                                StoreApp.BusinessLogic.Objects.Manager retrievedManager = DBRHandler.GetManagerDataFromID(managerID, context);
-                                Console.WriteLine("Welcome back, " + retrievedManager.firstName + " " + retrievedManager.lastName + "! What can we do for you today?");
-                                check = false;
-                                whileBool = false;
+                                //code for manager
+                                //Can display current stocks and things for locations and other things stored
+                                //Managment can stock their stores and check and edit customer data
+
+                                whileInSecondaryMenu = false;
+                                menuSwitch = 2;
                             }
-                            catch (NullReferenceException e)
+                            else if (inputOne == "2") //Customer
                             {
-                                Console.WriteLine("Unable to perform the operation due to null value returned with Customer ID " + managerID + ": " + e.Message + "\n");
+                                //code for customer
+                                //Will run code to make new customer, retrieve old customer data, and place orders
+                                menuSwitch = 3;
+                                whileInSecondaryMenu = false;
                             }
-                            catch (Exception e)
+                            else //Invalid input
                             {
-                                Console.WriteLine("Unknown exeption " + e);
+                                Console.WriteLine("Invalid input, please type one of the following options");
                             }
                         }
-                    }
-
-                    //Some code to compare manager ID to the table and welcome manager options
-
-                }
-                else if (initialInput == "2") //Customer
-                {
-                    //code for customer
-                    //Will run code to make new customer, retrieve old customer data, and place orders
-                    Console.WriteLine("Welcome! Are you a returning customer?\n[1] Yes\n[2] No\n");
-                    secondaryInput = CheckAndReturnCustomerOptionChosen(Console.ReadLine(), 2);
-                    whileBool = false;
-                }
-                else //Invalid input
-                {
-                    Console.WriteLine("Invalid input, please type one of the following options");
-                }
-            }
-            //------------------------------------------------------------------------------------------------------------------
-            whileBool = true;
-            check = true;
-            while (whileBool == true)//Returning Customer or New Customer
-            {
-                if (secondaryInput == "1") //Returning Customer
-                {
-                    int customerID;
-                    
-
-                    while (check == true)
-                    {
-                        Console.WriteLine("Welcome back! What is your customer ID?");
-                        secondaryInput = Console.ReadLine();
-
-                        if (DBRHandler.CheckIDParsable(secondaryInput) == false)
+                        whileInSecondaryMenu = true; //resets menu true to go into next menu
+                        break;
+                    case 2: // manager menu
+                        //Some code to compare manager ID to the table and welcome manager options
+                        while (whileInSecondaryMenu)
                         {
-                            Console.WriteLine("Invalid characters. Please try again with a numerical value");
-                            break;
+                            Console.WriteLine("What is your manager ID?");
+                            managerIDInput = Console.ReadLine();
 
-                        }
-                        else //if the input only has numbers in it
-                        {
-                            customerID = Int32.Parse(secondaryInput);
-
-                            try
+                            if (DBRHandler.CheckIDParsable(managerIDInput) == false)
                             {
-                                StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerDataFromID(customerID, context);
-                                Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "! What can we do for you today?");
-                                check = false;
-                                whileBool = false;
-                            }
-                            catch (NullReferenceException e)
-                            {
-                                Console.WriteLine("Unable to perform the operation due to null value returned with Customer ID " + customerID + ": " + e.Message + "\n");
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("Unknown exeption " + e);
-                            }
-                        }
-                    }
-                }
-                else if (secondaryInput == "2") // New Customer
-                {
-                    StoreApp.BusinessLogic.Objects.Customer newCust = new StoreApp.BusinessLogic.Objects.Customer();
-
-                    while (check == true)
-                    {
-
-                        if (newCust.CheckCustomerNotNull() == false)
-                        {
-                            if (newCust.firstName == null)
-                            {
-                                Console.WriteLine("What is your first name?");
-                                newCust.firstName = Console.ReadLine();
-                            }
-                            else if (newCust.lastName == null)
-                            {
-                                Console.WriteLine("What is your last name?");
-                                newCust.lastName = Console.ReadLine();
-                            }
-                            else if (newCust.customerAddress.CheckAddressNotNull() == false)
-                            {
-                                Console.WriteLine("Please enter an address. What is your street?");
-                                newCust.customerAddress.street = Console.ReadLine();
-
-                                Console.WriteLine("Please enter a city");
-                                newCust.customerAddress.city = Console.ReadLine();
-
-                                Console.WriteLine("Please enter a state");
-                                newCust.customerAddress.state = Console.ReadLine();
-
-                                Console.WriteLine("Please enter a zip");
-                                newCust.customerAddress.zip = Console.ReadLine();
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
-                                DBIHandler.AddNewCustomerData(newCust, context);
+                                Console.WriteLine("Invalid characters. Please try again with a numerical value");
                                 break;
+
                             }
-                            catch (Exception e)
+                            else //if the input only has numbers in it
                             {
-                                Console.WriteLine("Unknown exception thrown: " + e);
+                                managerID = Int32.Parse(managerIDInput);
+
+                                try
+                                {
+                                    StoreApp.BusinessLogic.Objects.Manager retrievedManager = DBRHandler.GetManagerDataFromID(managerID, context);
+                                    Console.WriteLine("Welcome back, " + retrievedManager.firstName + " " + retrievedManager.lastName + "! What can we do for you today?");
+                                    whileInSecondaryMenu = false;
+                                    //set case to go to the manager options menu on 7
+                                }
+                                catch (NullReferenceException e)
+                                {
+                                    Console.WriteLine("Unable to perform the operation due to null value returned with Customer ID " + managerID + ": " + e.Message + "\n");
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine("Unknown exeption " + e);
+                                }
                             }
+                        }
+                        whileInSecondaryMenu = true; //resets menu true to go into next menu
+                        break;
+                    case 3: //general customer menu
+                        while (whileInSecondaryMenu)
+                        {
+                            Console.WriteLine("Are you a new customer or a return customer?\n[1] New Customer\n[2] Return Customer\n");
+                            inputOne = CheckAndReturnCustomerOptionChosen(Console.ReadLine(), 2);
+
+                            if (inputOne == "1")
+                            {
+                                whileInSecondaryMenu = false;
+                                menuSwitch = 5;
+                            }
+                            else if (inputOne == "2")
+                            {
+                                whileInSecondaryMenu = false;
+                                menuSwitch = 4;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input, please type one of the following options");
+                            }
+                        }
+                        whileInSecondaryMenu = true;
+                        break;
+                    case 4: //return customer
+                        while (whileInSecondaryMenu)
+                        {
+                            Console.WriteLine("Welcome back! What is your customer ID?");
+                            inputTwo = Console.ReadLine();
+
+                            if (DBRHandler.CheckIDParsable(inputTwo) == false)
+                            {
+                                Console.WriteLine("Invalid characters. Please try again with a numerical value");
+                                break;
+
+                            }
+                            else //if the input only has numbers in it
+                            {
+                                customerID = Int32.Parse(inputTwo);
+
+                                try
+                                {
+                                    StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = DBRHandler.GetCustomerDataFromID(customerID, context);
+                                    Console.WriteLine("Welcome back, " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "! What can we do for you today?");
+                                    menuSwitch = 6;
+                                    whileInSecondaryMenu = false;
+                                }
+                                catch (NullReferenceException e)
+                                {
+                                    Console.WriteLine("Unable to perform the operation due to null value returned with Customer ID " + customerID + ": " + e.Message + "\n");
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine("Unknown exeption " + e);
+                                }
+                            }
+                        }
+                        whileInSecondaryMenu = true; //resets menu true to go into next menu
+                        break;
+                    case 5: //new customer menu
+                        StoreApp.BusinessLogic.Objects.Customer newCust = new StoreApp.BusinessLogic.Objects.Customer();
+
+                        while (whileInSecondaryMenu)
+                        {
+
+                            if (newCust.CheckCustomerNotNull() == false)
+                            {
+                                if (newCust.firstName == null)
+                                {
+                                    Console.WriteLine("What is your first name?");
+                                    newCust.firstName = Console.ReadLine();
+                                }
+                                else if (newCust.lastName == null)
+                                {
+                                    Console.WriteLine("What is your last name?");
+                                    newCust.lastName = Console.ReadLine();
+                                }
+                                else if (newCust.customerAddress.CheckAddressNotNull() == false)
+                                {
+                                    Console.WriteLine("Please enter an address. What is your street?");
+                                    newCust.customerAddress.street = Console.ReadLine();
+
+                                    Console.WriteLine("Please enter a city");
+                                    newCust.customerAddress.city = Console.ReadLine();
+
+                                    Console.WriteLine("Please enter a state");
+                                    newCust.customerAddress.state = Console.ReadLine();
+
+                                    Console.WriteLine("Please enter a zip");
+                                    newCust.customerAddress.zip = Console.ReadLine();
+                                }
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
+                                    DBIHandler.AddNewCustomerData(newCust, context);
+                                    break;
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine("Unknown exception thrown: " + e);
+                                }
+
+                            }
+                        }
+                        whileInSecondaryMenu = true; //resets menu true to go into next menu
+                        break;
+                    case 6: //customer options menu
+                        while(whileInSecondaryMenu)
+                        {
 
                         }
-                    }
+                        whileInSecondaryMenu = true; //resets menu true to go into next menu
+                        break;
                 }
             }
-            //Bracket end for while loop 
-
-
         }
         public static void PlaceOrder()
         {
