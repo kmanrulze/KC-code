@@ -39,7 +39,8 @@ namespace StoreApp.DataLibrary.Handlers
                 {
                     if (cust.CustomerId == customerID)
                     {
-                        return parser.ContextCustomerToLogicCustomer(cust);
+                        StoreApp.BusinessLogic.Objects.Customer matchingCustomer = parser.ContextCustomerToLogicCustomer(cust);
+                        return matchingCustomer;
                     }
                 }
                 return null;

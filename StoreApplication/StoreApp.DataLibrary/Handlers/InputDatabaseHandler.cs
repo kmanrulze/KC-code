@@ -15,8 +15,7 @@ namespace StoreApp.DataLibrary.Handlers
         {
             try
             {
-                Console.WriteLine(parser.LogicOrderToContextOrder(BLorder, context));
-                context.Orders.Add(parser.LogicOrderToContextOrder(BLorder,context));
+                context.Orders.Add(parser.LogicOrderToContextOrder(BLorder));
                 context.SaveChanges();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)

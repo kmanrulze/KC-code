@@ -45,25 +45,9 @@ namespace StoreApp.BusinessLogic.Objects
 
         public void CalculateOrderTime(Product customerProductList)
         {
+            //Business rule for adding how to calculate the order time
 
             this.orderTime = 5;
-            Product tempProd = customerProductList;
-
-            while (tempProd.burgerAmount > 0)
-            {
-                this.orderTime += 3;
-                tempProd.burgerAmount -= 1;
-            }
-            while (tempProd.friesAmount > 0)
-            {
-                this.orderTime += 2;
-                tempProd.friesAmount -= 1;
-            }
-            while (tempProd.sodaAmount > 0)
-            {
-                this.orderTime += 1;
-                tempProd.sodaAmount -= 1;
-            }
         }
     }
 }

@@ -7,11 +7,11 @@ namespace StoreApp.BusinessLogic.Objects
     public class Product
     {
         public string burger = "Hamburger";
-        public int burgerAmount { get; set; }
+        public int burgerAmount = 0;
         public string fries = "Fries";
-        public int friesAmount { get; set; }
+        public int friesAmount = 0;
         public string soda = "Soda";
-        public int sodaAmount { get; set; }
+        public int sodaAmount = 0;
 
         public bool CheckProductCountNotInvalid()
         {

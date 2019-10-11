@@ -35,6 +35,9 @@ namespace StoreApp.Main
             int menuSwitch = 1;
             bool whileInMenu = true;
             bool whileInSecondaryMenu = true;
+            StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = new BusinessLogic.Objects.Customer();
+            StoreApp.BusinessLogic.Objects.Store retrievedStore = new BusinessLogic.Objects.Store();
+            StoreApp.BusinessLogic.Objects.Order inputOrder = new BusinessLogic.Objects.Order();
 
             //DB initialization
 
@@ -50,8 +53,6 @@ namespace StoreApp.Main
                 int managerID;
                 int customerID;
                 int storeNum;
-                StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = new BusinessLogic.Objects.Customer();
-                StoreApp.BusinessLogic.Objects.Store retrievedStore = new BusinessLogic.Objects.Store();
 
                 switch (menuSwitch)
                 {
@@ -148,9 +149,9 @@ namespace StoreApp.Main
                         while (whileInSecondaryMenu)
                         {
                             Console.WriteLine("Welcome back! What is your customer ID?");
-                            inputTwo = Console.ReadLine();
+                            inputOne = Console.ReadLine();
 
-                            if (DBRHandler.CheckIDParsable(inputTwo) == false)
+                            if (DBRHandler.CheckIDParsable(inputOne) == false)
                             {
                                 Console.WriteLine("Invalid characters. Please try again with a numerical value");
                                 break;
@@ -158,7 +159,7 @@ namespace StoreApp.Main
                             }
                             else //if the input only has numbers in it
                             {
-                                customerID = Int32.Parse(inputTwo);
+                                customerID = Int32.Parse(inputOne);
 
                                 try
                                 {
@@ -242,7 +243,11 @@ namespace StoreApp.Main
                             }
                             else if (inputOne == "2")
                             {
-
+                                Console.WriteLine("\n------------------------------------------");
+                                Console.WriteLine("Name: " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName);
+                                Console.WriteLine("ID: " + retrievedCustomer.customerID);
+                                Console.WriteLine("\nAddress: \n" + retrievedCustomer.customerAddress.street + "\n"+ retrievedCustomer.customerAddress.city + "\n" + retrievedCustomer.customerAddress.state + "\n" + retrievedCustomer.customerAddress.zip);
+                                Console.WriteLine("------------------------------------------\n");
                             }
                             else if (inputOne == "3")
                             {
@@ -296,22 +301,30 @@ namespace StoreApp.Main
                                         decided = true;
                                         Console.WriteLine("Please wait while your order is created. . .\n");
 
-                                        StoreApp.BusinessLogic.Objects.Order inputOrder = new BusinessLogic.Objects.Order();
+                                        //Makes sure the order data starts blank
+                                        inputOrder = new BusinessLogic.Objects.Order();
+
+
                                         //uses input handler to input order into DB
+
                                         inputOrder.customer = retrievedCustomer;
                                         inputOrder.customerProductList.burgerAmount = burger;
                                         inputOrder.customerProductList.friesAmount = fries;
                                         inputOrder.customerProductList.sodaAmount = soda;
                                         inputOrder.ordererAddress = retrievedCustomer.customerAddress;
                                         inputOrder.CalculateOrderTime(inputOrder.customerProductList);
-                                        inputOrder.storeLocation = retrievedStore;
-                                        
+
+                                        inputOrder.storeLocation.address = retrievedStore.address;
+                                        inputOrder.storeLocation.storeInventory = retrievedStore.storeInventory;
+                                        inputOrder.storeLocation.storeNumber = retrievedStore.storeNumber;                                
 
                                         try
                                         {
                                             DBIHandler.InputOrder(inputOrder, context);
                                             menuSwitch = 6;
                                             whileInSecondaryMenu = false;
+                                            Console.WriteLine("Order successfully created! Thank you for your business!\nReturning back to customer menue");
+
                                         }
                                         catch (Exception e)
                                         {
@@ -350,7 +363,7 @@ namespace StoreApp.Main
                             }
                             else //if the input only has numbers in it
                             {
-                                storeNum = Int32.Parse(inputTwo);
+                                storeNum = Int32.Parse(inputOne);
 
                                 try
                                 {

@@ -20,6 +20,7 @@ namespace StoreApp.DataLibrary.Handlers
             BLCustomer.customerID = CTXCustomer.CustomerId;
             BLCustomer.firstName = CTXCustomer.FirstName;
             BLCustomer.lastName = CTXCustomer.LastName;
+            
 
             return BLCustomer;
         }
@@ -52,7 +53,7 @@ namespace StoreApp.DataLibrary.Handlers
 
             return BLStore;
         }
-        public Entities.Orders LogicOrderToContextOrder(StoreApp.BusinessLogic.Objects.Order BLorder, StoreApplicationContext context)
+        public Entities.Orders LogicOrderToContextOrder(StoreApp.BusinessLogic.Objects.Order BLorder)
         {
             Orders CTXorder = new Orders();
 
@@ -62,6 +63,7 @@ namespace StoreApp.DataLibrary.Handlers
 
             CTXorder.StoreNumber = BLorder.storeLocation.storeNumber;
             CTXorder.CustomerId = BLorder.customer.customerID;
+
 
             return CTXorder;
         }
