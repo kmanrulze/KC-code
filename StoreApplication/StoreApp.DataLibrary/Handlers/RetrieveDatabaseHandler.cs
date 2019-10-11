@@ -1,4 +1,5 @@
-﻿using StoreApp.DataLibrary.Entities;
+﻿using StoreApp.DataLibrary.ConnectionData;
+using StoreApp.DataLibrary.Entities;
 using System;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,6 @@ namespace StoreApp.DataLibrary.Handlers
 {
     public class RetrieveDatabaseHandler
     {
-        private string connectionString = File.ReadAllText(@"C:/revature/kc-project0/StoreApplication/StoreApp.DataLibrary/Connection String/string.txt");
         public bool CheckCustomerIDParsable(string IDString)
         {
             //Checks if the ID string input is parsable to an int and returns true or false
@@ -71,7 +71,7 @@ namespace StoreApp.DataLibrary.Handlers
         }
         public string GetConnectionString()
         {
-            return connectionString;
+            return Secret.connectionString;
         }
     }
 }

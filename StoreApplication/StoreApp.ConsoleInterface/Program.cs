@@ -23,13 +23,16 @@ namespace StoreApp.Main
             bool whileBool = true;
 
             //DB initialization
-            string connectionString = DBRHandler.GetConnectionString();
 
+            string connectionString = DBRHandler.GetConnectionString();
             DbContextOptions<StoreApplicationContext> options = new DbContextOptionsBuilder<StoreApplicationContext>()
                 .UseSqlServer(connectionString)
                 .Options;
 
             using var context = new StoreApplicationContext(options);
+
+
+
 
             while (whileBool == true)
             {

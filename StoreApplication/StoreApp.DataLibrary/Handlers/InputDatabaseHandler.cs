@@ -1,4 +1,5 @@
 ﻿using StoreApp.BusinessLogic.Objects;
+using StoreApp.DataLibrary.ConnectionData;
 using StoreApp.DataLibrary.Entities;
 using System;
 using System.IO;
@@ -8,7 +9,6 @@ namespace StoreApp.DataLibrary.Handlers
 {
     public class InputDatabaseHandler
     {
-        private string connectionString = File.ReadAllText(@"C:/revature/kc-project0/StoreApplication/StoreApp.DataLibrary/Connection String/string.txt");
         public void InputOrder(Order order)
         {
 
@@ -19,7 +19,7 @@ namespace StoreApp.DataLibrary.Handlers
         }
         public string GetConnectionString()
         {
-            return connectionString;
+            return Secret.connectionString;
         }
     }
 }
