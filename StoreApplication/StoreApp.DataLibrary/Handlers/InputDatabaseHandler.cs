@@ -1,8 +1,10 @@
-﻿using StoreApplication;
+﻿using StoreApp.DataLibrary.Entities;
+using StoreApplication;
+using System;
 using System.IO;
-using System.Data.SqlClient;
+using System.Linq;
 
-namespace StoreApp.DataAccess
+namespace StoreApplication
 {
     public class InputDatabaseHandler
     {

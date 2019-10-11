@@ -19,7 +19,7 @@ namespace StoreApp.Tests
             customerAddress = testAddress,
             firstName = "Mary",
             lastName = "Jane",
-            customerID = "1028974"
+            customerID = 6
         };
         public static Inventory testInventory = new Inventory()
         {
@@ -34,7 +34,7 @@ namespace StoreApp.Tests
         {
             address = testAddress,
             storeInventory = testInventory,
-            storeNumber = "00693"
+            storeNumber = 6
         };
         public static Product testProduct = new Product()
         {
@@ -49,7 +49,7 @@ namespace StoreApp.Tests
             ordererAddress = testAddress,
             orderTime = 60,
             storeLocation = testLocation,
-            orderID = "12335"
+            orderID = 6
         };
 
 

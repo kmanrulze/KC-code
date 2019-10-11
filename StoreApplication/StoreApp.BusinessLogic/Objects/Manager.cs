@@ -8,6 +8,7 @@ namespace StoreApp.Library.Objects
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
+        public int managerID { get; set; }
 
         public void SetFirstName(string name)
         {

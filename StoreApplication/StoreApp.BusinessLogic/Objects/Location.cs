@@ -8,7 +8,7 @@ namespace StoreApplication
     {
         public Address address = new Address();
         public Inventory storeInventory = new Inventory();
-        public string storeNumber { get; set; }
+        public int storeNumber { get; set; }
         public bool CheckInventory(Location locationBeingChecked, Order order)
         {
             //If the ordered amount doesnt exceed any of the three things the store has

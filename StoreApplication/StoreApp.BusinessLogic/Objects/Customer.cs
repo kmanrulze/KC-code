@@ -12,7 +12,7 @@ namespace StoreApplication
         public string firstName { get; set; }
         public string lastName { get; set; }
         public Address customerAddress = new Address();
-        public string customerID { get; set; }
+        public int customerID { get; set; }
 
         public bool CheckCustomerNotNull()
         {

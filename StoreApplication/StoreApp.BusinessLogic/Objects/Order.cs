@@ -11,7 +11,7 @@ namespace StoreApplication
         public Customer customer = new Customer();
         public Product customerProductList = new Product();
         public double orderTime { get; set; }
-        public string orderID { get; set; }
+        public int orderID { get; set; }
 
         public void CheckOrderIsValid()
         {

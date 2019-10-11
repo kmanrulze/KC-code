@@ -49,9 +49,9 @@ namespace StoreApp.Tests
         //Tests if any customer data is firstly null, then if any of their address items are null. Passes if everything is in correctly
         //Address is expected to return true. A known good address is being passed in
         [Theory]
-        [InlineData("Mary", "Jane", "28326")]
-        [InlineData("Gary", "Hanes", "00022")]
-        public void CheckCustomerDataReturnTrue(string firstName, string lastName, string testID)
+        [InlineData("Mary", "Jane", 8)]
+        [InlineData("Gary", "Hanes", 4)]
+        public void CheckCustomerDataReturnTrue(string firstName, string lastName, int testID)
         {
 
             Customer newCust = new Customer();
@@ -76,7 +76,7 @@ namespace StoreApp.Tests
             newCust.firstName = firstName;
             newCust.lastName = lastName;
             newCust.customerAddress = testVariable.GetAddress();
-            newCust.customerID = "00000";
+            newCust.customerID = 4;
 
             Assert.False(newCust.CheckCustomerNotNull());
         }
@@ -113,16 +113,16 @@ namespace StoreApp.Tests
         }
 
         [Theory]
-        [InlineData("00001")]
-        [InlineData(null)]
-        public void LocationDataCheck(string storeNum)
+        [InlineData(2)]
+        [InlineData(-1)]
+        public void LocationDataCheck(int storeNum)
         {
             Location testLocation = new Location();
             testLocation.address = testVariable.GetAddress();
             testLocation.storeInventory = testVariable.GetInventory();
             testLocation.storeNumber = storeNum;
 
-            if (storeNum == null)
+            if (storeNum <= 0)
             {
                 Assert.False(testLocation.CheckLocationNotNull());
             }
@@ -133,10 +133,10 @@ namespace StoreApp.Tests
             
         }
         [Theory]
-        [InlineData(60, "1234")]
+        [InlineData(60, 12)]
         [InlineData(0, null)]
-        [InlineData(-1, "1234")]
-        public void OrderDataCheck(double time, string testID)
+        [InlineData(-1, 34)]
+        public void OrderDataCheck(double time, int testID)
         {
             Order testOrder = testVariable.GetOrder();
             testOrder.customer = testVariable.GetCustomer();
