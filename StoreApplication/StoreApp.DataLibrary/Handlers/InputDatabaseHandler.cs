@@ -27,6 +27,12 @@ namespace StoreApp.DataLibrary.Handlers
                 Console.WriteLine("Failed to put the customer into the database.");
             }
         }
+        public void DeleteCustomerByID(int customerID, StoreApplicationContext context)
+        {
+            //Some code that removes customer from the DB given an ID
+
+            //context.Customer.Remove();
+        }
         public string GetConnectionString()
         {
             return Secret.connectionString;
