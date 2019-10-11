@@ -8,6 +8,7 @@ namespace StoreApp.DataLibrary.Handlers
 {
     public class ParseHandler
     {
+        private RetrieveDatabaseHandler DBRHandler = new RetrieveDatabaseHandler();
         public StoreApp.BusinessLogic.Objects.Customer ContextCustomerToLogicCustomer(StoreApp.DataLibrary.Entities.Customer CTXCustomer)
         {
             StoreApp.BusinessLogic.Objects.Customer BLCustomer = new BusinessLogic.Objects.Customer();
@@ -52,7 +53,7 @@ namespace StoreApp.DataLibrary.Handlers
 
             return BLStore;
         }
-        public Entities.Orders LogicOrderToContextOrder(StoreApp.BusinessLogic.Objects.Order BLorder)
+        public Entities.Orders LogicOrderToContextOrder(StoreApp.BusinessLogic.Objects.Order BLorder, StoreApplicationContext context)
         {
             Orders CTXorder = new Orders();
 
@@ -61,6 +62,7 @@ namespace StoreApp.DataLibrary.Handlers
             CTXorder.SodaAmount = BLorder.customerProductList.sodaAmount;
 
             CTXorder.StoreNumber = BLorder.storeLocation.storeNumber;
+            CTXorder.Customer = DBRHandler.GetCustomerDataFromID(BLorder.customer.customerID, context);
             CTXorder.CustomerId = BLorder.customer.customerID;
 
             return CTXorder;

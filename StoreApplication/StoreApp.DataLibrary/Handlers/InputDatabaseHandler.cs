@@ -15,11 +15,13 @@ namespace StoreApp.DataLibrary.Handlers
         {
             try
             {
-                context.Orders.Add(parser.LogicOrderToContextOrder(BLorder));
+                Console.WriteLine(parser.LogicOrderToContextOrder(BLorder, context));
+                context.Orders.Add(parser.LogicOrderToContextOrder(BLorder,context));
+                context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
-                Console.WriteLine("Something went wrong inputting order: " + e.Message);
+                Console.WriteLine("Something went wrong inputting order: " + e);
             }
         }
         public void AddNewCustomerData(StoreApp.BusinessLogic.Objects.Customer inputedCustomer, StoreApplicationContext context)

@@ -6,35 +6,35 @@ CREATE TABLE app.Customer
     CustomerID INT IDENTITY(1,1) PRIMARY KEY,
     FirstName NVARCHAR(25) NOT NULL,
     LastName NVARCHAR(25) NOT NULL,
-    Street NVARCHAR(50),
-    City NVARCHAR(25),
-    State NVARCHAR(25),
-    Zip NVARCHAR(5)
+    Street NVARCHAR(50) NOT NULL,
+    City NVARCHAR(25) NOT NULL,
+    State NVARCHAR(25) NOT NULL,
+    Zip NVARCHAR(5) NOT NULL
 );
 CREATE TABLE app.Store
 (
     StoreNumber INT IDENTITY(1,1) PRIMARY KEY,
-    Street NVARCHAR(50),
-    City NVARCHAR(25),
-    State NVARCHAR(25),
-    Zip NVARCHAR(5),
-    BurgerAmount INT,
-    FriesAmount INT,
-    SodaAmount INT
+    Street NVARCHAR(50) NOT NULL,
+    City NVARCHAR(25) NOT NULL,
+    State NVARCHAR(25) NOT NULL,
+    Zip NVARCHAR(5) NOT NULL,
+    BurgerAmount INT NOT NULL,
+    FriesAmount INT NOT NULL,
+    SodaAmount INT NOT NULL
 );
 CREATE TABLE app.Orders
 (
     OrderID INT IDENTITY(1,1) PRIMARY KEY,
-    CustomerID INT FOREIGN KEY REFERENCES app.Customer(CustomerID),
-    StoreNumber INT FOREIGN KEY REFERENCES app.Store(StoreNumber),
-    BurgerAmount INT,
-    FriesAmount INT,
-    SodaAmount INT
+    CustomerID INT FOREIGN KEY REFERENCES app.Customer(CustomerID) NOT NULL,
+    StoreNumber INT FOREIGN KEY REFERENCES app.Store(StoreNumber) NOT NULL,
+    BurgerAmount INT NOT NULL,
+    FriesAmount INT NOT NULL,
+    SodaAmount INT NOT NULL
 );
 CREATE TABLE app.Manager
 (
     ManagerID INT IDENTITY(1,1) PRIMARY KEY,
-    StoreNumber INT UNIQUE FOREIGN KEY REFERENCES app.Store(StoreNumber),
-    FirstName NVARCHAR(25),
-    LastName NVARCHAR(25)
+    StoreNumber INT UNIQUE FOREIGN KEY REFERENCES app.Store(StoreNumber) NOT NULL,
+    FirstName NVARCHAR(25) NOT NULL,
+    LastName NVARCHAR(25) NOT NULL
 );

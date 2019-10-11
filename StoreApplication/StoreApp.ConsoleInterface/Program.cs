@@ -237,7 +237,8 @@ namespace StoreApp.Main
 
                             if (inputOne == "1")
                             {
-
+                                whileInSecondaryMenu = false;
+                                menuSwitch = 9;
                             }
                             else if (inputOne == "2")
                             {
@@ -249,7 +250,9 @@ namespace StoreApp.Main
                             }
                             else if (inputOne == "4")
                             {
-
+                                whileInSecondaryMenu = false;
+                                retrievedCustomer = new BusinessLogic.Objects.Customer(); //resets the customer data that was retrieved by this point in the menu
+                                menuSwitch = 1;
                             }
                             else
                             {
@@ -291,7 +294,7 @@ namespace StoreApp.Main
                                     if (inputOne == "1")
                                     {
                                         decided = true;
-                                        Console.WriteLine("Please wait while your order is created. . .");
+                                        Console.WriteLine("Please wait while your order is created. . .\n");
 
                                         StoreApp.BusinessLogic.Objects.Order inputOrder = new BusinessLogic.Objects.Order();
                                         //uses input handler to input order into DB
@@ -312,7 +315,7 @@ namespace StoreApp.Main
                                         }
                                         catch (Exception e)
                                         {
-                                            Console.WriteLine("Unable to perform the operation: " + e.Message + "\n");
+                                            Console.WriteLine("Unable to perform the operation: \n" + e);
                                         }
                                     }
                                     else if (inputOne == "2")
