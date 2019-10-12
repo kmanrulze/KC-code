@@ -34,7 +34,7 @@ namespace StoreApp.DataLibrary.Handlers
             }
             catch (Exception e)
             {
-                Console.WriteLine("Failed to put the customer into the database.");
+                Console.WriteLine("Failed to put the customer into the database: " + e.Message);
             }
         }
         public void DeleteCustomerByID(int customerID, StoreApplicationContext context)

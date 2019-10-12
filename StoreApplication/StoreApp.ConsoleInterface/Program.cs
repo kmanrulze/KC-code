@@ -20,7 +20,6 @@ namespace StoreApp.Main
             Console.WriteLine("Hello! Welcome to the store application!");
 
             string inputOne = "0";
-            string inputTwo = "0";
 
             //1 - start menu
             //2 - manager menu
