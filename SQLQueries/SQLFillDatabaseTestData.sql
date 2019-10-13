@@ -1,3 +1,8 @@
+INSERT INTO app.Product
+VALUES
+    ('Burgers'),
+    ('Fries'),
+    ('Soda')
 INSERT INTO app.Customer
 VALUES
     ('Kevin', 'McCallister','671 Lincoln Ave','Winnetka','IL',60093),
@@ -13,23 +18,45 @@ VALUES
 
 INSERT INTO app.Store
 VALUES
-    ('99 Wayford Way', 'Arlington', 'TX',76013, 20, 40, 35),
-    ('420 Chill Place', 'Denver', 'CO', 80239, 30, 10, 35);
-
--- OrderID auto incremented, insert customerID, StoreNumber, BurgerAmount, FriesAmount, and SodaAmount
+    ('99 Wayford Way', 'Arlington', 'TX',76013),
+    ('420 Chill Place', 'Denver', 'CO', 80239);
 INSERT INTO app.Orders
 VALUES
-    (1,1,3,2,1),
-    (1,1,1,2,0),
-    (3,2,3,2,1),
-    (3,2,0,0,1);
-
+    (1),
+    (2),
+    (3),
+    (1);
+INSERT INTO app.OrderProduct
+VALUES
+    (1,1,1,1),
+    (1,2,1,2),
+    (1,3,1,3),
+    (2,1,2,1),
+    (2,2,2,2),
+    (2,3,2,3);
+INSERT INTO app.InventoryProduct
+VALUES
+    (1,1,20),
+    (1,2,25),
+    (1,3,15),
+    (2,1,30),
+    (2,2,20),
+    (2,3,25);
 INSERT INTO app.Manager
 VALUES
 	(1,'John', 'Johnston'),
 	(2, 'Man', 'Manston');
 
-SELECT * FROM app.Customer;
+    SELECT * FROM app.Customer;
+SELECT * FROM app.Product
+SELECT * FROM app.InventoryProduct;
 SELECT * FROM app.Orders;
+SELECT * FROM app.OrderProduct;
 SELECT * FROM app.Store;
 SELECT * FROM app.Manager;
+
+SELECT * FROM app.Store;
+SELECT * FROM app.InventoryProduct;
+
+SELECT * FROM app.Orders;
+SELECT * FROM app.OrderProduct;
