@@ -77,7 +77,19 @@ namespace StoreApp.DataLibrary.Handlers
             BLOrder.storeLocation.storeNumber = CTXorder.StoreNumber;
 
             BLOrder.customer.customerID = CTXorder.CustomerId;
-       
+            BLOrder.customer.customerAddress.street = CTXorder.Customer.Street;
+            BLOrder.customer.customerAddress.city = CTXorder.Customer.City;
+            BLOrder.customer.customerAddress.state = CTXorder.Customer.State;
+            BLOrder.customer.customerAddress.zip = CTXorder.Customer.Zip;
+
+            BLOrder.customer.firstName = CTXorder.Customer.FirstName;
+            BLOrder.customer.lastName = CTXorder.Customer.LastName;
+
+            BLOrder.ordererAddress.street = CTXorder.Customer.Street;
+            BLOrder.ordererAddress.city = CTXorder.Customer.City;
+            BLOrder.ordererAddress.state = CTXorder.Customer.State;
+            BLOrder.ordererAddress.zip = CTXorder.Customer.Zip;
+
             BLOrder.customerProductList.burgerAmount = CTXorder.BurgerAmount;
             BLOrder.customerProductList.friesAmount = CTXorder.FriesAmount;
             BLOrder.customerProductList.sodaAmount = CTXorder.SodaAmount;

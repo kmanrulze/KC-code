@@ -260,7 +260,7 @@ namespace StoreApp.Main
                                 {
                                     Console.WriteLine("\n------------------------------------------");
                                     Console.WriteLine("Order Number: " + order.orderID + "\nFrom store number: " + order.storeLocation.storeNumber + "\nBurgers: " + order.customerProductList.burgerAmount
-                                        + "\nFries: " + order.customerProductList.friesAmount + "\nSodas: " + order.customerProductList.soda);
+                                        + "\nFries: " + order.customerProductList.friesAmount + "\nSodas: " + order.customerProductList.sodaAmount);
                                     Console.WriteLine("\n------------------------------------------");
                                 }
                                 orderList = new List<Order>();

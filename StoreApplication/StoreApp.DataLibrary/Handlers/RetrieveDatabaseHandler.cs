@@ -117,14 +117,11 @@ namespace StoreApp.DataLibrary.Handlers
                     if (Order.CustomerId == custID)
                     {
                         filledData = parser.ContextOrderToLogicOrder(Order, context);
-                        filledData.customer = GetCustomerDataFromID(filledData.customer.customerID, context);
-                        filledData.ordererAddress = GetCustomerDataFromID(filledData.customer.customerID, context).customerAddress;
-                        filledData.storeLocation = GetStoreFromStoreNumber(filledData.storeLocation.storeNumber, context);
 
                         listToBeReturned.Add(filledData);
                     }
                 }
-                return null;
+                return listToBeReturned;
             }
             catch (Exception e)
             {
