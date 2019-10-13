@@ -23,14 +23,14 @@ namespace StoreApp.DataLibrary.Handlers
                 Console.WriteLine("Something went wrong inputting order: " + e);
             }
         }
-        public void AddNewCustomerData(StoreApp.BusinessLogic.Objects.Customer inputedCustomer, StoreApplicationContext context)
+        public void AddNewCustomerData(StoreApp.BusinessLogic.Objects.Customer BLCustomer, StoreApplicationContext context)
         {
             //Some code to input customer data to the DB
 
             try
             {
-                //SaveChanges is needed to persist the data
-                //context.SaveChanges();
+                context.Customer.Add(parser.LogicCustomerToContextCustomer(BLCustomer));
+                context.SaveChanges();
             }
             catch (Exception e)
             {

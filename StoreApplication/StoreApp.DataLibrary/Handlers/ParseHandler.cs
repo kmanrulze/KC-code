@@ -36,6 +36,20 @@ namespace StoreApp.DataLibrary.Handlers
             return BLMan;
         }
 
+        internal Entities.Customer LogicCustomerToContextCustomer(BusinessLogic.Objects.Customer BLCustomer)
+        {
+            Entities.Customer CTXCustomer= new Entities.Customer();
+
+            CTXCustomer.FirstName = BLCustomer.firstName;
+            CTXCustomer.LastName = BLCustomer.lastName;
+            CTXCustomer.Street = BLCustomer.customerAddress.street;
+            CTXCustomer.City = BLCustomer.customerAddress.city;
+            CTXCustomer.State = BLCustomer.customerAddress.state;
+            CTXCustomer.Zip = BLCustomer.customerAddress.zip;
+
+            return CTXCustomer;
+        }
+
         public BusinessLogic.Objects.Store ContextStoreToLogicStore(Entities.Store CTXStore)
         {
             StoreApp.BusinessLogic.Objects.Store BLStore = new BusinessLogic.Objects.Store();
@@ -55,44 +69,43 @@ namespace StoreApp.DataLibrary.Handlers
         }
         public Entities.Orders LogicOrderToContextOrder(StoreApp.BusinessLogic.Objects.Order BLorder)
         {
-            Orders CTXorder = new Orders();
-            RetrieveDatabaseHandler DBRHandler = new RetrieveDatabaseHandler();
+            Orders CTXOrder = new Orders();
 
-            CTXorder.BurgerAmount = BLorder.customerProductList.burgerAmount;
-            CTXorder.FriesAmount = BLorder.customerProductList.friesAmount;
-            CTXorder.SodaAmount = BLorder.customerProductList.sodaAmount;
+            CTXOrder.BurgerAmount = BLorder.customerProductList.burgerAmount;
+            CTXOrder.FriesAmount = BLorder.customerProductList.friesAmount;
+            CTXOrder.SodaAmount = BLorder.customerProductList.sodaAmount;
 
-            CTXorder.StoreNumber = BLorder.storeLocation.storeNumber;
-            CTXorder.CustomerId = BLorder.customer.customerID;
+            CTXOrder.StoreNumber = BLorder.storeLocation.storeNumber;
+            CTXOrder.CustomerId = BLorder.customer.customerID;
 
 
-            return CTXorder;
+            return CTXOrder;
         }
 
-        public Order ContextOrderToLogicOrder(Entities.Orders CTXorder, StoreApplicationContext context)
+        public Order ContextOrderToLogicOrder(Entities.Orders CTXOrder, StoreApplicationContext context)
         {
             BusinessLogic.Objects.Order BLOrder = new Order();
 
-            BLOrder.orderID = CTXorder.OrderId;
-            BLOrder.storeLocation.storeNumber = CTXorder.StoreNumber;
+            BLOrder.orderID = CTXOrder.OrderId;
+            BLOrder.storeLocation.storeNumber = CTXOrder.StoreNumber;
 
-            BLOrder.customer.customerID = CTXorder.CustomerId;
-            BLOrder.customer.customerAddress.street = CTXorder.Customer.Street;
-            BLOrder.customer.customerAddress.city = CTXorder.Customer.City;
-            BLOrder.customer.customerAddress.state = CTXorder.Customer.State;
-            BLOrder.customer.customerAddress.zip = CTXorder.Customer.Zip;
+            BLOrder.customer.customerID = CTXOrder.CustomerId;
+            BLOrder.customer.customerAddress.street = CTXOrder.Customer.Street;
+            BLOrder.customer.customerAddress.city = CTXOrder.Customer.City;
+            BLOrder.customer.customerAddress.state = CTXOrder.Customer.State;
+            BLOrder.customer.customerAddress.zip = CTXOrder.Customer.Zip;
 
-            BLOrder.customer.firstName = CTXorder.Customer.FirstName;
-            BLOrder.customer.lastName = CTXorder.Customer.LastName;
+            BLOrder.customer.firstName = CTXOrder.Customer.FirstName;
+            BLOrder.customer.lastName = CTXOrder.Customer.LastName;
 
-            BLOrder.ordererAddress.street = CTXorder.Customer.Street;
-            BLOrder.ordererAddress.city = CTXorder.Customer.City;
-            BLOrder.ordererAddress.state = CTXorder.Customer.State;
-            BLOrder.ordererAddress.zip = CTXorder.Customer.Zip;
+            BLOrder.ordererAddress.street = CTXOrder.Customer.Street;
+            BLOrder.ordererAddress.city = CTXOrder.Customer.City;
+            BLOrder.ordererAddress.state = CTXOrder.Customer.State;
+            BLOrder.ordererAddress.zip = CTXOrder.Customer.Zip;
 
-            BLOrder.customerProductList.burgerAmount = CTXorder.BurgerAmount;
-            BLOrder.customerProductList.friesAmount = CTXorder.FriesAmount;
-            BLOrder.customerProductList.sodaAmount = CTXorder.SodaAmount;
+            BLOrder.customerProductList.burgerAmount = CTXOrder.BurgerAmount;
+            BLOrder.customerProductList.friesAmount = CTXOrder.FriesAmount;
+            BLOrder.customerProductList.sodaAmount = CTXOrder.SodaAmount;
 
             return BLOrder;
         }

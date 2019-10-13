@@ -129,5 +129,15 @@ namespace StoreApp.DataLibrary.Handlers
                 return null;
             }
         }
+
+        public int GetNewCustomerID(StoreApplicationContext context)
+        {
+            int NewCustID = 0;
+            foreach (Entities.Customer cust in context.Customer)
+            {
+                NewCustID = cust.CustomerId;
+            }
+            return NewCustID;
+        }
     }
 }

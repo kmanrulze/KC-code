@@ -218,9 +218,17 @@ namespace StoreApp.Main
                             {
                                 try
                                 {
-                                    Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!");
+                                    Console.WriteLine("Adding profile to database. . .\n");
                                     DBIHandler.AddNewCustomerData(newCust, context);
-                                    break;
+                                    Console.WriteLine("Customer profile successfully created! Welcome, " + newCust.firstName + "!\n");
+                                    int newID = DBRHandler.GetNewCustomerID(context);  //Note, not safe for multiple connections to the DB inputting at once. 
+
+                                    Console.WriteLine("Your new customer ID is: " + newID);
+
+                                    retrievedCustomer = DBRHandler.GetCustomerDataFromID(newID, context);
+
+                                    whileInSecondaryMenu = false;
+                                    menuSwitch = 6;
                                 }
                                 catch (Exception e)
                                 {
@@ -254,16 +262,22 @@ namespace StoreApp.Main
                             {
                                 orderList = DBRHandler.GetListOfOrdersByCustomerID(retrievedCustomer.customerID, context);
 
-                                Console.WriteLine("List of orders under customer ID: " + retrievedCustomer.customerID);
-
-                                foreach (Order order in orderList)
+                                if (orderList == null || orderList.Count == 0)
                                 {
-                                    Console.WriteLine("\n------------------------------------------");
-                                    Console.WriteLine("Order Number: " + order.orderID + "\nFrom store number: " + order.storeLocation.storeNumber + "\nBurgers: " + order.customerProductList.burgerAmount
-                                        + "\nFries: " + order.customerProductList.friesAmount + "\nSodas: " + order.customerProductList.sodaAmount);
-                                    Console.WriteLine("\n------------------------------------------");
+                                    Console.WriteLine("No orders to display under " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "\n");
                                 }
-                                orderList = new List<Order>();
+                                else
+                                {
+                                    Console.WriteLine("List of orders under " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName + "\n");
+
+                                    foreach (Order order in orderList)
+                                    {
+                                        Console.WriteLine("\n------------------------------------------");
+                                        Console.WriteLine("Order Number: " + order.orderID + "\nFrom store number: " + order.storeLocation.storeNumber + "\nBurgers: " + order.customerProductList.burgerAmount
+                                            + "\nFries: " + order.customerProductList.friesAmount + "\nSodas: " + order.customerProductList.sodaAmount + "\n");
+                                    }
+                                    orderList = new List<Order>();
+                                }
                             }
                             else if (inputOne == "4")
                             {
