@@ -6,7 +6,7 @@ namespace StoreApp.BusinessLogic.Objects
     public class Inventory
     {
 
-        public Product productData = new Product();
+        public List<Product> productData = new List<Product>();
 
         public void RestockShelves(List<Product> incomingStock)
         {
@@ -20,19 +20,6 @@ namespace StoreApp.BusinessLogic.Objects
         {
             //returns stock amounts for the current inventory
         }
-        public bool CheckInventoryNotNull()
-        {
-            if (productData.CheckProductCountNotInvalid() == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
 
     }
 }

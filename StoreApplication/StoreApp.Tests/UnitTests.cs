@@ -85,31 +85,16 @@ namespace StoreApp.Tests
         //Tests if items were properly added to the list of products, then sets it to the inventory. Checks to make sure the inventory properly accepted the list of product.
         //0 is an acceptable amount
         [Theory]
-        [InlineData(0, 1, 2)]
-        [InlineData(3, 4, 5)]
-        public void InventoryCheckReturnsTrue(int burgers, int fries, int soda)
+        public void InventoryCheckReturnsTrue()
         {
-            Inventory testInventory = testVariable.GetInventory();
-            testInventory.productData.burgerAmount = burgers;
-            testInventory.productData.friesAmount = fries;
-            testInventory.productData.sodaAmount = soda;
-
-            Assert.True(testInventory.productData.CheckProductCountNotInvalid());
+            //Some code to test inventory properly returns true
         }
         //---------------------------------------------------------------------------------------------------------------------------------
         //Tests false if any items are negative that are plugged into the used product list. 
         [Theory]
-        [InlineData(1, 2, -1)]
-        [InlineData(5, -1, 6)]
-        [InlineData(-1, 5, 9)]
-        public void InventoryCheckReturnsFalse(int burgers, int fries, int soda)
+        public void InventoryCheckReturnsFalse()
         {
-            Inventory testInventory = testVariable.GetInventory();
-            testInventory.productData.burgerAmount = burgers;
-            testInventory.productData.friesAmount = fries;
-            testInventory.productData.sodaAmount = soda;
-
-            Assert.False(testInventory.productData.CheckProductCountNotInvalid());
+            //Some code to test inventory properly returns false
         }
 
         [Theory]
@@ -133,35 +118,9 @@ namespace StoreApp.Tests
             
         }
         [Theory]
-        [InlineData(60, 12)]
-        [InlineData(0, -2)]
-        [InlineData(-1, 34)]
-        public void OrderDataCheck(double time, int testID)
+        public void OrderDataCheck()
         {
-            Order testOrder = testVariable.GetOrder();
-            testOrder.customer = testVariable.GetCustomer();
-            testOrder.ordererAddress = testVariable.GetAddress();
-            testOrder.orderTime = time;
-            testOrder.storeLocation = testVariable.GetLocation();
-            testOrder.orderID = testID;
-            testOrder.customerProductList = testVariable.GetProduct();
-
-            //Asserts test to make sure the default values aren't causing issues, as we are testing the two strings above to make sure it catches those 
-            Assert.True(testOrder.customer.CheckCustomerNotNull());
-            Assert.True(testOrder.ordererAddress.CheckAddressNotNull());
-            Assert.True(testOrder.storeLocation.CheckLocationNotNull());
-            Assert.True(testOrder.customerProductList.CheckProductCountNotInvalid());
-
-            if (testOrder.customer.CheckCustomerNotNull() == true && testOrder.ordererAddress.CheckAddressNotNull() == true &&
-                testOrder.storeLocation.CheckLocationNotNull() == true && testOrder.customerProductList.CheckProductCountNotInvalid() == true &&
-                testOrder.CheckOrderNotNull() == true)
-            { 
-                Assert.True(testOrder.CheckOrderNotNull());
-            }
-            else
-            {
-                Assert.False(testOrder.CheckOrderNotNull());
-            }
+            //Some code to cehck orders
         }
     }
 }
