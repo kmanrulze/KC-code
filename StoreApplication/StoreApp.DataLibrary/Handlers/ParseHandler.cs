@@ -56,6 +56,7 @@ namespace StoreApp.DataLibrary.Handlers
         public Entities.Orders LogicOrderToContextOrder(StoreApp.BusinessLogic.Objects.Order BLorder)
         {
             Orders CTXorder = new Orders();
+            RetrieveDatabaseHandler DBRHandler = new RetrieveDatabaseHandler();
 
             CTXorder.BurgerAmount = BLorder.customerProductList.burgerAmount;
             CTXorder.FriesAmount = BLorder.customerProductList.friesAmount;
@@ -66,6 +67,22 @@ namespace StoreApp.DataLibrary.Handlers
 
 
             return CTXorder;
+        }
+
+        public Order ContextOrderToLogicOrder(Entities.Orders CTXorder, StoreApplicationContext context)
+        {
+            BusinessLogic.Objects.Order BLOrder = new Order();
+
+            BLOrder.orderID = CTXorder.OrderId;
+            BLOrder.storeLocation.storeNumber = CTXorder.StoreNumber;
+
+            BLOrder.customer.customerID = CTXorder.CustomerId;
+       
+            BLOrder.customerProductList.burgerAmount = CTXorder.BurgerAmount;
+            BLOrder.customerProductList.friesAmount = CTXorder.FriesAmount;
+            BLOrder.customerProductList.sodaAmount = CTXorder.SodaAmount;
+
+            return BLOrder;
         }
     }
 }

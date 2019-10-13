@@ -23,12 +23,6 @@ namespace StoreApp.DataLibrary.Handlers
                 return true;
             }
         }
-        public string CheckOrderID()
-        {
-            //Some code to check information tied to the order ID
-            string pulledID = "";
-            return pulledID;
-        }
         public StoreApp.BusinessLogic.Objects.Customer GetCustomerDataFromID(int customerID, StoreApplicationContext context)
         {
             //Some code to retrieve a list of customer data
@@ -50,12 +44,6 @@ namespace StoreApp.DataLibrary.Handlers
                 Console.WriteLine("Operation failed: " + e.Message);
                 return null;
             }            
-        }
-        public string GetOrderData(string custID)
-        {
-            //Some code to retrieve a list of order data
-            string dataString = "";
-            return dataString;
         }
         public string GetConnectionString()
         {
@@ -107,6 +95,33 @@ namespace StoreApp.DataLibrary.Handlers
                     if (storeLoc.StoreNumber == storeNum)
                     {
                         return parser.ContextStoreToLogicStore(storeLoc);
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Operation failed: " + e.Message);
+                return null;
+            }
+        }
+        public List<StoreApp.BusinessLogic.Objects.Order> GetListOfOrdersByCustomerID(int custID, StoreApplicationContext context)
+        {
+            List<Order> listToBeReturned = new List<Order>();
+            Order filledData = new Order();
+
+            try
+            {
+                foreach (StoreApp.DataLibrary.Entities.Orders Order in context.Orders)
+                {
+                    if (Order.CustomerId == custID)
+                    {
+                        filledData = parser.ContextOrderToLogicOrder(Order, context);
+                        filledData.customer = GetCustomerDataFromID(filledData.customer.customerID, context);
+                        filledData.ordererAddress = GetCustomerDataFromID(filledData.customer.customerID, context).customerAddress;
+                        filledData.storeLocation = GetStoreFromStoreNumber(filledData.storeLocation.storeNumber, context);
+
+                        listToBeReturned.Add(filledData);
                     }
                 }
                 return null;

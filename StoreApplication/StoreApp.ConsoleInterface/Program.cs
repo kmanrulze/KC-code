@@ -7,6 +7,7 @@ using StoreApp.BusinessLogic;
 using StoreApp.DataLibrary.Handlers;
 using System.Collections.Generic;
 using StoreApp.DataLibrary.Entities;
+using StoreApp.BusinessLogic.Objects;
 
 namespace StoreApp.Main
 {
@@ -34,9 +35,10 @@ namespace StoreApp.Main
             int menuSwitch = 1;
             bool whileInMenu = true;
             bool whileInSecondaryMenu = true;
-            StoreApp.BusinessLogic.Objects.Customer retrievedCustomer = new BusinessLogic.Objects.Customer();
-            StoreApp.BusinessLogic.Objects.Store retrievedStore = new BusinessLogic.Objects.Store();
-            StoreApp.BusinessLogic.Objects.Order inputOrder = new BusinessLogic.Objects.Order();
+            BusinessLogic.Objects.Customer retrievedCustomer = new BusinessLogic.Objects.Customer();
+            BusinessLogic.Objects.Store retrievedStore = new BusinessLogic.Objects.Store();
+            BusinessLogic.Objects.Order inputOrder = new BusinessLogic.Objects.Order();
+            List<BusinessLogic.Objects.Order> orderList = new List<BusinessLogic.Objects.Order>();
 
             //DB initialization
 
@@ -250,7 +252,18 @@ namespace StoreApp.Main
                             }
                             else if (inputOne == "3")
                             {
+                                orderList = DBRHandler.GetListOfOrdersByCustomerID(retrievedCustomer.customerID, context);
 
+                                Console.WriteLine("List of orders under customer ID: " + retrievedCustomer.customerID);
+
+                                foreach (Order order in orderList)
+                                {
+                                    Console.WriteLine("\n------------------------------------------");
+                                    Console.WriteLine("Order Number: " + order.orderID + "\nFrom store number: " + order.storeLocation.storeNumber + "\nBurgers: " + order.customerProductList.burgerAmount
+                                        + "\nFries: " + order.customerProductList.friesAmount + "\nSodas: " + order.customerProductList.soda);
+                                    Console.WriteLine("\n------------------------------------------");
+                                }
+                                orderList = new List<Order>();
                             }
                             else if (inputOne == "4")
                             {
