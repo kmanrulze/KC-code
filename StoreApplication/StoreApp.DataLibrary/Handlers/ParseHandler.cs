@@ -8,6 +8,11 @@ namespace StoreApp.DataLibrary.Handlers
 {
     public class ParseHandler
     {
+        /// <summary>
+        /// Converts a Entity/Context Customer into a Business Logic Customer
+        /// </summary>
+        /// <param name="CTXCustomer"></param>
+        /// <returns></returns>
         public StoreApp.BusinessLogic.Objects.Customer ContextCustomerToLogicCustomer(StoreApp.DataLibrary.Entities.Customer CTXCustomer)
         {
             StoreApp.BusinessLogic.Objects.Customer BLCustomer = new BusinessLogic.Objects.Customer();
@@ -24,7 +29,13 @@ namespace StoreApp.DataLibrary.Handlers
 
             return BLCustomer;
         }
-
+        /// <summary>
+        /// Fills a context version of an OrderProduct context entry with what it can from a Business Logic Product input and an orderID
+        /// </summary>
+        /// <param name="BLOrder"></param>
+        /// <param name="orderID"></param>
+        /// <param name="BLProd"></param>
+        /// <returns></returns>
         public OrderProduct LogicProductToContextOrderProduct(BusinessLogic.Objects.Order BLOrder, int orderID, BusinessLogic.Objects.Product BLProd)
         {
             Entities.OrderProduct CTXOrdProd = new OrderProduct();
@@ -36,7 +47,11 @@ namespace StoreApp.DataLibrary.Handlers
 
             return CTXOrdProd;
         }
-
+        /// <summary>
+        /// returns a Manager entity into the business logic version of it
+        /// </summary>
+        /// <param name="CTXman"></param>
+        /// <returns></returns>
         public BusinessLogic.Objects.Manager ContextManagerToLogicManager(Entities.Manager CTXman)
         {
             StoreApp.BusinessLogic.Objects.Manager BLMan = new BusinessLogic.Objects.Manager();
@@ -48,7 +63,12 @@ namespace StoreApp.DataLibrary.Handlers
             return BLMan;
         }
 
-        internal Entities.Customer LogicCustomerToContextCustomer(BusinessLogic.Objects.Customer BLCustomer)
+        /// <summary>
+        /// returns a Customer entity from the data given by a Business Logic version of the customer
+        /// </summary>
+        /// <param name="BLCustomer"></param>
+        /// <returns></returns>
+        public Entities.Customer LogicCustomerToContextCustomer(BusinessLogic.Objects.Customer BLCustomer)
         {
             Entities.Customer CTXCustomer= new Entities.Customer();
 
@@ -61,7 +81,11 @@ namespace StoreApp.DataLibrary.Handlers
 
             return CTXCustomer;
         }
-
+        /// <summary>
+        /// Returns a business logic store from information gotten from a Store entity
+        /// </summary>
+        /// <param name="CTXStore"></param>
+        /// <returns></returns>
         public BusinessLogic.Objects.Store ContextStoreToLogicStore(Entities.Store CTXStore)
         {
             StoreApp.BusinessLogic.Objects.Store BLStore = new BusinessLogic.Objects.Store();
@@ -75,6 +99,11 @@ namespace StoreApp.DataLibrary.Handlers
 
             return BLStore;
         }
+        /// <summary>
+        /// Returns an Order entity from data given by a Business Logic order
+        /// </summary>
+        /// <param name="BLorder"></param>
+        /// <returns></returns>
         public Entities.Orders LogicOrderToContextOrder(StoreApp.BusinessLogic.Objects.Order BLorder)
         {
             Orders CTXOrder = new Orders();
@@ -84,6 +113,11 @@ namespace StoreApp.DataLibrary.Handlers
             return CTXOrder;
         }
 
+        /// <summary>
+        /// Returns a business logic version of an order from information given by an Order entity
+        /// </summary>
+        /// <param name="CTXOrder"></param>
+        /// <returns></returns>
         public Order ContextOrderToLogicOrder(Entities.Orders CTXOrder)
         {
             BusinessLogic.Objects.Order BLOrder = new Order();
@@ -92,6 +126,12 @@ namespace StoreApp.DataLibrary.Handlers
 
             return BLOrder;
         }
+
+        /// <summary>
+        /// Returns a business logic product from information given by a Product entity
+        /// </summary>
+        /// <param name="CTXProd"></param>
+        /// <returns></returns>
         public BusinessLogic.Objects.Product ContextInventoryProductToLogicProduct(InventoryProduct CTXProd)
         {
             BusinessLogic.Objects.Product BLProd = new BusinessLogic.Objects.Product();
@@ -102,6 +142,11 @@ namespace StoreApp.DataLibrary.Handlers
             return BLProd;
         }
 
+        /// <summary>
+        /// Returns a business logic product from information given by an OrderProduct entity
+        /// </summary>
+        /// <param name="CTXProduct"></param>
+        /// <returns></returns>
         public BusinessLogic.Objects.Product ContextOrderProductToLogicProduct(OrderProduct CTXProduct)
         {
             BusinessLogic.Objects.Product BLProduct = new BusinessLogic.Objects.Product();

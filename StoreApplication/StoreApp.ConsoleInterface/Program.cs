@@ -469,7 +469,7 @@ namespace StoreApp.Main
                         inputInt = Int32.Parse(input);
                         if (inputInt > maxNum)
                         {
-                            Console.WriteLine("Invalid input. Insert correct number from the list above\n");
+                            Console.WriteLine("Invalid input. Insert correct number from the list below\n");
                             return null;
                         }
                         else
