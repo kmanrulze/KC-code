@@ -97,7 +97,7 @@ namespace StoreApp.DataLibrary.Handlers
                         BLStore = parser.ContextStoreToLogicStore(storeLoc);
                     }
                 }
-                return null;
+                return BLStore;
             }
             catch (Exception e)
             {
@@ -109,31 +109,14 @@ namespace StoreApp.DataLibrary.Handlers
         public List<StoreApp.BusinessLogic.Objects.Order> GetListOfOrdersByCustomerID(int custID, StoreApplicationContext context)
         {
             List<Order> listToBeReturned = new List<Order>();
-            Order filledData = new Order();
 
             try
             {
-                foreach (Entities.Orders order in context.Orders)
+                foreach (Entities.Orders CTXOrder in context.Orders)
                 {
-                    if (order.CustomerId == custID)
+                    if (CTXOrder.CustomerId == custID)
                     {
-                        foreach (Entities.OrderProduct ordProd in context.OrderProduct)
-                        {
-                            if (ordProd.OrderId == order.OrderId)
-                            {
-                                filledData.customerProductList.Add(parser.ContextOrderProductToLogicProduct(ordProd));
-                            }
-                        }
-                    }
-                    foreach (BusinessLogic.Objects.Product product in filledData.customerProductList)
-                    {
-                        foreach (Entities.Product entProd in context.Product)
-                        {
-                            if (product.productTypeID == entProd.ProductTypeId)
-                            {
-                                product.name = entProd.ProductName;
-                            }
-                        }
+                        listToBeReturned.Add(parser.ContextOrderToLogicOrder(CTXOrder));
                     }
                 }
                 return listToBeReturned;
@@ -189,6 +172,59 @@ namespace StoreApp.DataLibrary.Handlers
             catch (Exception e)
             {
                 Console.WriteLine("Unable to get the list of store inventory items: " + e.Message);
+                return null;
+            }
+        }
+
+        public List<BusinessLogic.Objects.Product> GetListOrderProductByOrderID(Order BLOrder, StoreApplicationContext context)
+        {
+            List<BusinessLogic.Objects.Product> BLProdList = new List<BusinessLogic.Objects.Product>();
+
+            foreach (Entities.OrderProduct CTXOrdProd in context.OrderProduct)
+            {
+                if (CTXOrdProd.OrderId == BLOrder.orderID)
+                {
+                    BLProdList.Add(parser.ContextOrderProductToLogicProduct(CTXOrdProd));
+                }
+            }
+            foreach (BusinessLogic.Objects.Product BLProd in BLProdList)
+            {
+                foreach (Entities.Product CTXProd in context.Product)
+                {
+                    //If the product in the list is equal to a product ID on the product table, parse to fill name
+                    if (BLProd.productTypeID == CTXProd.ProductTypeId)
+                    {
+                        BLProd.name = CTXProd.ProductName;
+                    }
+                }
+            }
+            return BLProdList;
+        }
+        public BusinessLogic.Objects.Store GetStoreInformationFromOrderNumber (int orderID, StoreApplicationContext context)
+        {
+            BusinessLogic.Objects.Store BLStore = new BusinessLogic.Objects.Store();
+
+            try
+            {
+                foreach (Entities.OrderProduct CTXOrdProd in context.OrderProduct)
+                {
+                    if (CTXOrdProd.OrderId == orderID)
+                    {
+                        BLStore.storeNumber = CTXOrdProd.StoreNumber;
+                    }
+                }
+                foreach (Entities.Store CTXStore in context.Store)
+                {
+                    if (CTXStore.StoreNumber == BLStore.storeNumber)
+                    {
+                        BLStore = parser.ContextStoreToLogicStore(CTXStore);
+                    }
+                }
+                return BLStore;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Unable to get store information from order: " + e.Message);
                 return null;
             }
         }

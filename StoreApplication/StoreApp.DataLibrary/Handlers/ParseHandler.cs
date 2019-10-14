@@ -25,16 +25,16 @@ namespace StoreApp.DataLibrary.Handlers
             return BLCustomer;
         }
 
-        public OrderProduct LogicProductToContextProduct(BusinessLogic.Objects.Product BLProd, BusinessLogic.Objects.Order BLOrder)
+        public OrderProduct LogicProductToContextOrderProduct(BusinessLogic.Objects.Order BLOrder, int orderID, BusinessLogic.Objects.Product BLProd)
         {
-            Entities.OrderProduct CTXProd = new OrderProduct();
+            Entities.OrderProduct CTXOrdProd = new OrderProduct();
 
-            CTXProd.ProductTypeId = BLProd.productTypeID;
-            CTXProd.ProductAmount = BLProd.amount;
-            CTXProd.StoreNumber = BLOrder.storeLocation.storeNumber;
-            CTXProd.OrderId = BLOrder.orderID;
+            CTXOrdProd.ProductTypeId = BLProd.productTypeID;
+            CTXOrdProd.ProductAmount = BLProd.amount;
+            CTXOrdProd.StoreNumber = BLOrder.storeLocation.storeNumber;
+            CTXOrdProd.OrderId = orderID;
 
-            return CTXProd;
+            return CTXOrdProd;
         }
 
         public BusinessLogic.Objects.Manager ContextManagerToLogicManager(Entities.Manager CTXman)
@@ -84,12 +84,13 @@ namespace StoreApp.DataLibrary.Handlers
             return CTXOrder;
         }
 
-        public Order ContextOrderToLogicOrder(Entities.Orders CTXOrder, StoreApplicationContext context)
+        public Order ContextOrderToLogicOrder(Entities.Orders CTXOrder)
         {
             BusinessLogic.Objects.Order BLOrder = new Order();
+            BLOrder.customer.customerID = CTXOrder.CustomerId;
+            BLOrder.orderID = CTXOrder.OrderId;
 
-#warning not filled in yet
-            return null;
+            return BLOrder;
         }
         public BusinessLogic.Objects.Product ContextInventoryProductToLogicProduct(InventoryProduct CTXProd)
         {
@@ -101,7 +102,7 @@ namespace StoreApp.DataLibrary.Handlers
             return BLProd;
         }
 
-        internal BusinessLogic.Objects.Product ContextOrderProductToLogicProduct(OrderProduct CTXProduct)
+        public BusinessLogic.Objects.Product ContextOrderProductToLogicProduct(OrderProduct CTXProduct)
         {
             BusinessLogic.Objects.Product BLProduct = new BusinessLogic.Objects.Product();
 

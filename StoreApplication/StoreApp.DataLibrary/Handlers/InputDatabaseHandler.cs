@@ -13,19 +13,31 @@ namespace StoreApp.DataLibrary.Handlers
         private ParseHandler parser = new ParseHandler();
         public void InputOrder(Order BLOrder, StoreApplicationContext context)
         {
+
             try
             {
                 context.Orders.Add(parser.LogicOrderToContextOrder(BLOrder));
-
-                foreach (BusinessLogic.Objects.Product orderProd in BLOrder.customerProductList)
-                {
-                    context.OrderProduct.Add(parser.LogicProductToContextProduct(orderProd, BLOrder));
-                }
                 context.SaveChanges();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 Console.WriteLine("Something went wrong inputting order: " + e);
+            }
+        }
+        public void InputOrderProduct(BusinessLogic.Objects.Order BLOrder,int orderID, StoreApplicationContext context)
+        {
+            try
+            {
+                foreach (BusinessLogic.Objects.Product BLProd in BLOrder.customerProductList)
+                {
+                    context.OrderProduct.Add(parser.LogicProductToContextOrderProduct(BLOrder, orderID, BLProd));
+                }
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong inputting the OrderProduct for the Order: " + e.Message);
+                return;
             }
         }
         public void AddNewCustomerData(StoreApp.BusinessLogic.Objects.Customer BLCustomer, StoreApplicationContext context)
@@ -52,5 +64,7 @@ namespace StoreApp.DataLibrary.Handlers
         {
             return Secret.connectionString;
         }
+
+
     }
 }

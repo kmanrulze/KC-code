@@ -264,6 +264,12 @@ namespace StoreApp.Main
                             {
                                 orderList = DBRHandler.GetListOfOrdersByCustomerID(retrievedCustomer.customerID, context);
 
+                                foreach(BusinessLogic.Objects.Order BLOrder in orderList)
+                                {
+                                    BLOrder.customerProductList = DBRHandler.GetListOrderProductByOrderID(BLOrder, context);
+                                    BLOrder.storeLocation = DBRHandler.GetStoreInformationFromOrderNumber(BLOrder.orderID, context);
+                                }
+
                                 if (orderList == null || orderList.Count == 0)
                                 {
                                     Console.WriteLine("No orders to display under " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName);
@@ -274,11 +280,13 @@ namespace StoreApp.Main
                                     {
                                         Console.WriteLine("-------------------------------");
                                         Console.WriteLine("Store Number: " + order.storeLocation.storeNumber);
+                                        Console.WriteLine("Order Number: " + order.orderID);
                                         foreach (BusinessLogic.Objects.Product product in order.customerProductList)
                                         {
                                             Console.WriteLine(product.name + ": " + product.amount);
                                         }
                                     }
+                                    Console.WriteLine("-------------------------------\n");
                                 }
                             }
                             else if (inputOne == "4")
@@ -321,11 +329,12 @@ namespace StoreApp.Main
 
                                         inputOrder.customerProductList.Add(inputProd);                          
                                     }
-
+                                    Console.WriteLine("---------------------------");
+                                    Console.WriteLine("Your order consists of: \n");
                                     foreach (BusinessLogic.Objects.Product prod in inputOrder.customerProductList)
                                     {
-                                        Console.WriteLine("---------------------------");
-                                        Console.WriteLine("Your order consists of: \n" + prod.name + ": " + prod.amount);
+
+                                        Console.WriteLine(prod.name + ": " + prod.amount + "\n");
                                     }
 
                                     Console.WriteLine("Is this alright?" + "\n[1] Yes\n[2] No");
@@ -343,10 +352,11 @@ namespace StoreApp.Main
 
                                         try
                                         {
-                                            DBIHandler.InputOrder(inputOrder, context);
+                                            InputWholeOrder(inputOrder, context);
+
                                             menuSwitch = 6;
                                             whileInSecondaryMenu = false;
-                                            Console.WriteLine("Order successfully created! Thank you for your business!\nReturning back to customer menue");
+                                            Console.WriteLine("Order successfully created! Thank you for your business!\nReturning back to customer menu. . . \n");
 
                                         }
                                         catch (Exception e)
@@ -407,6 +417,12 @@ namespace StoreApp.Main
                             break;
                 }
             }
+        }
+
+        public static void InputWholeOrder(Order inputOrder, StoreApplicationContext context)
+        {
+            DBIHandler.InputOrder(inputOrder, context);
+            DBIHandler.InputOrderProduct(inputOrder, context.Orders.Count(), context);
         }
 
         //Used for checking menue options are not null or invalid given the input, and the max number of options on a given menue
