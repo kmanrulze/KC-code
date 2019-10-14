@@ -26,6 +26,7 @@ CREATE TABLE app.Product
 );
 CREATE TABLE app.InventoryProduct
 (
+	InventoryProductID INT IDENTITY (1,1) PRIMARY KEY,
     StoreNumber INT FOREIGN KEY REFERENCES app.Store(StoreNumber) NOT NULL,
     ProductTypeID INT FOREIGN KEY REFERENCES app.Product(ProductTypeID) NOT NULL,
     ProductAmount INT NOT NULL
@@ -37,6 +38,7 @@ CREATE TABLE app.Orders
 );
 CREATE TABLE app.OrderProduct
 (
+	OrderProductID INT IDENTITY(1,1) PRIMARY KEY,
     OrderID INT FOREIGN KEY REFERENCES app.Orders(OrderID) NOT NULL,
     StoreNumber INT FOREIGN KEY REFERENCES app.Store(StoreNumber) NOT NULL,
     ProductTypeID INT FOREIGN KEY REFERENCES app.Product(ProductTypeID) NOT NULL,

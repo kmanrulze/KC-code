@@ -1,4 +1,5 @@
-﻿using StoreApp.BusinessLogic.Objects;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreApp.BusinessLogic.Objects;
 using StoreApp.DataLibrary.ConnectionData;
 using StoreApp.DataLibrary.Entities;
 using System;
@@ -28,12 +29,11 @@ namespace StoreApp.DataLibrary.Handlers
 
             try
             {
-                foreach (StoreApp.DataLibrary.Entities.Customer cust in context.Customer)
+                foreach (Entities.Customer cust in context.Customer)
                 {
                     if (cust.CustomerId == customerID)
                     {
-                        StoreApp.BusinessLogic.Objects.Customer matchingCustomer = parser.ContextCustomerToLogicCustomer(cust);
-                        return matchingCustomer;
+                        return parser.ContextCustomerToLogicCustomer(cust);
                     }
                 }
                 return null;
