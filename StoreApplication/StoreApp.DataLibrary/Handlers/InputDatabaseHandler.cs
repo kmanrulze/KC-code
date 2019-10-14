@@ -11,11 +11,16 @@ namespace StoreApp.DataLibrary.Handlers
     public class InputDatabaseHandler
     {
         private ParseHandler parser = new ParseHandler();
-        public void InputOrder(Order BLorder, StoreApplicationContext context)
+        public void InputOrder(Order BLOrder, StoreApplicationContext context)
         {
             try
             {
-                context.Orders.Add(parser.LogicOrderToContextOrder(BLorder));
+                context.Orders.Add(parser.LogicOrderToContextOrder(BLOrder));
+
+                foreach (BusinessLogic.Objects.Product orderProd in BLOrder.customerProductList)
+                {
+                    context.OrderProduct.Add(parser.LogicProductToContextProduct(orderProd, BLOrder));
+                }
                 context.SaveChanges();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)

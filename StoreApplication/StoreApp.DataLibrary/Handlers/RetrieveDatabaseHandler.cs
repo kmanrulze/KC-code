@@ -10,9 +10,8 @@ namespace StoreApp.DataLibrary.Handlers
     public class RetrieveDatabaseHandler
     {
         private ParseHandler parser = new ParseHandler();
-        public bool CheckIDParsable(string IDString)
+        public bool CheckParsable(string IDString)
         {
-            //Checks if the ID string input is parsable to an int and returns true or false
 
             if (IDString.Any(x => !char.IsLetter(x)) == false)
             {
@@ -88,13 +87,14 @@ namespace StoreApp.DataLibrary.Handlers
 
         public BusinessLogic.Objects.Store GetStoreFromStoreNumber(int storeNum, StoreApplicationContext context)
         {
+            BusinessLogic.Objects.Store BLStore = new BusinessLogic.Objects.Store();
             try
             {
                 foreach (StoreApp.DataLibrary.Entities.Store storeLoc in context.Store)
                 {
                     if (storeLoc.StoreNumber == storeNum)
                     {
-                        return parser.ContextStoreToLogicStore(storeLoc);
+                        BLStore = parser.ContextStoreToLogicStore(storeLoc);
                     }
                 }
                 return null;
@@ -105,6 +105,7 @@ namespace StoreApp.DataLibrary.Handlers
                 return null;
             }
         }
+
         public List<StoreApp.BusinessLogic.Objects.Order> GetListOfOrdersByCustomerID(int custID, StoreApplicationContext context)
         {
             List<Order> listToBeReturned = new List<Order>();
@@ -112,13 +113,27 @@ namespace StoreApp.DataLibrary.Handlers
 
             try
             {
-                foreach (StoreApp.DataLibrary.Entities.Orders Order in context.Orders)
+                foreach (Entities.Orders order in context.Orders)
                 {
-                    if (Order.CustomerId == custID)
+                    if (order.CustomerId == custID)
                     {
-                        filledData = parser.ContextOrderToLogicOrder(Order, context);
-
-                        listToBeReturned.Add(filledData);
+                        foreach (Entities.OrderProduct ordProd in context.OrderProduct)
+                        {
+                            if (ordProd.OrderId == order.OrderId)
+                            {
+                                filledData.customerProductList.Add(parser.ContextOrderProductToLogicProduct(ordProd));
+                            }
+                        }
+                    }
+                    foreach (BusinessLogic.Objects.Product product in filledData.customerProductList)
+                    {
+                        foreach (Entities.Product entProd in context.Product)
+                        {
+                            if (product.productTypeID == entProd.ProductTypeId)
+                            {
+                                product.name = entProd.ProductName;
+                            }
+                        }
                     }
                 }
                 return listToBeReturned;
@@ -138,6 +153,44 @@ namespace StoreApp.DataLibrary.Handlers
                 NewCustID = cust.CustomerId;
             }
             return NewCustID;
+        }
+
+        public Inventory GetStoreInventoryByStoreNumber(int storeNumber, StoreApplicationContext context)
+        {
+            Inventory BLInventory = new Inventory();
+            BusinessLogic.Objects.Product BLProduct = new BusinessLogic.Objects.Product();
+            try
+            {
+                foreach (Entities.InventoryProduct prod in context.InventoryProduct)
+                {
+                    if (prod.StoreNumber == storeNumber)
+                    {
+                        BLProduct = parser.ContextInventoryProductToLogicProduct(prod);
+                        BLInventory.productData.Add(BLProduct);
+                        BLProduct = new BusinessLogic.Objects.Product();
+                    }
+                    else
+                    {
+
+                    }
+                }
+                foreach (BusinessLogic.Objects.Product prod in BLInventory.productData)
+                {
+                    foreach (Entities.Product entProd in context.Product)
+                    {
+                        if (prod.productTypeID == entProd.ProductTypeId)
+                        {
+                            prod.name = entProd.ProductName;
+                        }
+                    }
+                }
+                return BLInventory;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Unable to get the list of store inventory items: " + e.Message);
+                return null;
+            }
         }
     }
 }

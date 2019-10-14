@@ -25,6 +25,18 @@ namespace StoreApp.DataLibrary.Handlers
             return BLCustomer;
         }
 
+        public OrderProduct LogicProductToContextProduct(BusinessLogic.Objects.Product BLProd, BusinessLogic.Objects.Order BLOrder)
+        {
+            Entities.OrderProduct CTXProd = new OrderProduct();
+
+            CTXProd.ProductTypeId = BLProd.productTypeID;
+            CTXProd.ProductAmount = BLProd.amount;
+            CTXProd.StoreNumber = BLOrder.storeLocation.storeNumber;
+            CTXProd.OrderId = BLOrder.orderID;
+
+            return CTXProd;
+        }
+
         public BusinessLogic.Objects.Manager ContextManagerToLogicManager(Entities.Manager CTXman)
         {
             StoreApp.BusinessLogic.Objects.Manager BLMan = new BusinessLogic.Objects.Manager();
@@ -59,10 +71,6 @@ namespace StoreApp.DataLibrary.Handlers
             BLStore.address.state = CTXStore.State;
             BLStore.address.zip = CTXStore.Zip;
 
-            BLStore.storeInventory.productData.burgerAmount = CTXStore.BurgerAmount;
-            BLStore.storeInventory.productData.friesAmount = CTXStore.FriesAmount;
-            BLStore.storeInventory.productData.sodaAmount = CTXStore.SodaAmount;
-
             BLStore.storeNumber = CTXStore.StoreNumber;
 
             return BLStore;
@@ -71,13 +79,7 @@ namespace StoreApp.DataLibrary.Handlers
         {
             Orders CTXOrder = new Orders();
 
-            CTXOrder.BurgerAmount = BLorder.customerProductList.burgerAmount;
-            CTXOrder.FriesAmount = BLorder.customerProductList.friesAmount;
-            CTXOrder.SodaAmount = BLorder.customerProductList.sodaAmount;
-
-            CTXOrder.StoreNumber = BLorder.storeLocation.storeNumber;
             CTXOrder.CustomerId = BLorder.customer.customerID;
-
 
             return CTXOrder;
         }
@@ -86,28 +88,27 @@ namespace StoreApp.DataLibrary.Handlers
         {
             BusinessLogic.Objects.Order BLOrder = new Order();
 
-            BLOrder.orderID = CTXOrder.OrderId;
-            BLOrder.storeLocation.storeNumber = CTXOrder.StoreNumber;
+#warning not filled in yet
+            return null;
+        }
+        public BusinessLogic.Objects.Product ContextInventoryProductToLogicProduct(InventoryProduct CTXProd)
+        {
+            BusinessLogic.Objects.Product BLProd = new BusinessLogic.Objects.Product();
 
-            BLOrder.customer.customerID = CTXOrder.CustomerId;
-            BLOrder.customer.customerAddress.street = CTXOrder.Customer.Street;
-            BLOrder.customer.customerAddress.city = CTXOrder.Customer.City;
-            BLOrder.customer.customerAddress.state = CTXOrder.Customer.State;
-            BLOrder.customer.customerAddress.zip = CTXOrder.Customer.Zip;
+            BLProd.productTypeID = CTXProd.ProductTypeId;
+            BLProd.amount = CTXProd.ProductAmount;
 
-            BLOrder.customer.firstName = CTXOrder.Customer.FirstName;
-            BLOrder.customer.lastName = CTXOrder.Customer.LastName;
+            return BLProd;
+        }
 
-            BLOrder.ordererAddress.street = CTXOrder.Customer.Street;
-            BLOrder.ordererAddress.city = CTXOrder.Customer.City;
-            BLOrder.ordererAddress.state = CTXOrder.Customer.State;
-            BLOrder.ordererAddress.zip = CTXOrder.Customer.Zip;
+        internal BusinessLogic.Objects.Product ContextOrderProductToLogicProduct(OrderProduct CTXProduct)
+        {
+            BusinessLogic.Objects.Product BLProduct = new BusinessLogic.Objects.Product();
 
-            BLOrder.customerProductList.burgerAmount = CTXOrder.BurgerAmount;
-            BLOrder.customerProductList.friesAmount = CTXOrder.FriesAmount;
-            BLOrder.customerProductList.sodaAmount = CTXOrder.SodaAmount;
+            BLProduct.productTypeID = CTXProduct.ProductTypeId;
+            BLProduct.amount = CTXProduct.ProductAmount;
 
-            return BLOrder;
+            return BLProduct;
         }
     }
 }

@@ -81,22 +81,6 @@ namespace StoreApp.Tests
             Assert.False(newCust.CheckCustomerNotNull());
         }
 
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //Tests if items were properly added to the list of products, then sets it to the inventory. Checks to make sure the inventory properly accepted the list of product.
-        //0 is an acceptable amount
-        [Theory]
-        public void InventoryCheckReturnsTrue()
-        {
-            //Some code to test inventory properly returns true
-        }
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //Tests false if any items are negative that are plugged into the used product list. 
-        [Theory]
-        public void InventoryCheckReturnsFalse()
-        {
-            //Some code to test inventory properly returns false
-        }
-
         [Theory]
         [InlineData(2)]
         [InlineData(-1)]
@@ -116,11 +100,6 @@ namespace StoreApp.Tests
                 Assert.True(testLocation.CheckLocationNotNull());
             }
             
-        }
-        [Theory]
-        public void OrderDataCheck()
-        {
-            //Some code to cehck orders
         }
     }
 }

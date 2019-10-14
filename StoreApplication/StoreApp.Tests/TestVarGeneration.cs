@@ -23,12 +23,7 @@ namespace StoreApp.Tests
         };
         public static Inventory testInventory = new Inventory()
         {
-            productData = new Product()
-            {
-                burgerAmount = 3,
-                friesAmount = 2,
-                sodaAmount = 1
-            }
+            productData = new List<Product>()
         };
         public static Store testLocation = new Store()
         {
@@ -38,18 +33,13 @@ namespace StoreApp.Tests
         };
         public static Product testProduct = new Product()
         {
-            burgerAmount = 1,
-            friesAmount = 2,
-            sodaAmount = 3
+            productTypeID = 1,
+            name = "Burgers",
+            amount = 1
         };
         public static Order testOrder = new Order()
         {
-            customer = testCustomer,
-            customerProductList = testProduct,
-            ordererAddress = testAddress,
-            orderTime = 60,
-            storeLocation = testLocation,
-            orderID = 6
+
         };
 
 

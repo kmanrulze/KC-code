@@ -8,7 +8,7 @@ namespace StoreApp.BusinessLogic.Objects
     {
         public Store storeLocation = new Store();
         public Customer customer = new Customer();
-        public Product customerProductList = new Product();
+        public List<Product> customerProductList = new List<Product>();
         public double orderTime { get; set; }
         public int orderID { get; set; }
 
