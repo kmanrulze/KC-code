@@ -10,6 +10,7 @@ namespace StoreApp.BusinessLogic.Objects
         public string firstName { get; set; }
         public string lastName { get; set; }
         public int managerID { get; set; }
+        public int storeNumberManaged { get; set; }
 
         public void SetFirstName(string name)
         {

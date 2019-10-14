@@ -59,6 +59,7 @@ namespace StoreApp.DataLibrary.Handlers
             BLMan.managerID = CTXman.ManagerId;
             BLMan.firstName = CTXman.FirstName;
             BLMan.lastName = CTXman.LastName;
+            BLMan.storeNumberManaged = CTXman.StoreNumber;
 
             return BLMan;
         }

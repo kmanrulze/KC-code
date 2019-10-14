@@ -43,6 +43,7 @@ namespace StoreApp.Main
             BusinessLogic.Objects.Store retrievedStore = new BusinessLogic.Objects.Store();
             BusinessLogic.Objects.Order inputOrder = new BusinessLogic.Objects.Order();
             List<BusinessLogic.Objects.Order> orderList = new List<BusinessLogic.Objects.Order>();
+            StoreApp.BusinessLogic.Objects.Manager retrievedManager = new BusinessLogic.Objects.Manager();
 
             //DB initialization
 
@@ -102,7 +103,6 @@ namespace StoreApp.Main
                             {
                                 Console.WriteLine("Invalid characters. Please try again with a numerical value");
                                 break;
-
                             }
                             else //if the input only has numbers in it
                             {
@@ -110,8 +110,11 @@ namespace StoreApp.Main
 
                                 try
                                 {
-                                    StoreApp.BusinessLogic.Objects.Manager retrievedManager = DBRHandler.GetManagerDataFromID(managerID, context);
-                                    Console.WriteLine("Welcome back, " + retrievedManager.firstName + " " + retrievedManager.lastName + "! What can we do for you today?");
+                                    retrievedManager = DBRHandler.GetManagerDataFromID(managerID, context);
+                                    retrievedStore = DBRHandler.GetStoreFromStoreNumber(retrievedManager.storeNumberManaged, context);
+
+                                    Console.WriteLine("Welcome back, " + retrievedManager.firstName + " " + retrievedManager.lastName + "!\nManager of Store Number: " + retrievedManager.storeNumberManaged + "\n");
+                                    menuSwitch = 7;
                                     whileInSecondaryMenu = false;
                                     //set case to go to the manager options menu on 7
                                 }
@@ -308,6 +311,43 @@ namespace StoreApp.Main
                         whileInSecondaryMenu = true; //resets menu true to go into next menu
                         break;
                     case 7: //manager store view menu
+                        while (whileInSecondaryMenu)
+                        {
+                            Console.WriteLine("Options\n[1] View Store Information\n[2] View Store Inventory\n[3] View all customer order history\n[4] Exit to start menu");
+                            inputOne = CheckAndReturnCustomerOptionChosen(Console.ReadLine(), 4);
+
+                            if(inputOne == "1") //View store info
+                            {
+                                Console.WriteLine("------------ Information for Store Number " + retrievedStore.storeNumber  + " ------------");
+                                Console.WriteLine("Address: \nStreet: " + retrievedStore.address.street + "\nCity: " + retrievedStore.address.city + "\nState: " + retrievedStore.address.state 
+                                    + "\nZip: " + retrievedStore.address.zip + "\n");
+                            }
+                            else if (inputOne == "2") //View store inventory
+                            {
+                                retrievedStore.storeInventory = DBRHandler.GetStoreInventoryByStoreNumber(retrievedStore.storeNumber, context);
+                                Console.WriteLine("------------ Store inventory ------------");
+
+                                foreach (BusinessLogic.Objects.Product BLProd in retrievedStore.storeInventory.productData)
+                                {
+                                    Console.WriteLine(BLProd.name + ": " + BLProd.amount);
+                                }
+                                Console.WriteLine("\n");
+                            }
+                            else if (inputOne == "3")
+                            {
+                                orderList = new List<BusinessLogic.Objects.Order>();
+
+                                orderList = DBRHandler.GetListOfOrdersFromStoreNumber(retrievedStore.storeNumber, context);
+                            }
+                            else if (inputOne == "4")
+                            {
+                                retrievedManager = new BusinessLogic.Objects.Manager();
+                                retrievedStore = new BusinessLogic.Objects.Store();
+
+                                menuSwitch = 1;
+                                whileInSecondaryMenu = false;
+                            }
+                        }
                         whileInSecondaryMenu = true;
                         break;
                     case 8: //Order menu

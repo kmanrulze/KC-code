@@ -273,5 +273,11 @@ namespace StoreApp.DataLibrary.Handlers
                 return null;
             }
         }
+
+        public List<Order> GetListOfOrdersFromStoreNumber(int storeNumber, StoreApplicationContext context)
+        {
+            List<BusinessLogic.Objects.Order> BLListOrders = new List<Order>();
+            //
+        }
     }
 }

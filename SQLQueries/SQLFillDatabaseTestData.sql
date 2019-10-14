@@ -49,7 +49,8 @@ VALUES
 INSERT INTO app.Manager
 VALUES
     (1, 'John', 'Johnston'),
-    (2, 'Man', 'Manston');
+    (2, 'Man', 'Manston'),
+    (3, 'Big', 'Largeston');
 
 SELECT *
 FROM app.Customer;
