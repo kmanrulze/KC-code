@@ -21,6 +21,8 @@ namespace StoreApp.Main
             Console.WriteLine("Hello! Welcome to the store application!");
 
             string inputOne = "0";
+            int n;
+            bool isNumeric;
 
             int menuSwitch = 1;
             // Menu switch guide
@@ -95,8 +97,8 @@ namespace StoreApp.Main
                         {
                             Console.WriteLine("What is your manager ID?");
                             managerIDInput = Console.ReadLine();
-
-                            if (DBRHandler.CheckParsable(managerIDInput) == false)
+                            isNumeric = int.TryParse(managerIDInput, out n);
+                            if (isNumeric == false)
                             {
                                 Console.WriteLine("Invalid characters. Please try again with a numerical value");
                                 break;
@@ -153,8 +155,10 @@ namespace StoreApp.Main
                         {
                             Console.WriteLine("Welcome back! What is your customer ID?");
                             inputOne = Console.ReadLine();
+                            
+                            isNumeric = int.TryParse(inputOne, out n);
 
-                            if (DBRHandler.CheckParsable(inputOne) == false)
+                            if (isNumeric == false)
                             {
                                 Console.WriteLine("Invalid characters. Please try again with a numerical value");
                                 break;
@@ -162,6 +166,7 @@ namespace StoreApp.Main
                             }
                             else //if the input only has numbers in it
                             {
+
                                 customerID = Int32.Parse(inputOne);
 
                                 try
@@ -388,8 +393,8 @@ namespace StoreApp.Main
                         {
                             Console.WriteLine("What store number are you ordering from?");
                             inputOne = Console.ReadLine();
-
-                            if (DBRHandler.CheckParsable(inputOne) == false)
+                            isNumeric = int.TryParse(inputOne, out n);
+                            if (isNumeric == false)
                             {
                                 Console.WriteLine("Invalid characters. Please try again with a numerical value");
                                 break;
@@ -430,6 +435,8 @@ namespace StoreApp.Main
         {
             bool correctInput = false;
             int inputInt;
+            int n;
+            bool isNumeric = false;
 
             while(correctInput == false)
             {
@@ -442,23 +449,32 @@ namespace StoreApp.Main
                 {
                     foreach (char thing in input)
                     {
-                        if (thing < '0' || thing > '9')
+                        isNumeric = int.TryParse(thing.ToString(), out n);
+                        if (isNumeric == false)
                         {
-                            Console.WriteLine("Invalid input. Only insert a number option\n");
+                            Console.WriteLine("Invalid input. Only insert a number option.\n");
+                            return null;        
+                        }
+                        else
+                        {
+                            isNumeric = true;
+                        }
+                    }
+                    if (isNumeric == false)
+                    {
+                        Console.WriteLine("Invalid input. Only insert an umber option.\n");
+                    }
+                    else
+                    {
+                        inputInt = Int32.Parse(input);
+                        if (inputInt > maxNum)
+                        {
+                            Console.WriteLine("Invalid input. Insert correct number from the list above\n");
                             return null;
                         }
                         else
                         {
-                            inputInt = Int32.Parse(input);
-                            if (inputInt > maxNum)
-                            {
-                                Console.WriteLine("Invalid input. Insert correct number from the list above\n");
-                                return null;
-                            }
-                            else
-                            {
-                                return input;
-                            }
+                            return input;
                         }
                     }
                 }

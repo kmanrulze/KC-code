@@ -11,18 +11,6 @@ namespace StoreApp.DataLibrary.Handlers
     public class RetrieveDatabaseHandler
     {
         private ParseHandler parser = new ParseHandler();
-        public bool CheckParsable(string IDString)
-        {
-
-            if (IDString.Any(x => !char.IsLetter(x)) == false)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
         public StoreApp.BusinessLogic.Objects.Customer GetCustomerDataFromID(int customerID, StoreApplicationContext context)
         {
             //Some code to retrieve a list of customer data
