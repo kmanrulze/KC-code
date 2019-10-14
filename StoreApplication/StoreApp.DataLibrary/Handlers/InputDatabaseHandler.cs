@@ -11,6 +11,12 @@ namespace StoreApp.DataLibrary.Handlers
     public class InputDatabaseHandler
     {
         private ParseHandler parser = new ParseHandler();
+
+        /// <summary>
+        /// Inputs an order into the Order table. Does NOT input products.
+        /// </summary>
+        /// <param name="BLOrder"></param>
+        /// <param name="context"></param>
         public void InputOrder(Order BLOrder, StoreApplicationContext context)
         {
 
@@ -24,6 +30,12 @@ namespace StoreApp.DataLibrary.Handlers
                 Console.WriteLine("Something went wrong inputting order: " + e);
             }
         }
+        /// <summary>
+        /// Inputs the order products into the OrderProduct table under an order ID given a Business Logic Order, an order ID, and a database context
+        /// </summary>
+        /// <param name="BLOrder"></param>
+        /// <param name="orderID"></param>
+        /// <param name="context"></param>
         public void InputOrderProduct(BusinessLogic.Objects.Order BLOrder,int orderID, StoreApplicationContext context)
         {
             try
@@ -40,6 +52,12 @@ namespace StoreApp.DataLibrary.Handlers
                 return;
             }
         }
+
+        /// <summary>
+        /// Adds new customer data to the Customer database table given a Business Logic customer object and a database context
+        /// </summary>
+        /// <param name="BLCustomer"></param>
+        /// <param name="context"></param>
         public void AddNewCustomerData(StoreApp.BusinessLogic.Objects.Customer BLCustomer, StoreApplicationContext context)
         {
             //Some code to input customer data to the DB
@@ -54,12 +72,21 @@ namespace StoreApp.DataLibrary.Handlers
                 Console.WriteLine("Failed to put the customer into the database: " + e.Message);
             }
         }
+        /// <summary>
+        /// Deletes a customer from the database
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <param name="context"></param>
         public void DeleteCustomerByID(int customerID, StoreApplicationContext context)
         {
             //Some code that removes customer from the DB given an ID
 
             //context.Customer.Remove();
         }
+        /// <summary>
+        /// Returns a connection string
+        /// </summary>
+        /// <returns></returns>
         public string GetConnectionString()
         {
             return Secret.connectionString;
