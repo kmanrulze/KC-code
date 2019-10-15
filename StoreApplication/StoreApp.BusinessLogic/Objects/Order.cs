@@ -16,11 +16,9 @@ namespace StoreApp.BusinessLogic.Objects
         {
             //some code to check if order isnt ridiculous
         }
-        public bool CheckOrderNotNull()
+        public bool CheckOrderHasIDs()
         {
-            if (this.storeLocation.CheckLocationNotNull() == true &&
-                this.customer.CheckCustomerNotNull() == true &&
-                orderTime >= 0 && this.orderID > 0)
+            if (orderID != 0 && customer.customerID != 0)
             {
                 return true;
             }

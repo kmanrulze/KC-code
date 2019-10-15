@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 
 namespace StoreApp.BusinessLogic.Objects
@@ -12,14 +13,21 @@ namespace StoreApp.BusinessLogic.Objects
         {
             //some code to add to the amount of stuff in the shelves of the store
         }
-        public void CheckIfNoProduct()
-        {
-            //checks amounts to ensure if the list of products are 0 or not
-        }
         public void ReturnStockAmounts()
         {
             //returns stock amounts for the current inventory
         }
 
+        public bool CheckIfProductListNotNull()
+        {
+            if (productData.Count == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

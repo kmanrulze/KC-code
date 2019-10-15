@@ -20,5 +20,17 @@ namespace StoreApp.BusinessLogic.Objects
         {
             this.lastName = name;
         }
+
+        public bool CheckIfManagerNull()
+        {
+            if (firstName != null && lastName != null && managerID != 0 && storeNumberManaged != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

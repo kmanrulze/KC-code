@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using StoreApp.BusinessLogic.Objects;
+using StoreApp.DataLibrary.Entities;
+using StoreApp.DataLibrary.Handlers;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -8,98 +11,117 @@ namespace StoreApp.Tests
     public class UnitTests
     {
         private readonly TestVarGeneration testVariable = new TestVarGeneration();
+        public static RetrieveDatabaseHandler DBRHandler = new RetrieveDatabaseHandler();
+        public static InputDatabaseHandler DBIHandler = new InputDatabaseHandler();
 
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //Tests for any null things within an address object. Returns true if all values are within it correctly and not null
+        internal static string connectionString = DBRHandler.GetConnectionString();
+        DbContextOptions<StoreApplicationContext> options = new DbContextOptionsBuilder<StoreApplicationContext>()
+            .UseSqlServer(connectionString)
+            .Options;
+
+        /// <summary>
+        /// Test to determine if the customer data is retrieved from a proper ID
+        /// </summary>
+        /// <param name="testID"></param>
         [Theory]
-        [InlineData ("Arlington", "TX", "100 ABC Street", "12345")]
-        [InlineData ("Denver", "CO", "777 Lucky Street", "77777")]
-        public void CheckAddressReturnsTrue(string city, string state, string street, string zip)
-        {
-            Address testAddress = new Address();
-            testAddress.city = city;
-            testAddress.state = state;
-            testAddress.street = street;
-            testAddress.zip = zip;
-
-            Assert.True(testAddress.CheckAddressNotNull());
-        }
-
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //Tests if something is null within the address object. Function in Address.cs returns false if any null items.
-        [Theory]
-        [InlineData("Arlington", "TX", "100 ABC Street", null)]
-        [InlineData("Arlington", "TX", null, "12345")]
-        [InlineData("Arlington", null, "100 ABC Street", "12345")]
-        [InlineData(null, "TX", "100 ABC Street", "12345")]
-        public void CheckAddressReturnsFalse(string city, string state, string street, string zip)
-        {
-            Address testAddress = new Address()
-            {
-                city = city,
-                state = state,
-                street = street,
-                zip = zip
-            };
-
-            Assert.False(testAddress.CheckAddressNotNull());
-        }
-
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //Tests if any customer data is firstly null, then if any of their address items are null. Passes if everything is in correctly
-        //Address is expected to return true. A known good address is being passed in
-        [Theory]
-        [InlineData("Mary", "Jane", 8)]
-        [InlineData("Gary", "Hanes", 4)]
-        public void CheckCustomerDataReturnTrue(string firstName, string lastName, int testID)
-        {
-
-            Customer newCust = new Customer();
-            newCust.firstName = firstName;
-            newCust.lastName = lastName;
-            newCust.customerAddress = testVariable.GetAddress();
-            newCust.customerID = testID;
-
-            Assert.True(newCust.CheckCustomerNotNull());
-        }
-
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //Tests if any customer data is firstly null, then if any of their address items are null.
-        //Should pass on Assert True for the test address passed in that is a known correct value, and false for the false assert as expected
-        [Theory]
-        [InlineData(null, "Lanes")]
-        [InlineData("Boom", null)]
-        public void CheckCustomerDataReturnFalse(string firstName, string lastName)
-        {
-            //False for having a null address, or missing name anywhere
-            Customer newCust = new Customer();
-            newCust.firstName = firstName;
-            newCust.lastName = lastName;
-            newCust.customerAddress = testVariable.GetAddress();
-            newCust.customerID = 4;
-
-            Assert.False(newCust.CheckCustomerNotNull());
-        }
-
-        [Theory]
+        [InlineData(1)]
         [InlineData(2)]
-        [InlineData(-1)]
-        public void LocationDataCheck(int storeNum)
+        public void CheckGetCustomerReturnsProperValues(int testID)
         {
-            Store testLocation = new Store();
-            testLocation.address = testVariable.GetAddress();
-            testLocation.storeInventory = testVariable.GetInventory();
-            testLocation.storeNumber = storeNum;
-
-            if (storeNum == 0 || storeNum <= 0)
-            {
-                Assert.False(testLocation.CheckLocationNotNull());
-            }
-            else
-            {
-                Assert.True(testLocation.CheckLocationNotNull());
-            }
             
+            using var context = new StoreApplicationContext(options);
+            BusinessLogic.Objects.Customer testCustomer = new BusinessLogic.Objects.Customer();
+
+            testCustomer = DBRHandler.GetCustomerDataFromID(testID, context);
+            Assert.True(testCustomer.CheckCustomerNotNull());
+
+
+        }
+
+        /// <summary>
+        /// Test to determine if the data is retrieved for a manager with a proper ID
+        /// </summary>
+        /// <param name="testID"></param>
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void GetManagerReturnsProperValues(int testID)
+        {
+            using var context = new StoreApplicationContext(options);
+            BusinessLogic.Objects.Manager testManager = new BusinessLogic.Objects.Manager();
+
+            testManager = DBRHandler.GetManagerDataFromID(testID, context);
+            Assert.True(testManager.CheckIfManagerNull());
+        }
+
+        /// <summary>
+        /// Test to determine if the data is retrieved for a store with a proper Store ID
+        /// </summary>
+        /// <param name="testID"></param>
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void CheckStoreDataReturnProperValues(int testID)
+        {
+
+            using var context = new StoreApplicationContext(options);
+            BusinessLogic.Objects.Store testStore = new BusinessLogic.Objects.Store();
+
+            testStore = DBRHandler.GetStoreFromStoreNumber(testID, context);
+            Assert.True(testStore.CheckStoreNotNull());
+            
+        }
+
+        /// <summary>
+        /// Test to determine if the product data for a store to a store object is retrieved with a proper Store ID
+        /// </summary>
+        /// <param name="testID"></param>
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void CheckStoreProductReturnsProperValues(int testID)
+        {
+            using var context = new StoreApplicationContext(options);
+            BusinessLogic.Objects.Store testStore = new BusinessLogic.Objects.Store();
+
+            testStore = DBRHandler.GetStoreFromStoreNumber(testID, context);
+            testStore.storeInventory = DBRHandler.GetStoreInventoryByStoreNumber(testID, context);
+            Assert.True(testStore.storeInventory.CheckIfProductListNotNull());
+        }
+
+        /// <summary>
+        /// Tests to determine if tests return false in the event that a store inventory has no products within it
+        /// </summary>
+        [Fact]
+        public void CheckStoreProductReturnsFalseIfNoProduct()
+        {
+            using var context = new StoreApplicationContext(options);
+            BusinessLogic.Objects.Store testStore = new BusinessLogic.Objects.Store();
+
+            Assert.False(testStore.storeInventory.CheckIfProductListNotNull());
+        }
+
+        /// <summary>
+        /// Test to determine if the handler retrieves a proper list of order ID's given a customer ID
+        /// </summary>
+        /// <param name="testID"></param>
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void CheckIfOrderDataReturnsProperIDs(int testID)
+        {
+            using var context = new StoreApplicationContext(options);
+            List<BusinessLogic.Objects.Order> testListOrder = new List<Order>();
+
+            testListOrder = DBRHandler.GetListOfOrdersByCustomerID(testID, context);
+
+            foreach (BusinessLogic.Objects.Order testOrder in testListOrder)
+            {
+                if (testOrder.customer.customerID == testID)
+                {
+                    Assert.True(testOrder.CheckOrderHasIDs());
+                }
+            }
         }
     }
 }

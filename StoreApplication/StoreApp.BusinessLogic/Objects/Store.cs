@@ -20,7 +20,7 @@ namespace StoreApp.BusinessLogic.Objects
         {
             //Some code to update inventory
         }
-        public bool CheckLocationNotNull()
+        public bool CheckStoreNotNull()
         {
             if (this.storeNumber >0 && this.address.CheckAddressNotNull() == true)
             {
