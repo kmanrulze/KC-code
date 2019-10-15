@@ -316,10 +316,10 @@ namespace StoreApp.Main
                             Console.WriteLine("Options\n[1] View Store Information\n[2] View Store Inventory\n[3] View all customer order history\n[4] Exit to start menu");
                             inputOne = CheckAndReturnCustomerOptionChosen(Console.ReadLine(), 4);
 
-                            if(inputOne == "1") //View store info
+                            if (inputOne == "1") //View store info
                             {
-                                Console.WriteLine("------------ Information for Store Number " + retrievedStore.storeNumber  + " ------------");
-                                Console.WriteLine("Address: \nStreet: " + retrievedStore.address.street + "\nCity: " + retrievedStore.address.city + "\nState: " + retrievedStore.address.state 
+                                Console.WriteLine("------------ Information for Store Number " + retrievedStore.storeNumber + " ------------");
+                                Console.WriteLine("Address: \nStreet: " + retrievedStore.address.street + "\nCity: " + retrievedStore.address.city + "\nState: " + retrievedStore.address.state
                                     + "\nZip: " + retrievedStore.address.zip + "\n");
                             }
                             else if (inputOne == "2") //View store inventory
@@ -338,6 +338,35 @@ namespace StoreApp.Main
                                 orderList = new List<BusinessLogic.Objects.Order>();
 
                                 orderList = DBRHandler.GetListOfOrdersFromStoreNumber(retrievedStore.storeNumber, context);
+                                foreach (BusinessLogic.Objects.Order BLOrder in orderList)
+                                {
+                                    BLOrder.customerProductList = DBRHandler.GetListOrderProductByOrderID(BLOrder, context);
+                                    BLOrder.storeLocation = DBRHandler.GetStoreInformationFromOrderNumber(BLOrder.orderID, context);
+                                }
+
+                                if (orderList == null || orderList.Count == 0)
+                                {
+                                    Console.WriteLine("No orders to display under " + retrievedCustomer.firstName + " " + retrievedCustomer.lastName);
+                                }
+                                else
+                                {
+                                    foreach (BusinessLogic.Objects.Order order in orderList)
+                                    {
+                                        if (order.storeLocation.storeNumber == retrievedStore.storeNumber)
+                                        {
+                                            Console.WriteLine("-------------------------------");
+                                            Console.WriteLine("Store Number: " + order.storeLocation.storeNumber);
+                                            Console.WriteLine("Order Number: " + order.orderID);
+                                            Console.WriteLine("Customer ID: " + order.customer.customerID);
+                                            foreach (BusinessLogic.Objects.Product product in order.customerProductList)
+                                            {
+                                                Console.WriteLine(product.name + ": " + product.amount);
+                                            }
+                                        }
+                                    }
+                                    Console.WriteLine("-------------------------------\n");
+
+                                }
                             }
                             else if (inputOne == "4")
                             {

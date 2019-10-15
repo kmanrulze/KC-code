@@ -277,7 +277,22 @@ namespace StoreApp.DataLibrary.Handlers
         public List<Order> GetListOfOrdersFromStoreNumber(int storeNumber, StoreApplicationContext context)
         {
             List<BusinessLogic.Objects.Order> BLListOrders = new List<Order>();
-            //
+
+            foreach (Entities.Orders CTXOrder in context.Orders)
+            {
+                BLListOrders.Add(parser.ContextOrderToLogicOrder(CTXOrder));
+            }
+            foreach (BusinessLogic.Objects.Order BLOrder in BLListOrders)
+            {
+                foreach (Entities.OrderProduct CTXOrdProd in context.OrderProduct)
+                {
+                    if (BLOrder.orderID == CTXOrdProd.OrderId)
+                    {
+                        BLOrder.customerProductList.Add(parser.ContextOrderProductToLogicProduct(CTXOrdProd));
+                    }
+                }
+            }
+            return BLListOrders;
         }
     }
 }
