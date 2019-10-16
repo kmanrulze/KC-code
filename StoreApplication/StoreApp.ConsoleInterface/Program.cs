@@ -8,6 +8,7 @@ using StoreApp.DataLibrary.Handlers;
 using System.Collections.Generic;
 using StoreApp.DataLibrary.Entities;
 using StoreApp.BusinessLogic.Objects;
+using NLog;
 
 namespace StoreApp.Main
 {
@@ -15,6 +16,7 @@ namespace StoreApp.Main
     {
         public static RetrieveDatabaseHandler DBRHandler = new RetrieveDatabaseHandler();
         public static InputDatabaseHandler DBIHandler = new InputDatabaseHandler();
+        private static readonly ILogger storeLogger = LogManager.GetCurrentClassLogger();
         static void Main(string[] args)
         {
 
@@ -424,18 +426,31 @@ namespace StoreApp.Main
                                         inputOrder.customer = retrievedCustomer;
                                         inputOrder.storeLocation = retrievedStore;
 
-                                        try
+                                        bool goodOrder = inputOrder.CheckOrderIsValid();
+                                        //goodOrder = retrievedStore.storeInventory.CheckOrderAgainstInventory(inputOrder.customerProductList);
+
+                                        if (goodOrder == true)
                                         {
-                                            InputWholeOrder(inputOrder, context);
+                                            try
+                                            {
+                                                InputWholeOrderAndUpdateInventory(inputOrder, retrievedStore ,context);
 
-                                            menuSwitch = 6;
-                                            whileInSecondaryMenu = false;
-                                            Console.WriteLine("Order successfully created! Thank you for your business!\nReturning back to customer menu. . . \n");
+                                                menuSwitch = 6;
+                                                whileInSecondaryMenu = false;
+                                                Console.WriteLine("Order successfully created! Thank you for your business!\nReturning back to customer menu. . . \n");
 
+                                            }
+                                            catch (Exception e)
+                                            {
+                                                Console.WriteLine("Unable to perform the operation: \n");
+                                                storeLogger.Info(e);                               
+                                            }
                                         }
-                                        catch (Exception e)
+                                        else
                                         {
-                                            Console.WriteLine("Unable to perform the operation: \n" + e);
+                                            Console.WriteLine("Order was invalid! Please try again with acceptable values!");
+                                            inputOrder = new Order();
+                                            decided = false;
                                         }
                                     }
                                     else if (inputOne == "2")
@@ -493,7 +508,7 @@ namespace StoreApp.Main
             }
         }
 
-        public static void InputWholeOrder(Order inputOrder, StoreApplicationContext context)
+        public static void InputWholeOrderAndUpdateInventory(Order inputOrder, BusinessLogic.Objects.Store inputStore, StoreApplicationContext context)
         {
             DBIHandler.InputOrder(inputOrder, context);
             DBIHandler.InputOrderProduct(inputOrder, context.Orders.Count(), context);

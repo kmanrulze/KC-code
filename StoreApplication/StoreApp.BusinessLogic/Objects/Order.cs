@@ -12,9 +12,38 @@ namespace StoreApp.BusinessLogic.Objects
         public double orderTime { get; set; }
         public int orderID { get; set; }
 
-        public void CheckOrderIsValid()
+        public bool CheckOrderIsValid()
         {
-            //some code to check if order isnt ridiculous
+            //check if has any product
+            bool goodOrder = true;
+            if (customerProductList.Count == 0)
+            {
+                goodOrder = false;
+            }
+            //Check if all products dont equal 0
+            bool empty = true;
+            goodOrder = false;
+            while (empty)
+            {
+                foreach(Product p in customerProductList)
+                {
+                    if (p.amount>0)
+                    {
+                        empty = false;
+                        goodOrder = true;
+                        break;
+                    }
+                }
+                break;
+            }
+            foreach(Product p in customerProductList)
+            {
+                if (p.amount > 10)
+                {
+                    goodOrder = false;
+                }
+            }
+            return goodOrder;
         }
         public bool CheckOrderHasIDs()
         {

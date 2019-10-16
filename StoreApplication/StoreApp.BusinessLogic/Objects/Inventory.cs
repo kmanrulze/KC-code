@@ -9,13 +9,23 @@ namespace StoreApp.BusinessLogic.Objects
 
         public List<Product> productData = new List<Product>();
 
-        public void RestockShelves(List<Product> incomingStock)
+        public bool CheckOrderAgainstInventory(List<Product> OrderList)
         {
-            //some code to add to the amount of stuff in the shelves of the store
-        }
-        public void ReturnStockAmounts()
-        {
-            //returns stock amounts for the current inventory
+            bool validOrder = true;
+            foreach (Product OProd in OrderList)
+            {
+                foreach (Product IProd in productData)
+                {
+                    if (OProd.productTypeID == IProd.productTypeID)
+                    {
+                        if (OProd.amount > IProd.amount)
+                        {
+                            validOrder = false;
+                        }
+                    }
+                }
+            }
+            return validOrder;
         }
 
         public bool CheckIfProductListNotNull()

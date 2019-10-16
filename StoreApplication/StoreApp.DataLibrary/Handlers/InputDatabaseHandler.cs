@@ -30,6 +30,10 @@ namespace StoreApp.DataLibrary.Handlers
                 Console.WriteLine("Something went wrong inputting order: " + e);
             }
         }
+        public void ModifyInventoryGivenOrder(Order inputOrder, BusinessLogic.Objects.Store inputStore, StoreApplicationContext context)
+        {
+
+        }
         /// <summary>
         /// Inputs the order products into the OrderProduct table under an order ID given a Business Logic Order, an order ID, and a database context
         /// </summary>
@@ -91,7 +95,5 @@ namespace StoreApp.DataLibrary.Handlers
         {
             return Secret.connectionString;
         }
-
-
     }
 }
